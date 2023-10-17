@@ -1,12 +1,16 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
+import { CreatorEventRoutingModule } from './creator-event-routing.module';
+import { CreatorNavBarComponent } from './creator-nav-bar/creator-nav-bar.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    CreatorNavBarComponent
+  ],
   imports: [
-    CommonModule
+    CommonModule,
+    CreatorEventRoutingModule
   ]
 })
 export class CreatorEventModule { }
