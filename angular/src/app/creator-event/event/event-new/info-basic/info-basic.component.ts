@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { InfoBasicService } from './service/info-basic.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-info-basic',
@@ -10,7 +12,13 @@ export class InfoBasicComponent {
 
   form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder){
+  minDate: Date = new Date();
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private service: InfoBasicService,
+    private snackBar: MatSnackBar
+    ){
     this.form = this.formBuilder.group({
       nomeEvento: ['', Validators.required],
       maxInscricoes: [0, [Validators.required, Validators.min(1)]],
@@ -18,5 +26,31 @@ export class InfoBasicComponent {
       dataInicial: ['', Validators.required],
       dataFinal: ['', Validators.required]
     })
+  }
+
+  onSubmit(){
+    if (this.form.valid) {
+      const eventData = this.form.value;
+      this.service.save(eventData).subscribe(
+        result => {
+        this.onSuccess();
+        console.log('Evento salvo', result);
+        },
+        error => this.onError());
+    }else{
+      this.invalid();
+    }
+  }
+
+  private onSuccess(){
+    this.snackBar.open('Evento salvo', '', {duration: 5000});
+  }
+
+  private onError(){
+    this.snackBar.open('Erro ao salvar evento', '', {duration: 5000});
+  }
+
+  private invalid(){
+    this.snackBar.open('Preencha todos os campos corretamente', '', {duration: 5000});
   }
 }

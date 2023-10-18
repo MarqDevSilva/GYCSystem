@@ -1,10 +1,50 @@
 <form [formGroup]="form">
   <div class="container mt-3">
     <div class="row">
+
       <mat-form-field appearance="outline">
         <mat-label>Nome do Evento</mat-label>
         <input matInput formControlName="nomeEvento">
       </mat-form-field>
+
+      <mat-form-field class="col-6" appearance="outline">
+        <mat-label>WhatsApp para Contato</mat-label>
+        <input matInput type="tel" formControlName="whatsapp" mask="(00) 00000-0000" pattern="\d{2}\d{1}\d{8}">
+      </mat-form-field>
+
+      <mat-form-field class="col-6" appearance="outline">
+        <mat-label>Número Máximo de Inscrições</mat-label>
+        <input matInput type="number" formControlName="maxInscricoes">
+      </mat-form-field>
+
+      <mat-form-field class="col-6" appearance="outline">
+        <mat-label>Data Inicial</mat-label>
+        <input matInput [matDatepicker]="dataInicial" [min]="minDate" formControlName="dataInicial">
+        <mat-datepicker-toggle matIconSuffix [for]="dataInicial"></mat-datepicker-toggle>
+        <mat-datepicker #dataInicial>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancelar</button>
+            <button mat-raised-button color="primary" matDatepickerApply>Confirmar</button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="col-6" appearance="outline">
+        <mat-label>Data Final</mat-label>
+        <input matInput [matDatepicker]="dataFinal" [min]="minDate" formControlName="dataFinal">
+        <mat-datepicker-toggle matIconSuffix [for]="dataFinal"></mat-datepicker-toggle>
+        <mat-datepicker #dataFinal>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancelar</button>
+            <button mat-raised-button color="primary" matDatepickerApply>Confirmar</button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row m-2">
+    <div class="d-flex justify-content-end">
+      <button mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
     </div>
   </div>
 </form>
