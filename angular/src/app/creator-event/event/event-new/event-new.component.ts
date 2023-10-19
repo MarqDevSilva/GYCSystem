@@ -10,8 +10,16 @@ import { EventNewService } from './service/event-new.service';
 export class EventNewComponent {
 
   @ViewChild(MatTabGroup) tabGroup!: MatTabGroup;
+  tab: boolean = true;
 
   constructor(private serviceEvent: EventNewService){
+
+    //Habilitar guias ao salvar informações basicas
+    this.serviceEvent.getTab().subscribe((enable) => {
+      this.tab = enable;
+    })
+
+    //Ir para a proxima tab
     this.serviceEvent.formSaved$.subscribe(() => {
       this.next();
     });

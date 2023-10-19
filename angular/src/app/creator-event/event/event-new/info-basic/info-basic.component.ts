@@ -39,6 +39,8 @@ export class InfoBasicComponent {
         this.onSuccess();
         //Serviço compartilhado para armazenar id do evento criado
         this.serviceEvent.setId(result.id!);
+        //Serviço compartilhado para habilitar as outras tabs
+        this.serviceEvent.enableTab(false);
         //Serviço compartilhado para mudar de tab ao salvar evento
         this.serviceEvent.emitFormSaved();
         },
