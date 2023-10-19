@@ -8,22 +8,23 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import {MatRadioModule} from '@angular/material/radio';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule } from 'ngx-mask';
 import { CreatorEventRoutingModule } from './creator-event-routing.module';
 import { EventListComponent } from './event/event-list/event-list.component';
+import { AccommodationComponent } from './event/event-new/accommodation/accommodation.component';
 import { EventNewComponent } from './event/event-new/event-new.component';
 import { InfoBasicComponent } from './event/event-new/info-basic/info-basic.component';
 import { PayMethodComponent } from './event/event-new/pay-method/pay-method.component';
 import { CreatorFooterComponent } from './shrared/components/creator-footer/creator-footer.component';
 import { CreatorNavBarComponent } from './shrared/components/creator-nav-bar/creator-nav-bar.component';
-import { AccommodationComponent } from './event/event-new/accommodation/accommodation.component';
 
 
 
@@ -39,6 +40,7 @@ import { AccommodationComponent } from './event/event-new/accommodation/accommod
   ],
   imports: [
     CommonModule,
+    MatSelectModule,
     MatCheckboxModule,
     MatCardModule,
     MatRadioModule,

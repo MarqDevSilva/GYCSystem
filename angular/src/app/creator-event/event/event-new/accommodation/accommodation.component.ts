@@ -7,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class AccommodationComponent {
 
+  categorys = [
+    {value: 'Homem'},
+    {value: 'Mulheres'},
+    {value: 'Familia'},
+  ];
+
+  selectedValue?: string;
 }
