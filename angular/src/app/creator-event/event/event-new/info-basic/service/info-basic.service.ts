@@ -12,6 +12,7 @@ export class InfoBasicService {
   constructor() { }
 
   save(data: Partial<info>){
+
     this.info.push(data);
     return of(data);
   }

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { PayMethodService } from './service/pay-method.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-pay-method',
@@ -12,6 +14,8 @@ export class PayMethodComponent {
 
   constructor(
     private formBuilder: FormBuilder,
+    private service: PayMethodService,
+    private snackBar: MatSnackBar
   ){
     this.form = this.formBuilder.group({
       evento: new FormGroup({
@@ -48,6 +52,19 @@ export class PayMethodComponent {
   }
 
   onSubmit(){
+    this.service.save(this.form.value).subscribe(
+      result => {
+        this.onSuccess();
+        console.log(result);
+        },
+      error => this.onError())
+  }
 
+  private onSuccess(){
+    this.snackBar.open('Formas de pagamento salvo', '', {duration: 5000});
+  }
+
+  private onError(){
+    this.snackBar.open('Erro ao salvar formas de pagamento', '', {duration: 5000});
   }
 }
