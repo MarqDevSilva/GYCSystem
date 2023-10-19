@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { InfoBasicService } from './service/info-basic.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { InfoBasicService } from './service/info-basic.service';
+import { EventNewService } from '../service/event-new.service';
 
 @Component({
   selector: 'app-info-basic',
@@ -17,6 +18,7 @@ export class InfoBasicComponent {
   constructor(
     private formBuilder: FormBuilder,
     private service: InfoBasicService,
+    private serviceEvent: EventNewService,
     private snackBar: MatSnackBar
     ){
     this.form = this.formBuilder.group({
@@ -35,6 +37,7 @@ export class InfoBasicComponent {
         result => {
         this.onSuccess();
         console.log('Evento salvo', result);
+        this.serviceEvent.emitFormSaved();
         },
         error => this.onError());
     }else{

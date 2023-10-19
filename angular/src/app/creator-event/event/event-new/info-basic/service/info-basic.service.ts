@@ -12,8 +12,10 @@ export class InfoBasicService {
   constructor() { }
 
   save(data: Partial<info>){
-
-    this.info.push(data);
-    return of(data);
+    const index = this.info.length;
+    const id = index.toString();
+    const dataWithId: Partial<info> = { id, ...data };
+    this.info.push(dataWithId);
+    return of(dataWithId);
   }
 }
