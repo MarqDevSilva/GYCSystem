@@ -21,6 +21,7 @@ export class InfoBasicComponent {
     private serviceEvent: EventNewService,
     private snackBar: MatSnackBar
     ){
+
     this.form = this.formBuilder.group({
       nomeEvento: ['', Validators.required],
       maxInscricoes: [0, [Validators.required, Validators.min(1)]],
@@ -36,7 +37,9 @@ export class InfoBasicComponent {
       this.service.save(eventData).subscribe(
         result => {
         this.onSuccess();
-        console.log('Evento salvo', result);
+        //Serviço compartilhado para armazenar id do evento criado
+        this.serviceEvent.setId(result.id!);
+        //Serviço compartilhado para mudar de tab ao salvar evento
         this.serviceEvent.emitFormSaved();
         },
         error => this.onError());

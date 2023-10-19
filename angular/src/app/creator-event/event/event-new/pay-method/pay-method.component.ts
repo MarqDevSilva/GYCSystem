@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { PayMethodService } from './service/pay-method.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { EventNewService } from '../service/event-new.service';
 
 @Component({
   selector: 'app-pay-method',
@@ -15,6 +16,7 @@ export class PayMethodComponent {
   constructor(
     private formBuilder: FormBuilder,
     private service: PayMethodService,
+    private serviceEvent: EventNewService,
     private snackBar: MatSnackBar
   ){
     this.form = this.formBuilder.group({
@@ -52,6 +54,8 @@ export class PayMethodComponent {
   }
 
   onSubmit(){
+    const id = this.serviceEvent.getId();
+    this.form.get('evento.id')?.setValue(id);
     this.service.save(this.form.value).subscribe(
       result => {
         this.onSuccess();
