@@ -3,10 +3,8 @@ export interface payMethod{
     id: string | null
   }
   pix: string | null;
-  cartaoAVista: string | null;
-  cartaoAPrazo: string | null;
-  cartaoAPrazoTaxado: string | null;
-  boletoAVista: string | null;
-  boletoAPrazo: string | null;
-  boletoAPrazoTaxado: string | null;
+  cartao: string | null;
+  cartaoParcelamento: string | null;
+  boleto: string | null;
+  boletoParcelamento: string | null;
 }

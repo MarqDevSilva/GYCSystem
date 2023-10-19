@@ -1,1 +1,89 @@
-<p>pay-method works!</p>
+  <form [formGroup]="form">
+    <div class="container">
+      <div class="row pb-3 pt-3">
+        <div class="col-md-3">
+          <h4 class="h6">Habilitar opções de pagamento</h4>
+          <div class="row mt-1"><mat-slide-toggle formControlName="pix" color="primary">PIX</mat-slide-toggle></div>
+          <div class="row mt-1"><mat-slide-toggle formControlName="cartao" (change)="changeCartao()" color="primary">Cartão de crétido</mat-slide-toggle></div>
+          <div class="row mt-1"><mat-slide-toggle formControlName="boleto" (change)="changeBoleto()" color="primary">Boleto</mat-slide-toggle></div>
+        </div>
+        <div class="col-md-9">
+          <mat-card class="mt-1">
+            <mat-card-title class="m-2">
+              <span [ngClass]="{'ativado': form.get('pix')?.value, 'desativado': !form.get('pix')?.value}">
+                {{ form.get('pix')?.value ? 'PIX' : 'PIX - Desativado' }}
+              </span>
+            </mat-card-title>
+            <mat-card-content  [ngClass]="{'ativado': form.get('pix')?.value, 'desativadoTexto': !form.get('pix')?.value}">
+              No método PIX, o usuário irá escanear o QR code gerado automaticamente por nossa plataforma com o aplicativo móvel de sua
+              instituição financeira. O aplicativo reconhece as informações no código QR e preenche automaticamente os campos necessários
+              para concluir a transação. O dinheiro ficará disponivél na plataforma para resgate no mesmo momento.
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="mt-1">
+            <mat-card-title class="m-2">
+              <span [ngClass]="{'ativado': form.get('cartao')?.value, 'desativado': !form.get('cartao')?.value}">
+                {{ form.get('cartao')?.value ? 'Cartão de crédito' : 'Cartão de crédito - Desativado' }}
+              </span>
+            </mat-card-title>
+            <mat-card-content>
+              <div class="row">
+                <mat-checkbox formControlName="cartaoAVista" [checked]="form.get('cartao')?.value">
+                  À Vista
+                </mat-checkbox>
+              </div>
+              <div class="row">
+                <mat-radio-group formControlName="cartaoParcelamento" class="d-flex flex-column">
+                  <mat-radio-button value="c/ taxa">
+                    Parcelado c/ taxa para o inscrito
+                  </mat-radio-button>
+                  <mat-radio-button value="s/ taxa" class="mt-2">
+                    Parcelado s/ taxa para o inscrito
+                    <P><small><em>As taxas serão descontadas do valor a resgatar</em></small></P>
+                  </mat-radio-button>
+                  <mat-radio-button value="none">
+                    Sem opção de parcelamento
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="mt-1">
+            <mat-card-title class="m-2">
+              <span [ngClass]="{'ativado': form.get('boleto')?.value, 'desativado': !form.get('boleto')?.value}">
+                {{ form.get('boleto')?.value ? 'Boleto' : 'Boleto - Desativado' }}
+              </span>
+            </mat-card-title>
+            <mat-card-content>
+              <div class="row">
+                <mat-checkbox formControlName="boletoAVista" [checked]="form.get('boleto')?.value">
+                  À Vista
+                </mat-checkbox>
+              </div>
+              <div class="row">
+                <mat-radio-group formControlName="boletoParcelamento" class="d-flex flex-column">
+                  <mat-radio-button value="c/ taxa">
+                    Parcelado c/ taxa para o inscrito
+                  </mat-radio-button>
+                  <mat-radio-button value="s/ taxa" class="mt-2">
+                    Parcelado s/ taxa para o inscrito
+                    <P><small><em>As taxas serão descontadas do valor a resgatar</em></small></P>
+                  </mat-radio-button>
+                  <mat-radio-button value="none">
+                    Sem opção de parcelamento
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+      <div class="row m-2">
+        <div class="d-flex justify-content-end">
+          <button mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </form>
