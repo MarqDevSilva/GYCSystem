@@ -1,32 +1,47 @@
 <div class="container mt-3">
-  <div class="row">
-    <div class="col-4">
+  <div class="row d-flex justify-content-center">
+    <div class="col-9">
+      <form [formGroup]="form">
+        <ng-container formArrayName="hospedagens">
+          <ng-container *ngFor="let hospedagem of hospedagens.controls; let i = index" class="row">
+            <ng-container [formGroupName]="i">
+              <h2>Hospedagem {{ i }}</h2>
+              <mat-form-field class="col-12" appearance="outline">
+                <mat-label>Descrição</mat-label>
+                <input matInput formControlName="descricao">
+              </mat-form-field>
+              <mat-form-field class="col-4 p-1" appearance="outline">
+                <mat-label>Lotação Máxima</mat-label>
+                <input matInput formControlName="lotacao" type="number">
+              </mat-form-field>
+              <mat-form-field class="col-4 p-1" appearance="outline">
+                <mat-label>Categoria</mat-label>
+                <mat-select formControlName="categoria" name="category">
+                  <mat-option *ngFor="let category of categorys" [value]="category.value">{{ category.value }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field floatLabel="always" class="col-4 p-1" appearance="outline">
+                <mat-label>Valor</mat-label>
+                <input class="text-end value" matInput formControlName="valor" type="number" placeholder="0">
+                <span matTextPrefix>$&nbsp;</span>
+                <span matTextSuffix>.00</span>
+              </mat-form-field>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </form>
 
-    </div>
-    <div class="col-8">
-      <div class="row">
-        <h2>Hospedagem 1</h2>
-        <mat-form-field class="col-12" appearance="outline">
-          <mat-label>Descrição</mat-label>
-          <input matInput>
-        </mat-form-field>
-        <mat-form-field class="col-4" appearance="outline">
-          <mat-label>Lotação Máxima</mat-label>
-          <input matInput type="number">
-        </mat-form-field>
-        <mat-form-field class="col-4" appearance="outline">
-          <mat-label>Categoria</mat-label>
-          <mat-select [(ngModel)]="selectedValue" name="category">
-            <mat-option *ngFor="let category of categorys" [value]="category.value">{{ category.value }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field floatLabel="always" class="col-4" appearance="outline">
-          <mat-label>Valor</mat-label>
-          <input class="text-end value" matInput type="number" placeholder="0">
-          <span matTextPrefix>$&nbsp;</span>
-          <span matTextSuffix>.00</span>
-        </mat-form-field>
+      <div class="row d-flex justify-content-center mt-2 my-2">
+        <button mat-mini-fab color="primary" (click)="add()">
+          <mat-icon>add</mat-icon>
+        </button>
       </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="d-flex justify-content-end">
+      <button class="mt-2 my-2" mat-button>Próximo Passo</button>
     </div>
   </div>
 </div>

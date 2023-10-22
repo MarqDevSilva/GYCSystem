@@ -14,6 +14,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import {MatDividerModule} from '@angular/material/divider';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule } from 'ngx-mask';
@@ -40,6 +41,7 @@ import { CreatorNavBarComponent } from './shrared/components/creator-nav-bar/cre
   ],
   imports: [
     CommonModule,
+    MatDividerModule,
     MatSelectModule,
     MatCheckboxModule,
     MatCardModule,

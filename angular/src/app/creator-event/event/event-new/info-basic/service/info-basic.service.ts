@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { info } from 'src/app/creator-event/shrared/components/model/info';
+import { info } from 'src/app/creator-event/shrared/model/info';
 
 @Injectable({
   providedIn: 'root'

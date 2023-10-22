@@ -1,5 +1,5 @@
 import { of } from 'rxjs';
-import { payMethod } from './../../../../shrared/components/model/payMethod';
+import { payMethod } from './../../../../shrared/model/payMethod';
 import { Injectable } from '@angular/core';
 
 @Injectable({
