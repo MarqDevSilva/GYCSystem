@@ -59,6 +59,7 @@ export class PayMethodComponent {
     this.service.save(this.form.value).subscribe(
       result => {
         this.onSuccess();
+        this.serviceEvent.emitFormSaved();
         console.log(result);
         },
       error => this.onError())

@@ -22,12 +22,23 @@ export class InfoBasicComponent {
     private snackBar: MatSnackBar
     ){
 
-    this.form = this.formBuilder.group({
-      nomeEvento: ['', Validators.required],
-      maxInscricoes: [0, [Validators.required, Validators.min(1)]],
-      whatsapp: ['', Validators.required],
-      dataInicial: ['', Validators.required],
-      dataFinal: ['', Validators.required]
+    this.form = this.preencherTest(); //this.formBuilder.group({
+
+      //nomeEvento: ['', Validators.required],
+      //maxInscricoes: [0, [Validators.required, Validators.min(1)]],
+      //whatsapp: ['', Validators.required],
+      //dataInicial: ['', Validators.required],
+      //dataFinal: ['', Validators.required]
+    //})
+  }
+
+  private preencherTest(){
+    return this.formBuilder.group({
+      nomeEvento: ['GYC', Validators.required],
+      maxInscricoes: [10, [Validators.required, Validators.min(1)]],
+      whatsapp: ['38998453481', Validators.required],
+      dataInicial: [new Date(), Validators.required],
+      dataFinal: [new Date(), Validators.required]
     })
   }
 

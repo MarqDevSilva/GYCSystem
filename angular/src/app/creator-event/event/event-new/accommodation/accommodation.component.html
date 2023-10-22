@@ -5,7 +5,12 @@
         <ng-container formArrayName="hospedagens">
           <ng-container *ngFor="let hospedagem of hospedagens.controls; let i = index" class="row">
             <ng-container [formGroupName]="i">
-              <h2>Hospedagem {{ i }}</h2>
+              <span class="d-flex justify-content-between">
+                <span class="h4">Hospedagem {{ i }}</span>
+                <button mat-icon-button color="warn" (click)="remove(i)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </span>
               <mat-form-field class="col-12" appearance="outline">
                 <mat-label>Descrição</mat-label>
                 <input matInput formControlName="descricao">
@@ -37,11 +42,17 @@
         </button>
       </div>
     </div>
+
+    <div class="row m-2">
+      <div class="d-flex justify-content-end">
+        <button mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
+      </div>
+    </div>
   </div>
 
   <div class="row">
     <div class="d-flex justify-content-end">
-      <button class="mt-2 my-2" mat-button>Próximo Passo</button>
+      <button class="mt-2 my-2" mat-button (click)="next()">Próximo Passo</button>
     </div>
   </div>
 </div>
