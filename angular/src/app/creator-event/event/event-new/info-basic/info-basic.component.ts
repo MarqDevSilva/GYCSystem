@@ -50,10 +50,14 @@ export class InfoBasicComponent {
         this.onSuccess();
         //Serviço compartilhado para armazenar id do evento criado
         this.serviceEvent.setId(result.id!);
+        //Serviço compartilhado para armazenar datas para refeições
+        this.serviceEvent.pushDatas(result.dataInicial!, result.dataFinal!)
         //Serviço compartilhado para habilitar as outras tabs
         this.serviceEvent.enableTab(false);
-        //Serviço compartilhado para mudar de tab ao salvar evento
+        //Serviço compartilhado para mudar de tab
         this.serviceEvent.emitFormSaved();
+
+        console.log(this.serviceEvent.getDatas())
         },
         error => this.onError());
     }else{

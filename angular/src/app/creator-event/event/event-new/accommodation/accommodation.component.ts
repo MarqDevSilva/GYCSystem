@@ -37,10 +37,10 @@ export class AccommodationComponent {
       evento: new FormGroup({
         id: new FormControl(null)
       }),
-      descricao: ['TTT', Validators.required],
-      lotacao: ['12', Validators.required],
-      categoria: ['Homem'],
-      valor: ['23', Validators.required]
+      descricao: ['', Validators.required],
+      lotacao: ['', Validators.required],
+      categoria: [''],
+      valor: ['', Validators.required]
     });
   }
 
