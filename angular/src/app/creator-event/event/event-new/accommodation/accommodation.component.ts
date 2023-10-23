@@ -45,7 +45,7 @@ export class AccommodationComponent {
   }
 
   get hospedagens() {
-    return this.form.controls["hospedagens"] as FormArray;
+    return this.form.get("hospedagens") as FormArray;
   }
 
   add() {

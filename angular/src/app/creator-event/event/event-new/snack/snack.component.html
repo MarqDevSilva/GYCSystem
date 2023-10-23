@@ -1,1 +1,64 @@
-<p>snack works!</p>
+<div class="container mt-3">
+  <div class="row">
+    <div class="d-flex justify-content-center">
+      <button *ngIf="show" class="mt-3" mat-raised-button color="primary"
+      (click)="config = true; show = false; mapArray();">
+        Configurar Refeições
+      </button>
+    </div>
+    <ng-container *ngIf="config">
+      <ng-container *ngFor="let data of datas">
+        <span class="h4">{{ data | date: 'dd/MM/yyyy' }}</span>
+
+        <form [formGroup]="form">
+          <ng-container [formArrayName]="formatDate(data)">
+            <ng-container *ngFor="let refeicao of refeicoes[formatDate(data)].controls; let i = index">
+              <ng-container [formGroupName]="i">
+                <div class="row mt-2">
+
+                  <mat-form-field class="col-6" appearance="outline">
+                    <mat-label>Descrição</mat-label>
+                    <input matInput formControlName="descricao">
+                  </mat-form-field>
+
+                  <mat-form-field floatLabel="always" class="col-3" appearance="outline">
+                    <mat-label>Valor</mat-label>
+                    <input class="text-end value" matInput formControlName="valor" type="number" placeholder="0">
+                    <span matTextPrefix>$&nbsp;</span>
+                    <span matTextSuffix>.00</span>
+                  </mat-form-field>
+
+                  <button mat-icon-button class="col-3" color="warn" (click)="remove(data, i)">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </div>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </form>
+
+        <div class="row p-2">
+          <div class="d-flex justify-content-end">
+            <button mat-raised-button color="accent" (click)="add(data)">Cadastrar Refeição</button>
+          </div>
+        </div>
+        <mat-divider class="mb-3"></mat-divider>
+      </ng-container>
+
+      <div class="row p-2">
+        <div class="d-flex justify-content-end">
+          <button mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
+        </div>
+      </div>
+    </ng-container>
+
+    <div class="row p-2">
+      <div class="d-flex justify-content-end">
+        <button mat-button (click)="next()">Próximo Passo</button>
+      </div>
+    </div>
+</div>
+
+
+
+
