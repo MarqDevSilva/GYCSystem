@@ -27,6 +27,7 @@ import { PayMethodComponent } from './event/event-new/pay-method/pay-method.comp
 import { CreatorFooterComponent } from './shrared/components/creator-footer/creator-footer.component';
 import { CreatorNavBarComponent } from './shrared/components/creator-nav-bar/creator-nav-bar.component';
 import { SnackComponent } from './event/event-new/snack/snack.component';
+import { FormComponent } from './event/event-new/form/form.component';
 
 
 
@@ -40,6 +41,7 @@ import { SnackComponent } from './event/event-new/snack/snack.component';
     PayMethodComponent,
     AccommodationComponent,
     SnackComponent,
+    FormComponent,
   ],
   imports: [
     CommonModule,
