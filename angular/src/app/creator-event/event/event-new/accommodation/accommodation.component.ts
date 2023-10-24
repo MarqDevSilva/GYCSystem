@@ -35,7 +35,7 @@ export class AccommodationComponent {
   novaHospedagem(): FormGroup {
     return this.formBuilder.group({
       evento: new FormGroup({
-        id: new FormControl(null)
+        id: new FormControl(this.setId())
       }),
       descricao: ['', Validators.required],
       lotacao: ['', Validators.required],
@@ -64,7 +64,6 @@ export class AccommodationComponent {
 
   onSubmit(){
     if(this.form.valid){
-      this.setId();
       this.service.save(this.form.value).subscribe(
         result => {
           this.onSuccess();
@@ -79,13 +78,7 @@ export class AccommodationComponent {
 
   private setId(){
     const id = this.serviceEvent.getId();
-    const hospedagens  = this.form.get('hospedagens') as FormArray;
-    if(hospedagens){
-      for (let i = 0; i < hospedagens.length; i++) {
-        const hospedagem = hospedagens.at(i) as FormGroup;
-        hospedagem.get('evento.id')?.setValue(id);
-      }
-    }
+    return id;
   }
 
   private onSuccess(){

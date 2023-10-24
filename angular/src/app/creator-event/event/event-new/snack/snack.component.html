@@ -28,6 +28,8 @@
                     <span matTextSuffix>.00</span>
                   </mat-form-field>
 
+                  <input formControlName="data" [hidden]="true">
+
                   <button mat-icon-button class="col-3" color="warn" (click)="remove(data, i)">
                     <mat-icon>close</mat-icon>
                   </button>

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { EventNewService } from '../service/event-new.service';
 import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
+import { SnackService } from './service/snack.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-snack',
@@ -18,20 +20,23 @@ export class SnackComponent {
   form: FormGroup;
 
   constructor(
+    private service: SnackService,
     private serviceEvent: EventNewService,
-    private formBuilder : FormBuilder
+    private formBuilder : FormBuilder,
+    private snackBar: MatSnackBar
     ){
     this.form = this.formBuilder.group({});
   }
 
-  novaRefeicao(): FormGroup {
+  novaRefeicao(data: Date): FormGroup {
+    const dia = this.formatDate(data);
     return this.formBuilder.group({
       evento: new FormGroup({
-        id: new FormControl(null)
+        id: new FormControl(this.setId())
       }),
       descricao: ['', Validators.required],
       valor: ['', Validators.required],
-      data: ['', Validators.required]
+      data: [dia]
     });
   }
 
@@ -47,7 +52,7 @@ export class SnackComponent {
   add(data: Date) {
     const dia = this.formatDate(data);
     const formArray = this.form.get(dia) as FormArray;
-    formArray.push(this.novaRefeicao());
+    formArray.push(this.novaRefeicao(data));
   }
 
   remove(data: Date, index: number) {
@@ -56,7 +61,36 @@ export class SnackComponent {
     formArray.removeAt(index);
   }
 
-  onSubmit(){}
+  onSubmit(){
+    if(this.form.valid){
+      this.service.save(this.form.value).subscribe(
+        result => {
+          this.onSuccess();
+          this.serviceEvent.emitFormSaved();
+          console.log(result)
+          },
+        error => this.onError())}
+    else{
+      this.invalid();
+    }
+  }
+
+  private setId(){
+    const id = this.serviceEvent.getId();
+    return id;
+  }
+
+  private onSuccess(){
+    this.snackBar.open('Salvo com sucesso', '', {duration: 5000});
+  }
+
+  private onError(){
+    this.snackBar.open('Erro ao salvar hospedagens', '', {duration: 5000});
+  }
+
+  private invalid(){
+    this.snackBar.open('Preencha todos os campos corretamente', '', {duration: 5000});
+  }
 
   next(){
     this.serviceEvent.emitFormSaved();
@@ -84,7 +118,7 @@ export class SnackComponent {
     }
   }
 
-  //formatar nomes para o array
+  //formatar datas
   formatDate(data: Date) {
     const dia = String(data.getDate()).padStart(2, '0');
     const mes = String(data.getMonth() + 1).padStart(2, '0');
@@ -92,4 +126,5 @@ export class SnackComponent {
 
     return `${dia}/${mes}/${ano}`;
   }
+
 }
