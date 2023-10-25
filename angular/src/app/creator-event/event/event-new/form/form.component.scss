@@ -1,0 +1,18 @@
+.custom-input {
+  border: none;           /* Remove a borda */
+  outline: none;          /* Remove a borda ao foco */
+  background: transparent; /* Fundo transparente */
+  color: #000;            /* Cor do texto */
+  padding: 0;             /* Remover o preenchimento */
+  margin-bottom: 10px;             /* Remover a margem */
+  margin-top: 10px;
+  width: 100%;            /* Largura total */
+}
+
+.subtitle{
+  color: rgb(124, 124, 124);
+}
+
+.ul{
+  list-style-type: none;
+}
