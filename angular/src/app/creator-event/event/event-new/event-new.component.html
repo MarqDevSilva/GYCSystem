@@ -3,13 +3,6 @@
     <div class="col-10">
       <mat-tab-group>
 
-        <mat-tab [disabled]="false">
-          <ng-template mat-tab-label>
-            <mat-icon>account_box</mat-icon>
-          </ng-template>
-          <app-form></app-form>
-        </mat-tab>
-
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>info</mat-icon>
@@ -38,7 +31,12 @@
           <app-snack></app-snack>
         </mat-tab>
 
-
+        <mat-tab [disabled]="tab">
+          <ng-template mat-tab-label>
+            <mat-icon>account_box</mat-icon>
+          </ng-template>
+          <app-form></app-form>
+        </mat-tab>
 
         <mat-tab [disabled]="tab">
           <ng-template mat-tab-label>

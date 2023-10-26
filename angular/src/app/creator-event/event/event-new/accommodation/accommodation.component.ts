@@ -14,9 +14,9 @@ export class AccommodationComponent {
   form: FormGroup;
 
   categorys = [
-    {value: 'Homem'},
-    {value: 'Mulheres'},
-    {value: 'Familia'},
+    {value: 'Masculino'},
+    {value: 'Feminino'},
+    {value: 'Família'},
   ];
 
   selectedValue?: string;
@@ -28,7 +28,7 @@ export class AccommodationComponent {
     private snackBar: MatSnackBar){
 
     this.form = this.formBuilder.group({
-      hospedagens: this.formBuilder.array([this.novaHospedagem()])
+      hospedagens: this.formBuilder.array([])
     })
   }
 

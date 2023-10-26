@@ -16,10 +16,12 @@
       <div class="row">
         <span>
           <ul class="m-0 ul">
-            <li *ngFor="let input of camposPadrao">
-              <mat-checkbox [(ngModel)]="input.required">
-                {{ input.ask }}
-              </mat-checkbox>
+            <li *ngFor="let input of inputs">
+              <ng-container *ngIf="input.type === 'pattern'">
+                <mat-checkbox [(ngModel)]="input.required">
+                  {{ input.ask }}
+                </mat-checkbox>
+              </ng-container>
             </li>
           </ul>
         </span>
@@ -27,7 +29,7 @@
       <div class="row pb-3">
         <p class="h5">Campos Adicionais</p>
 
-        <ng-container *ngFor="let input of camposAdicionais; let inputIndex = index">
+        <ng-container *ngFor="let input of inputs; let inputIndex = index">
           <ng-container *ngIf="input.type === 'short-text'">
             <mat-card class="mt-2 pt-2">
               <mat-card-subtitle class="d-flex justify-content-between">
@@ -39,7 +41,7 @@
                 <input matInput placeholder="Texto de resposta curta" disabled>
               </mat-form-field>
               <mat-card-footer class="col-8 d-flex justify-content-end">
-                <mat-checkbox color="warn">Obigatório</mat-checkbox>
+                <mat-checkbox [(ngModel)]="input.required">Obrigatório</mat-checkbox>
               </mat-card-footer>
             </mat-card>
           </ng-container>
@@ -55,7 +57,7 @@
                 <textarea matInput placeholder="Texto de resposta longa" disabled></textarea>
               </mat-form-field>
               <mat-card-footer class="col-8 d-flex justify-content-end">
-                <mat-checkbox color="warn">Obigatório</mat-checkbox>
+                <mat-checkbox [(ngModel)]="input.required">Obrigatório</mat-checkbox>
               </mat-card-footer>
             </mat-card>
           </ng-container>
@@ -79,7 +81,7 @@
               <mat-list>
                 <mat-list-item *ngFor="let option of input.options; let i = index">
                   <div class="d-flex align-items-center">
-                    <button mat-icon-button (click)="removeSelect(inputIndex, i)"><mat-icon>delete</mat-icon></button>
+                    <button mat-icon-button (click)="remove(inputIndex, i)"><mat-icon>delete</mat-icon></button>
                     {{ option }}
                   </div>
                 </mat-list-item>
@@ -89,8 +91,8 @@
                </mat-list>
 
               <mat-card-footer class="col-8 d-flex justify-content-between">
-                <button mat-button color="accent" (click)="newSelect(inputIndex)"><mat-icon>add</mat-icon>Criar Opção</button>
-                <mat-checkbox color="warn">Obigatório</mat-checkbox>
+                <button mat-button color="accent" (click)="add(inputIndex)"><mat-icon>add</mat-icon>Criar Opção</button>
+                <mat-checkbox [(ngModel)]="input.required">Obrigatório</mat-checkbox>
               </mat-card-footer>
             </mat-card>
           </ng-container>
@@ -108,7 +110,7 @@
                 <mat-radio-button *ngFor="let option of input.options; let i = index" [value]="option">
                   <div class="d-flex align-items-center">
                     {{ option }}
-                    <button mat-icon-button (click)="removeSelect(inputIndex, i)">
+                    <button mat-icon-button (click)="remove(inputIndex, i)">
                       <mat-icon>delete</mat-icon>
                     </button>
                   </div>
@@ -118,8 +120,8 @@
               <input class="custom-input" placeholder="Digite uma opção" [(ngModel)]="input.onAdd">
 
               <mat-card-footer class="col-8 d-flex justify-content-between">
-                <button mat-button color="accent" (click)="newSelect(inputIndex)"><mat-icon>add</mat-icon>Criar Opção</button>
-                <mat-checkbox color="warn">Obigatório</mat-checkbox>
+                <button mat-button color="accent" (click)="add(inputIndex)"><mat-icon>add</mat-icon>Criar Opção</button>
+                <mat-checkbox [(ngModel)]="input.required">Obrigatório</mat-checkbox>
               </mat-card-footer>
             </mat-card>
           </ng-container>
@@ -137,7 +139,7 @@
                 <mat-checkbox *ngFor="let option of input.options; let i = index" [value]="option">
                   <div class="d-flex align-items-center">
                     {{ option }}
-                    <button mat-icon-button (click)="removeSelect(inputIndex, i)">
+                    <button mat-icon-button (click)="remove(inputIndex, i)">
                       <mat-icon>delete</mat-icon>
                     </button>
                     </div>
@@ -147,8 +149,8 @@
               <input class="custom-input" placeholder="Digite uma opção" [(ngModel)]="input.onAdd">
 
               <mat-card-footer class="col-8 d-flex justify-content-between">
-                <button mat-button color="accent" (click)="newSelect(inputIndex)"><mat-icon>add</mat-icon>Criar Opção</button>
-                <mat-checkbox color="warn">Obigatório</mat-checkbox>
+                <button mat-button color="accent" (click)="add(inputIndex)"><mat-icon>add</mat-icon>Criar Opção</button>
+                <mat-checkbox [(ngModel)]="input.required">Obrigatório</mat-checkbox>
               </mat-card-footer>
             </mat-card>
           </ng-container>
@@ -169,7 +171,7 @@
               </mat-form-field>
 
               <mat-card-footer class="col-8 d-flex justify-content-end">
-                <mat-checkbox color="warn">Obigatório</mat-checkbox>
+                <mat-checkbox [(ngModel)]="input.required">Obrigatório</mat-checkbox>
               </mat-card-footer>
             </mat-card>
           </ng-container>
@@ -188,11 +190,16 @@
               </mat-form-field>
 
               <mat-card-footer class="col-8 d-flex justify-content-end">
-                <mat-checkbox color="warn">Obigatório</mat-checkbox>
+                <mat-checkbox [(ngModel)]="input.required">Obrigatório</mat-checkbox>
               </mat-card-footer>
             </mat-card>
           </ng-container>
         </ng-container>
+      </div>
+      <div class="row m-2">
+        <div class="d-flex justify-content-end">
+          <button mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
+        </div>
       </div>
     </div>
   </div>
