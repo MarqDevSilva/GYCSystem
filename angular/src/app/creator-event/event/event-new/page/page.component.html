@@ -1,1 +1,44 @@
-<p>page works!</p>
+<div class="container">
+  <div class="row mt-3">
+    <div class="col-3">
+      <span class="h5">Seções aparentes</span>
+      <form>
+        <mat-slide-toggle class="d-block mt-2">Sobre</mat-slide-toggle>
+        <mat-slide-toggle class="d-block mt-2">Palestrantes</mat-slide-toggle>
+        <mat-slide-toggle class="d-block mt-2">Programação</mat-slide-toggle>
+        <mat-slide-toggle class="d-block mt-2">Local</mat-slide-toggle>
+      </form>
+    </div>
+    <div class="col-9">
+      <span class="h5">Conteúdo da página</span>
+      <form class="mt-3">
+        <mat-card class="mb-3">
+          <mat-card-content>
+            <mat-card-title class="mb-3">Capa</mat-card-title>
+
+            <mat-form-field class="col-12" appearance="outline">
+              <mat-label>Titulo do evento</mat-label>
+              <input matInput>
+            </mat-form-field>
+
+            <span class="d-block h6">Imagem da capa</span>
+            <img>
+            <input type="file">
+          </mat-card-content>
+        </mat-card>
+
+        <ng-container>
+
+          <mat-card>
+            <mat-card-content>
+              <mat-card-title class="mb-3">Sobre</mat-card-title>
+
+
+            </mat-card-content>
+          </mat-card>
+
+        </ng-container>
+      </form>
+    </div>
+  </div>
+</div>
