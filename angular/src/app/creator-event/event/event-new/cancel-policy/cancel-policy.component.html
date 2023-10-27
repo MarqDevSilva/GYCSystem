@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="row d-flex justify-content-center mt-3">
+    <div class="col-9">
+      <span class="h5">Escolha uma política de cancelamento</span>
+      <mat-radio-group [(ngModel)]="policy.policy" class="d-flex flex-column">
+        <mat-radio-button value="flexivel" class="mt-2">
+          <strong>Flexível</strong>
+        </mat-radio-button>
+        <p class="ms-5 subtitle">Reembolso integral 1 dia antes do evento</p>
+
+        <mat-radio-button value="moderada" class="mt-2">
+          <strong>Moderada</strong>
+        </mat-radio-button>
+        <p class="ms-5 subtitle">Reembolso integral 5 dia antes do evento</p>
+
+        <mat-radio-button value="restrita" class="mt-2">
+          <strong>Restrita</strong>
+        </mat-radio-button>
+        <p class="ms-5 subtitle">Reembolso integral para cancelamentos feitos até 30 dias antes do evento. Se a reserva tiver sido feita a menos de 30 dias
+          antes do evento, o reembolso integral é realizado pelos cancelamentos feitos até 48 horas após a confirmação da reserva e pelo menos 14 dias
+          antes do evento. Depois disso, há um reembolso de 50% até 7 dias antes do evento. Não há reembolso depois desse prazo.
+        </p>
+
+        <mat-radio-button value="rigorosa" class="mt-2">
+          <strong>Rigorosa</strong>
+        </mat-radio-button>
+        <p class="ms-5 subtitle">Reembolso completo para cancelamentos feitos a´te 48 horas após a reserva, se faltar pelo menos 14 dias para a data do evento.
+          Reembolso de 50% para cancelamentos feitos pelo menos 7 dias antes do evento. Sem reembolso para cancelamentos feitos até 7 dias antes da data do evento.
+        </p>
+      </mat-radio-group>
+
+      <div class="row m-2">
+        <div class="d-flex justify-content-end">
+          <button mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

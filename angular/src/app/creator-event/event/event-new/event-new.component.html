@@ -3,6 +3,13 @@
     <div class="col-10">
       <mat-tab-group>
 
+        <mat-tab [disabled]="false">
+          <ng-template mat-tab-label>
+            <mat-icon>important_devices</mat-icon>
+          </ng-template>
+          <app-page></app-page>
+        </mat-tab>
+
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>info</mat-icon>
@@ -42,15 +49,10 @@
           <ng-template mat-tab-label>
             <mat-icon>cancel_presentation</mat-icon>
           </ng-template>
-          Em construção
+          <app-cancel-policy></app-cancel-policy>
         </mat-tab>
 
-        <mat-tab [disabled]="tab">
-          <ng-template mat-tab-label>
-            <mat-icon>important_devices</mat-icon>
-          </ng-template>
-          Em construção
-        </mat-tab>
+
       </mat-tab-group>
     </div>
   </div>

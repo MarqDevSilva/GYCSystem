@@ -21,7 +21,7 @@ export class PayMethodComponent {
   ){
     this.form = this.formBuilder.group({
       evento: new FormGroup({
-        id: new FormControl(null)
+        id: new FormControl(this.setId())
       }),
       pix: new FormControl(false),
       cartao: new FormControl(false),
@@ -71,5 +71,10 @@ export class PayMethodComponent {
 
   private onError(){
     this.snackBar.open('Erro ao salvar formas de pagamento', '', {duration: 5000});
+  }
+
+  private setId(){
+    const id = this.serviceEvent.getId();
+    return id;
   }
 }
