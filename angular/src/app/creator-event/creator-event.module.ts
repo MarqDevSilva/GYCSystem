@@ -20,7 +20,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NgxMaskModule } from 'ngx-mask';
 
-
 import { CreatorEventRoutingModule } from './creator-event-routing.module';
 import { EventListComponent } from './event/event-list/event-list.component';
 import { AccommodationComponent } from './event/event-new/accommodation/accommodation.component';

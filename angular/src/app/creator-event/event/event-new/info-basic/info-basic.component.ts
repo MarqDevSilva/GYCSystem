@@ -57,7 +57,7 @@ export class InfoBasicComponent {
         //Serviço compartilhado para mudar de tab
         this.serviceEvent.emitFormSaved();
 
-        console.log(this.serviceEvent.getDatas())
+        console.log(result)
         },
         error => this.onError());
     }else{

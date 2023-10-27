@@ -1,5 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { mergeMap, of } from 'rxjs';
 import { info } from 'src/app/creator-event/shrared/model/info';
 
 @Injectable({
@@ -7,9 +8,10 @@ import { info } from 'src/app/creator-event/shrared/model/info';
 })
 export class InfoBasicService {
 
+  private API = './assets/API.json';
   private info: any[] = [];
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   save(data: Partial<info>){
     const index = this.info.length;
@@ -17,5 +19,9 @@ export class InfoBasicService {
     const dataWithId: Partial<info> = { id, ...data };
     this.info.push(dataWithId);
     return of(dataWithId);
+  }
+
+  get(){
+    return this.http.get(this.API)
   }
 }
