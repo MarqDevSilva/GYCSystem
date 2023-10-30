@@ -36,7 +36,7 @@
                 <mat-icon>short_text</mat-icon>
                 <button mat-icon-button (click)="onDelete(inputIndex)"><mat-icon>delete</mat-icon></button>
               </mat-card-subtitle>
-              <input class="custom-input" placeholder="Digite sua pergunta">
+              <input class="custom-input" placeholder="Digite sua pergunta" [(ngModel)]="input.ask">
               <mat-form-field class="col-8" appearance="outline">
                 <input matInput placeholder="Texto de resposta curta" disabled>
               </mat-form-field>
@@ -52,7 +52,7 @@
                 <mat-icon>subject</mat-icon>
                 <button mat-icon-button (click)="onDelete(inputIndex)"><mat-icon>delete</mat-icon></button>
               </mat-card-subtitle>
-              <input class="custom-input" placeholder="Digite sua pergunta">
+              <input class="custom-input" placeholder="Digite sua pergunta" [(ngModel)]="input.ask">
               <mat-form-field class="col-8" appearance="outline">
                 <textarea matInput placeholder="Texto de resposta longa" disabled></textarea>
               </mat-form-field>
@@ -161,7 +161,7 @@
                 <mat-icon>calendar_today</mat-icon>
                 <button mat-icon-button (click)="onDelete(inputIndex)"><mat-icon>delete</mat-icon></button>
               </mat-card-subtitle>
-              <input class="custom-input" placeholder="Digite sua pergunta">
+              <input class="custom-input" placeholder="Digite sua pergunta" [(ngModel)]="input.ask">
 
               <mat-form-field class="col-8" appearance="outline">
                 <mat-label>Data</mat-label>
@@ -182,7 +182,7 @@
                 <mat-icon>exposure_zero</mat-icon>
                 <button mat-icon-button (click)="onDelete(inputIndex)"><mat-icon>delete</mat-icon></button>
               </mat-card-subtitle>
-              <input class="custom-input" placeholder="Digite sua pergunta">
+              <input class="custom-input" placeholder="Digite sua pergunta" [(ngModel)]="input.ask">
 
               <mat-form-field class="col-4" appearance="outline">
                 <mat-label>Número</mat-label>

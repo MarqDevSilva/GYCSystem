@@ -19,6 +19,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NgxMaskModule } from 'ngx-mask';
+import { QuillModule } from 'ngx-quill';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 import { CreatorEventRoutingModule } from './creator-event-routing.module';
 import { EventListComponent } from './event/event-list/event-list.component';
@@ -51,6 +53,7 @@ import { PageComponent } from './event/event-new/page/page.component';
   ],
   imports: [
     CommonModule,
+    MatAutocompleteModule,
     MatSidenavModule,
     MatListModule,
     MatDividerModule,
@@ -71,7 +74,8 @@ import { PageComponent } from './event/event-new/page/page.component';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    QuillModule.forRoot()
   ]
 })
 export class CreatorEventModule { }
