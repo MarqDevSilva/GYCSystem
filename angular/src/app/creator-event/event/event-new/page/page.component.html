@@ -12,7 +12,7 @@
     <div class="col-9">
       <span class="h5">Conteúdo da página</span>
       <div class="mt-3">
-        <mat-card class="mb-3">
+        <mat-card class="mb-3 capa">
           <mat-card-title class="m-3">Capa</mat-card-title>
           <mat-card-content>
             <mat-form-field class="col-12" appearance="outline">
@@ -21,8 +21,8 @@
             </mat-form-field>
 
             <span class="d-block h6">Imagem da capa</span>
-            <img [src]="capaPreview" class="capa-preview d-block" alt="Imagem da capa">
-            <input class="d-block" type="file" (change)="onFileCapa($event); preview($event)">
+            <img [src]="page.preview" class="capa-preview d-block" alt="Imagem da capa">
+            <input class="d-block" type="file" (change)="onFileCapa($event); previewCapa($event)">
           </mat-card-content>
         </mat-card>
 
@@ -37,38 +37,7 @@
         </ng-container>
 
         <ng-container *ngIf="onPalestrantes" class="Palestrantes">
-          <mat-card class="mb-3">
-            <mat-card-title class="m-3">Palestrantes</mat-card-title>
-            <mat-card-content class="mb-3">
-              <div class="row">
-                <div class="col-md-5">
-                  <mat-form-field class="col-md-12" appearance="outline">
-                    <mat-label>Nome</mat-label>
-                    <input matInput>
-                  </mat-form-field>
-                  <mat-form-field class="col-md-12" appearance="outline">
-                    <mat-label>Descrição</mat-label>
-                    <textarea matInput></textarea>
-                  </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                  <img class="d-block image-preview" [style.background-image]="">
-                  <input class="d-block" type="file">
-                </div>
-                <div class="col-md-1">
-                  <button mat-mini-fab color="warn">
-                    <mat-icon>delete_forever</mat-icon>
-                  </button>
-                </div>
-              </div>
-              <mat-divider></mat-divider>
-            </mat-card-content>
-            <mat-card-actions class="justify-content-center">
-              <button mat-mini-fab color="primary">
-                <mat-icon>add</mat-icon>
-              </button>
-            </mat-card-actions>
-          </mat-card>
+          <app-palestrantes></app-palestrantes>
         </ng-container>
 
         <ng-container *ngIf="onProgramacao" class="Programação">

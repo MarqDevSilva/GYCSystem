@@ -1,0 +1,32 @@
+<mat-card class="mb-3">
+  <mat-card-title class="m-3">Palestrantes</mat-card-title>
+  <mat-card-content class="mb-3">
+    <div class="row" *ngFor="let palestrante of palestrantes; let i = index">
+      <div class="col-md-5">
+        <mat-form-field class="col-md-12" appearance="outline">
+          <mat-label>Nome</mat-label>
+          <input matInput [(ngModel)]="palestrante.nome">
+        </mat-form-field>
+        <mat-form-field class="col-md-12" appearance="outline">
+          <mat-label>Descrição</mat-label>
+          <textarea matInput [(ngModel)]="palestrante.descricao"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <img class="d-block image-preview" [src]="palestrante.preview">
+        <input class="d-block" type="file" (change)="onFile($event, i)">
+      </div>
+      <div class="col-md-1">
+        <button mat-mini-fab color="warn" (click)="onDelete(i)">
+          <mat-icon>delete_forever</mat-icon>
+        </button>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+  </mat-card-content>
+  <mat-card-actions class="justify-content-center">
+    <button mat-mini-fab color="primary" (click)="onAdd()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

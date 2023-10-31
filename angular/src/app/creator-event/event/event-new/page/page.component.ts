@@ -7,15 +7,27 @@ import { Component } from '@angular/core';
 })
 export class PageComponent {
 
-  capaPreview = '';
-
-  onPalestrantes = false;
+  onPalestrantes = true;
   onProgramacao = false;
 
   minDate: Date = new Date();
 
-  page: any = {evento:{id:''}, titulo:'', capa:[], sobre:true, descricao:'', background:'#FFFFFF', local: false, cep:'', uf:'', cidade:'', bairro:'', endereco:'', numero:''}
-  palestrantes: any[] = [{evento:{id:''}, nome:'', descricao:'', img:''}]
+  page: any = {
+    evento:{id:''},
+    titulo:'',
+    capa:[],
+    preview: '',
+    sobre:false,
+    descricao:'',
+    background:'#FFFFFF',
+    local: false,
+    cep:'',
+    uf:'',
+    cidade:'',
+    bairro:'',
+    endereco:'',
+    numero:''}
+
   programacao: any[] = [{evento:{id:''}, data:'', hInicial:'', hFinal:'', atividade:''}]
 
   constructor(){}
@@ -24,29 +36,43 @@ export class PageComponent {
     console.log(this.page)
   }
 
-  onFileCapa(event: any){
-    const file = event.target.files[0];
-    if(file){
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        const arrayBuffer = e.target.result as ArrayBuffer;
-        const uint8Array = new Uint8Array(arrayBuffer);
-        this.page.capa = uint8Array;
-      };
-      reader.readAsArrayBuffer(file);
-    }
+  onFileCapa(event: any) {
+    this.readFileArray(event, this.page, 'capa');
   }
 
-  preview(event: any){
+
+
+  previewCapa(event: any){
+    this.readFile(event, this.page, 'preview');
+  }
+
+
+
+  addProgramacao(){
+    this.programacao.push({evento:{id:''}, data:'', hInicial:'', hFinal:'', atividade:''})
+  }
+
+  private readFile(event: any, targetObject: any, targetProperty: string) {
     const file = event.target.files[0];
-    if(file){
+    if (file) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.capaPreview = e.target.result
+        targetObject[targetProperty] = e.target.result;
       };
       reader.readAsDataURL(file);
     }
   }
 
-
+  private readFileArray(event: any, targetObject: any, targetProperty: string) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const arrayBuffer = e.target.result as ArrayBuffer;
+        const uint8Array = new Uint8Array(arrayBuffer);
+        targetObject[targetProperty] = uint8Array;
+      };
+      reader.readAsArrayBuffer(file);
+    }
+  }
 }

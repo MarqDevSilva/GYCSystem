@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -20,20 +21,21 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NgxMaskModule } from 'ngx-mask';
 import { QuillModule } from 'ngx-quill';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 import { CreatorEventRoutingModule } from './creator-event-routing.module';
 import { EventListComponent } from './event/event-list/event-list.component';
 import { AccommodationComponent } from './event/event-new/accommodation/accommodation.component';
+import { CancelPolicyComponent } from './event/event-new/cancel-policy/cancel-policy.component';
 import { EventNewComponent } from './event/event-new/event-new.component';
 import { FormComponent } from './event/event-new/form/form.component';
 import { InfoBasicComponent } from './event/event-new/info-basic/info-basic.component';
+import { PageComponent } from './event/event-new/page/page.component';
+import { PalestrantesComponent } from './event/event-new/page/palestrantes/palestrantes.component';
+import { ProgramacaoComponent } from './event/event-new/page/programacao/programacao.component';
 import { PayMethodComponent } from './event/event-new/pay-method/pay-method.component';
 import { SnackComponent } from './event/event-new/snack/snack.component';
 import { CreatorFooterComponent } from './shrared/components/creator-footer/creator-footer.component';
 import { CreatorNavBarComponent } from './shrared/components/creator-nav-bar/creator-nav-bar.component';
-import { CancelPolicyComponent } from './event/event-new/cancel-policy/cancel-policy.component';
-import { PageComponent } from './event/event-new/page/page.component';
 
 
 
@@ -50,6 +52,8 @@ import { PageComponent } from './event/event-new/page/page.component';
     FormComponent,
     CancelPolicyComponent,
     PageComponent,
+    PalestrantesComponent,
+    ProgramacaoComponent,
   ],
   imports: [
     CommonModule,
