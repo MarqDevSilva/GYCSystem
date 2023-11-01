@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { Programacao } from 'src/app/creator-event/shrared/model/programacao';
+import { ProgramacaoService } from './service/programacao.service';
+import { EventNewService } from '../../service/event-new.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-programacao',
@@ -11,6 +14,12 @@ export class ProgramacaoComponent {
   datas: any[] = [];
 
   atividades: Partial<Programacao>[][] = [];
+
+  constructor(
+    private service: ProgramacaoService,
+    private serviceEvent: EventNewService,
+    private snackBar: MatSnackBar
+  ){}
 
   newData() {
     this.datas.push({ data: new Date() });
@@ -29,6 +38,14 @@ export class ProgramacaoComponent {
 
   onDelete(dataIndex: number, atividadeIndex: number) {
     this.atividades[dataIndex].splice(atividadeIndex, 1);
+  }
+
+  private onSuccess(){
+    this.snackBar.open('Salvo com sucesso', '', {duration: 5000});
+  }
+
+  private onError(){
+    this.snackBar.open('Erro ao salvar hospedagens', '', {duration: 5000});
   }
 
 }

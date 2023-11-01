@@ -7,7 +7,7 @@ import { accomodation } from 'src/app/creator-event/shrared/model/accomodation';
 })
 export class AccommodationService {
 
-  private accomodation: any[] = [];
+  private accomodation: Partial<accomodation>[] = [];
 
   constructor() { }
 

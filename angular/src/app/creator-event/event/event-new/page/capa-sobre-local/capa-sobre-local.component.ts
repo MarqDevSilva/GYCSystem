@@ -1,15 +1,14 @@
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ViaCEPService } from 'src/app/creator-event/shrared/utils/APIcep/via-cep.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-page',
-  templateUrl: './page.component.html',
-  styleUrls: ['./page.component.scss']
+  selector: 'app-capa-sobre-local',
+  templateUrl: './capa-sobre-local.component.html',
+  styleUrls: ['./capa-sobre-local.component.scss']
 })
-export class PageComponent {
-
+export class CapaSobreLocalComponent {
   onSobre = false;
   onPalestrantes = false;
   onProgramacao = false;
