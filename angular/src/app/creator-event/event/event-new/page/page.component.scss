@@ -7,3 +7,15 @@
   background-repeat: no-repeat;
   border: 2px solid #ccc;
 }
+
+.loading-container {
+  position: relative;
+}
+
+mat-progress-spinner {
+  position: absolute;
+  top: 50%; /* Posiciona verticalmente no centro do contêiner */
+  left: 50%; /* Posiciona horizontalmente no centro do contêiner */
+  transform: translate(-50%, -50%); /* Centraliza o spinner */
+  z-index: 999; /* Define a ordem de sobreposição acima do mat-card */
+}

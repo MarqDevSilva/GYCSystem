@@ -1,1 +1,69 @@
-<p>programacao works!</p>
+<mat-card class="mb-3">
+  <mat-card-title class="m-3">Programação</mat-card-title>
+  <mat-card-content class="mb-3">
+    <div class="row section">
+      <div class="row sub-section" *ngFor="let data of datas; let dataIndex = index">
+
+        <mat-form-field class="col-md-6" appearance="outline">
+          <mat-label>Data</mat-label>
+          <input matInput [matDatepicker]="picker_i" [(ngModel)]="data.data">
+          <mat-datepicker-toggle matIconSuffix [for]="picker_i"></mat-datepicker-toggle>
+          <mat-datepicker #picker_i>
+            <mat-datepicker-actions>
+              <button mat-button matDatepickerCancel>Cancelar</button>
+              <button mat-raised-button color="primary" matDatepickerApply>Confirmar</button>
+            </mat-datepicker-actions>
+          </mat-datepicker>
+        </mat-form-field>
+
+        <div class="col-md-6 d-flex justify-content-end">
+          <button mat-mini-fab color="warn" (click)="deleteData(dataIndex)">
+            <mat-icon>delete_forever</mat-icon>
+          </button>
+        </div>
+
+        <div class="row mb-3 task-sub-section" *ngFor="let atividade of atividades[dataIndex]; let atividadeIndex = index">
+          <div class="col-11">
+            <div class="row">
+              <mat-form-field class="col-md-2" appearance="outline">
+                <mat-label>Início</mat-label>
+                <input matInput [(ngModel)]="atividade.hInicial" style="font-size: 14px;">
+              </mat-form-field>
+
+              <mat-form-field class="col-md-2" appearance="outline">
+                <mat-label>Término</mat-label>
+                <input matInput [(ngModel)]="atividade.hFinal" style="font-size: 14px;">
+              </mat-form-field>
+
+              <mat-form-field class="col-md-8" appearance="outline">
+                <mat-label>Atividade</mat-label>
+                <input matInput [(ngModel)]="atividade.atividade" style="font-size: 14px;">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-1 d-flex align-items-start">
+            <button mat-icon-button color="primary" (click)="onDelete(dataIndex, atividadeIndex)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+          <mat-divider></mat-divider>
+        </div>
+
+        <div class="col-md mb-3 d-flex justify-content-center">
+          <button mat-raised-button color="primary" (click)="onAdd(dataIndex)">
+            Nova Atividade
+          </button>
+        </div>
+
+        <mat-divider class="mb-3"></mat-divider>
+
+      </div>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions class="justify-content-center">
+    <button mat-mini-fab color="primary" (click)="newData()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

@@ -1,4 +1,7 @@
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
+import { ViaCEPService } from 'src/app/creator-event/shrared/utils/APIcep/via-cep.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-page',
@@ -7,72 +10,90 @@ import { Component } from '@angular/core';
 })
 export class PageComponent {
 
-  onPalestrantes = true;
-  onProgramacao = false;
+  onSobre = false;
+  onPalestrantes = false;
+  onProgramacao = true;
+  onLocal = false;
 
-  minDate: Date = new Date();
+  loading= false;
 
-  page: any = {
+  form = this.formBuilder.group({
     evento:{id:''},
     titulo:'',
     capa:[],
     preview: '',
-    sobre:false,
     descricao:'',
     background:'#FFFFFF',
-    local: false,
-    cep:'',
-    uf:'',
-    cidade:'',
-    bairro:'',
-    endereco:'',
-    numero:''}
+    cep:['', Validators.required],
+    uf: new FormControl({value:'', disabled:true}),
+    cidade:new FormControl({value:'', disabled:true}),
+    bairro:['', Validators.required],
+    endereco:['', Validators.required],
+    numero:['', Validators.required]
+  })
 
-  programacao: any[] = [{evento:{id:''}, data:'', hInicial:'', hFinal:'', atividade:''}]
-
-  constructor(){}
+  constructor(
+    private formBuilder: FormBuilder,
+    private serviceCEP: ViaCEPService,
+    private snackBar: MatSnackBar){}
 
   onConsole(){
-    console.log(this.page)
+    console.log(this.form.value)
   }
 
-  onFileCapa(event: any) {
-    this.readFileArray(event, this.page, 'capa');
+  onFile(event: any) {
+    this.readFile(event, this.form, 'capa', true);
+    this.readFile(event, this.form, 'preview');
   }
 
-
-
-  previewCapa(event: any){
-    this.readFile(event, this.page, 'preview');
-  }
-
-
-
-  addProgramacao(){
-    this.programacao.push({evento:{id:''}, data:'', hInicial:'', hFinal:'', atividade:''})
-  }
-
-  private readFile(event: any, targetObject: any, targetProperty: string) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        targetObject[targetProperty] = e.target.result;
-      };
-      reader.readAsDataURL(file);
+  searchCEP(){
+    this.loading = true;
+    const cep = this.form.get('cep')?.value;
+    if(cep){
+      this.serviceCEP.getCEP(cep).subscribe(
+        (result: any) => {
+          if (result && result.localidade) {
+            this.form.patchValue({
+              uf: result.uf,
+              cidade: result.localidade
+            });
+            this.loading = false;
+          } else {
+            this.loading = false;
+            this.onError('CEP não encontrado');
+          }
+        },
+        (error) =>{
+          this.loading = false;
+          this.onError('CEP Inválido')
+        }
+      )
     }
   }
 
-  private readFileArray(event: any, targetObject: any, targetProperty: string) {
+  private onError(error: string){
+    this.snackBar.open(error, '', {duration: 3000});
+  }
+
+  private readFile(event: any, form: FormGroup, controlName: string, asArrayBuffer: boolean = false) {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        const arrayBuffer = e.target.result as ArrayBuffer;
-        const uint8Array = new Uint8Array(arrayBuffer);
-        targetObject[targetProperty] = uint8Array;
+        if (asArrayBuffer) {
+          const arrayBuffer = e.target.result as ArrayBuffer;
+          const uint8Array = new Uint8Array(arrayBuffer);
+          form.get(controlName)?.setValue(uint8Array);
+          } else {
+          form.get(controlName)?.setValue(e.target.result);
+          }
       };
-      reader.readAsArrayBuffer(file);
+
+      if (asArrayBuffer) {
+        reader.readAsArrayBuffer(file);
+      } else {
+        reader.readAsDataURL(file);
+      }
     }
   }
 }
