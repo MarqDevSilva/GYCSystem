@@ -11,8 +11,8 @@ export class ProgramacaoService {
 
   constructor() { }
 
-  save(data: Partial<Programacao>){
-    this.programacao.push(data);
+  save(data: Partial<Programacao>[]){
+    this.programacao.push(...data);
     return of(data);
   }
 }

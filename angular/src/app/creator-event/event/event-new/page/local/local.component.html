@@ -1,0 +1,42 @@
+<div class="loading-container" *ngIf="loading">
+  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+</div>
+
+<mat-card class="mb-3" [formGroup]="form">
+  <mat-card-title class="m-3">Local</mat-card-title>
+  <mat-card-content>
+    <div class="row">
+      <mat-form-field class="col-md-4" appearance="outline">
+        <mat-label>CEP</mat-label>
+        <input matInput formControlName="cep" mask="00000-000" pattern="\d{5}\d{3}" (blur)="searchCEP()">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-2" appearance="outline">
+        <mat-label>UF</mat-label>
+        <input matInput formControlName="uf">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4" appearance="outline">
+        <mat-label>Cidade</mat-label>
+        <input matInput formControlName="cidade">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-4" appearance="outline">
+        <mat-label>Bairro</mat-label>
+        <input matInput formControlName="bairro">
+      </mat-form-field>
+
+
+      <mat-form-field class="col-md-6" appearance="outline">
+        <mat-label>Endereço</mat-label>
+        <input matInput formControlName="endereco">
+      </mat-form-field>
+
+
+      <mat-form-field class="col-md-2" appearance="outline">
+        <mat-label>Nº</mat-label>
+        <input matInput formControlName="numero">
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+</mat-card>

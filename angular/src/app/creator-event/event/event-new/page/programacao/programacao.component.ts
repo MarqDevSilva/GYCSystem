@@ -40,12 +40,20 @@ export class ProgramacaoComponent {
     this.atividades[dataIndex].splice(atividadeIndex, 1);
   }
 
-  private onSuccess(){
-    this.snackBar.open('Salvo com sucesso', '', {duration: 5000});
+  onSubmit(){
+    if (this.atividades) {
+      const atividade = this.atividades.reduce((acc, atividades) => {
+        return acc.concat(atividades);
+      }, []);
+
+      this.service.save(atividade).subscribe(
+        result => console.log(result),
+        error => this.onError()
+      );
+    }
   }
 
   private onError(){
-    this.snackBar.open('Erro ao salvar hospedagens', '', {duration: 5000});
+    this.snackBar.open('Erro ao salvar programação', '', {duration: 5000});
   }
-
 }

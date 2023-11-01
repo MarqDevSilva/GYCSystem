@@ -30,9 +30,12 @@ import { CancelPolicyComponent } from './event/event-new/cancel-policy/cancel-po
 import { EventNewComponent } from './event/event-new/event-new.component';
 import { FormComponent } from './event/event-new/form/form.component';
 import { InfoBasicComponent } from './event/event-new/info-basic/info-basic.component';
-import { CapaSobreLocalComponent } from './event/event-new/page/capa-sobre-local/capa-sobre-local.component';
+import { CapaComponent } from './event/event-new/page/capa/capa.component';
+import { LocalComponent } from './event/event-new/page/local/local.component';
+import { PageComponent } from './event/event-new/page/page.component';
 import { PalestrantesComponent } from './event/event-new/page/palestrantes/palestrantes.component';
 import { ProgramacaoComponent } from './event/event-new/page/programacao/programacao.component';
+import { SobreComponent } from './event/event-new/page/sobre/sobre.component';
 import { PayMethodComponent } from './event/event-new/pay-method/pay-method.component';
 import { SnackComponent } from './event/event-new/snack/snack.component';
 import { CreatorFooterComponent } from './shrared/components/creator-footer/creator-footer.component';
@@ -52,9 +55,12 @@ import { CreatorNavBarComponent } from './shrared/components/creator-nav-bar/cre
     SnackComponent,
     FormComponent,
     CancelPolicyComponent,
+    PageComponent,
     PalestrantesComponent,
     ProgramacaoComponent,
-    CapaSobreLocalComponent,
+    CapaComponent,
+    SobreComponent,
+    LocalComponent,
   ],
   imports: [
     CommonModule,
