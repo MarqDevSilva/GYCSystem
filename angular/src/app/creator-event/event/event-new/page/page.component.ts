@@ -10,7 +10,7 @@ export class PageComponent {
   onSobre = false;
   onPalestrantes = false;
   onProgramacao = false;
-  onLocal = false;
+  onLocal = true;
 
   onConsole(){
 

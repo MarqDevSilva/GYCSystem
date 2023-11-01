@@ -37,6 +37,12 @@
         <mat-label>Nº</mat-label>
         <input matInput formControlName="numero">
       </mat-form-field>
+
+      <div class="row" *ngIf="apiLoaded | async">
+        <google-map height="300px" width="100%" [options]="options">
+          <map-marker></map-marker>
+        </google-map>
+      </div>
     </div>
   </mat-card-content>
 </mat-card>

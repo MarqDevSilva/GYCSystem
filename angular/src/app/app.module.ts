@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { SharedModule } from './shared/shared.module';
 
 registerLocaleData(localePt);
 
@@ -19,6 +20,7 @@ registerLocaleData(localePt);
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    SharedModule
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt' }],
   bootstrap: [AppComponent]
