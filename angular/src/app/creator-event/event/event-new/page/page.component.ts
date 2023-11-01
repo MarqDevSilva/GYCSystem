@@ -12,7 +12,7 @@ export class PageComponent {
 
   onSobre = false;
   onPalestrantes = false;
-  onProgramacao = true;
+  onProgramacao = false;
   onLocal = false;
 
   loading= false;
