@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Programacao } from 'src/app/creator-event/shrared/model/programacao';
 
 @Component({
   selector: 'app-programacao',
@@ -7,11 +8,9 @@ import { Component } from '@angular/core';
 })
 export class ProgramacaoComponent {
 
-  minDate: Date = new Date();
-
   datas: any[] = [];
 
-  atividades: any[] = [];
+  atividades: Partial<Programacao>[][] = [];
 
   newData() {
     this.datas.push({ data: new Date() });
