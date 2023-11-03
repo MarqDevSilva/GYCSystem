@@ -10,9 +10,7 @@ export class PageComponent {
   onSobre = false;
   onPalestrantes = false;
   onProgramacao = false;
-  onLocal = true;
+  onLocal = false;
 
-  onConsole(){
-
-  }
+  onConsole(){}
 }

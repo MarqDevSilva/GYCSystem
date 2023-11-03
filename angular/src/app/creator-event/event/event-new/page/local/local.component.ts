@@ -1,8 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, combineLatest, map, startWith } from 'rxjs';
 import { ViaCEPService } from 'src/app/creator-event/shrared/utils/APIcep/via-cep.service';
 
 @Component({
@@ -10,17 +9,10 @@ import { ViaCEPService } from 'src/app/creator-event/shrared/utils/APIcep/via-ce
   templateUrl: './local.component.html',
   styleUrls: ['./local.component.scss']
 })
-export class LocalComponent {
+export class LocalComponent implements OnInit{
 
+  address$: Observable<string> = new Observable<string>;
   loading= false;
-
-  apiLoaded: Observable<boolean>;
-
-  options: google.maps.MapOptions = {
-    center: {lat: -15.4963683, lng: -52.4202686},
-    zoom: 4
-  };
-
   form = this.formBuilder.group({
     cep:['', Validators.required],
     uf: new FormControl({value:'', disabled:true}),
@@ -33,13 +25,13 @@ export class LocalComponent {
   constructor(
     private formBuilder: FormBuilder,
     private serviceCEP: ViaCEPService,
-    private snackBar: MatSnackBar,
-    httpClient: HttpClient)
-  {
-    this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=AIzaSyBpggtF2D-gIc5h2ArPHLvL52Kcg85pH2A', 'callback')
-    .pipe(
-      map(() => true),
-      catchError(() => of(false)),
+    private snackBar: MatSnackBar){}
+
+  ngOnInit(): void {
+    this.address$ = combineLatest(
+      Object.values(this.form.controls).map(control => control.valueChanges.pipe(startWith(control.value)))
+    ).pipe(
+      map(values => values.join(', '))
     );
   }
 
