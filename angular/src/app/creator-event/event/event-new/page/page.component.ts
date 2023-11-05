@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { SobreComponent } from './sobre/sobre.component';
+import { PalestrantesComponent } from './palestrantes/palestrantes.component';
+import { CapaComponent } from './capa/capa.component';
 
 @Component({
   selector: 'app-page',
@@ -7,10 +10,24 @@ import { Component } from '@angular/core';
 })
 export class PageComponent {
 
+  @ViewChild(CapaComponent) capaComponent?: CapaComponent;
+  @ViewChild(SobreComponent) sobreComponent?: SobreComponent;
+  @ViewChild(PalestrantesComponent) palestrantesComponent?: PalestrantesComponent;
+
   onSobre = false;
   onPalestrantes = false;
   onProgramacao = false;
   onLocal = false;
 
-  onConsole(){}
+  onSubmit(){
+    this.capaComponent?.onSubmit();
+
+    if(this.onSobre === true){
+      this.sobreComponent?.onSubmit();
+    }
+
+    if(this.onPalestrantes === true){
+      this.palestrantesComponent?.onSubmit();
+    }
+  }
 }

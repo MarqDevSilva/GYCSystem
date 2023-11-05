@@ -2,8 +2,13 @@
   <google-map
     height="300px"
     width="100%"
-    [options]="options">
+    [center]="center"
+    [zoom]="zoom">
+    <map-marker
+      [position]="markerPosition"
+      [options]="markerOptions">
+    </map-marker>
   </google-map>
 
-  <button class="mt-1" (click)="geoCoder()">Localizar</button>
+  <button class="mt-1" (click)="geoCoder()">Atualizar Mapa</button>
 </div>

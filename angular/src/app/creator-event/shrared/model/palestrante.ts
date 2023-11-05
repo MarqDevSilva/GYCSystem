@@ -1,6 +1,6 @@
 export interface Palestrante{
   evento:{
-    id: string |  null;
+    id: string;
   }
   nome:  string |  null;
   descricao:  string |  null;

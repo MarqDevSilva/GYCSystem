@@ -1,5 +1,5 @@
 import { MapAPIService } from './service/map-api.service';
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import { MapGeocoder } from '@angular/google-maps';
 
 @Component({
@@ -10,22 +10,18 @@ import { MapGeocoder } from '@angular/google-maps';
 export class GoogleMapComponent implements OnInit {
 
   @Input() address: string | null = null;
-  @Output() lat?: number;
-  @Output() lng?: number;
+  lat: number = -14.235004;
+  lng: number = -51.925280;
 
   apiLoaded: boolean = false;
-
-  options: google.maps.MapOptions = {
-    center: {lat: -15.4963683, lng: -52.4202686},
-    zoom: 4
-  };
-
+  center = {lat: this.lat, lng: this.lng};
+  zoom = 4;
   markerOptions: google.maps.MarkerOptions = {draggable: true};
-  markerPositions!: google.maps.LatLngLiteral;
+  markerPosition: google.maps.LatLngLiteral = { lat: this.lat, lng: this.lng };;
 
   constructor(
-      private mapAPIService: MapAPIService,
-      private geocoder: MapGeocoder) {
+    private mapAPIService: MapAPIService,
+    private geocoder: MapGeocoder) {
   }
 
   ngOnInit(){
@@ -45,9 +41,9 @@ export class GoogleMapComponent implements OnInit {
         const location = results[0].geometry.location;
         this.lat = location.lat();
         this.lng = location.lng();
-
-        console.log('Latitude:', this.lat);
-        console.log('lngitude:', this.lng);
+        this.markerPosition = { lat: this.lat, lng: this.lng };
+        this.center = { lat: this.lat, lng: this.lng };
+        this.zoom = 15;
       } else {
         console.log('Nenhum resultado encontrado para o endereço fornecido.');
       }
