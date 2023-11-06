@@ -11,8 +11,9 @@ const routes: Routes = [
     component: CreatorNavBarComponent,
     title: 'Home',
     children: [
-      {path: 'list', component: EventListComponent, title: 'Eventos'},
-      {path: 'new', component: EventNewComponent, title: 'Novo Evento'}
+      {path: 'events', component: EventListComponent, title: 'Eventos'},
+      {path: 'new', component: EventNewComponent, title: 'Novo Evento'},
+      {path: 'new/:id', component: EventNewComponent, title: 'Novo Evento'}
     ]
   }
 ];

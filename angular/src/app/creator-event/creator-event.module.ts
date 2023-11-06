@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgForOf, NgIf } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -22,7 +22,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NgxMaskModule } from 'ngx-mask';
 import { QuillModule } from 'ngx-quill';
-
+import { SharedModule } from '../shared/shared.module';
 import { CreatorEventRoutingModule } from './creator-event-routing.module';
 import { EventListComponent } from './event/event-list/event-list.component';
 import { AccommodationComponent } from './event/event-new/accommodation/accommodation.component';
@@ -40,8 +40,6 @@ import { PayMethodComponent } from './event/event-new/pay-method/pay-method.comp
 import { SnackComponent } from './event/event-new/snack/snack.component';
 import { CreatorFooterComponent } from './shrared/components/creator-footer/creator-footer.component';
 import { CreatorNavBarComponent } from './shrared/components/creator-nav-bar/creator-nav-bar.component';
-import { SharedModule } from '../shared/shared.module';
-
 
 
 @NgModule({
@@ -65,6 +63,8 @@ import { SharedModule } from '../shared/shared.module';
   ],
   imports: [
     CommonModule,
+    NgForOf,
+    NgIf,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
     MatSidenavModule,
