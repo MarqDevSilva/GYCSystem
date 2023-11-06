@@ -29,7 +29,7 @@ export class CapaComponent {
     const capa = this.form.get('capa')?.value
     if(capa){
       this.service.save(this.form.value).subscribe(
-        result => console.log(result),
+        result =>console.log(result),
         error => this.onError('Ocorreu um erro inesperado ao salvar dados da CAPA')
       )
     }else(

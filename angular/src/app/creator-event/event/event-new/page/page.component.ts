@@ -2,6 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { SobreComponent } from './sobre/sobre.component';
 import { PalestrantesComponent } from './palestrantes/palestrantes.component';
 import { CapaComponent } from './capa/capa.component';
+import { ProgramacaoComponent } from './programacao/programacao.component';
+import { LocalComponent } from './local/local.component';
 
 @Component({
   selector: 'app-page',
@@ -13,6 +15,8 @@ export class PageComponent {
   @ViewChild(CapaComponent) capaComponent?: CapaComponent;
   @ViewChild(SobreComponent) sobreComponent?: SobreComponent;
   @ViewChild(PalestrantesComponent) palestrantesComponent?: PalestrantesComponent;
+  @ViewChild(ProgramacaoComponent) programacaoComponent?: ProgramacaoComponent;
+  @ViewChild(LocalComponent) localComponent?: LocalComponent;
 
   onSobre = false;
   onPalestrantes = false;
@@ -21,13 +25,9 @@ export class PageComponent {
 
   onSubmit(){
     this.capaComponent?.onSubmit();
-
-    if(this.onSobre === true){
-      this.sobreComponent?.onSubmit();
-    }
-
-    if(this.onPalestrantes === true){
-      this.palestrantesComponent?.onSubmit();
-    }
+    this.onSobre ? this.sobreComponent?.onSubmit() : null;
+    this.onPalestrantes ? this.palestrantesComponent?.onSubmit() : null;
+    this.onProgramacao ? this.programacaoComponent?.onSubmit() : null;
+    this.onLocal ? this.localComponent?.onSubmit() : null;
   }
 }

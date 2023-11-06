@@ -33,7 +33,10 @@ export class ProgramacaoComponent {
   }
 
   onAdd(dataIndex: number) {
-    this.atividades[dataIndex].push({ evento: { id: '' }, data: this.datas[dataIndex].data, hInicial: '', hFinal: '', atividade: '' });
+    const id = this.setId()
+    if(id){
+      this.atividades[dataIndex].push({ evento: { id: id }, data: this.datas[dataIndex].data, hInicial: '', hFinal: '', atividade: '' });
+    }
   }
 
   onDelete(dataIndex: number, atividadeIndex: number) {
@@ -41,19 +44,26 @@ export class ProgramacaoComponent {
   }
 
   onSubmit(){
-    if (this.atividades) {
+    if (this.atividades.length) {
       const atividade = this.atividades.reduce((acc, atividades) => {
         return acc.concat(atividades);
       }, []);
 
       this.service.save(atividade).subscribe(
         result => console.log(result),
-        error => this.onError()
+        error => this.onError('Ocorreu um erro ao salvar a PROGRAMAÇÃO')
       );
+    }else{
+      this.onError('Preencha os campos para PROGRAMAÇÃO')
     }
   }
 
-  private onError(){
-    this.snackBar.open('Erro ao salvar programação', '', {duration: 5000});
+  private onError(msg: string){
+    this.snackBar.open(msg, '', {duration: 5000});
+  }
+
+  private setId(){
+    const id = this.serviceEvent.getId();
+    return id;
   }
 }
