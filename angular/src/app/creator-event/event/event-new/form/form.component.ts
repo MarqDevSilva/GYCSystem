@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormService } from './service/form.service';
-import { form } from 'src/app/creator-event/shrared/model/form';
+import { form } from 'src/app/shared/model/form';
 import { EventNewService } from '../service/event-new.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 

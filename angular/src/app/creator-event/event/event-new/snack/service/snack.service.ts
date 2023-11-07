@@ -1,5 +1,5 @@
 import { of } from 'rxjs';
-import { snack } from './../../../../shrared/model/snack';
+import { snack } from 'src/app/shared/model/snack';
 import { Injectable } from '@angular/core';
 
 @Injectable({

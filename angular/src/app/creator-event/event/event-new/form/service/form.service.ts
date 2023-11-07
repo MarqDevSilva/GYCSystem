@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { form } from 'src/app/creator-event/shrared/model/form';
+import { form } from 'src/app/shared/model/form';
 
 @Injectable({
   providedIn: 'root'

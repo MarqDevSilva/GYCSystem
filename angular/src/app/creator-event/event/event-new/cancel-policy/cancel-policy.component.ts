@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { policy } from 'src/app/creator-event/shrared/model/policy';
+import { policy } from 'src/app/shared/model/policy';
 import { EventNewService } from '../service/event-new.service';
 import { CancelPolicyService } from './service/cancel-policy.service';
 

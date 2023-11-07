@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Programacao } from 'src/app/creator-event/shrared/model/programacao';
+import { Programacao } from 'src/app/shared/model/programacao';
 import { ProgramacaoService } from './service/programacao.service';
 import { EventNewService } from '../../service/event-new.service';
 import { MatSnackBar } from '@angular/material/snack-bar';

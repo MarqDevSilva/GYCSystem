@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Evento } from 'src/app/creator-event/shrared/model/evento';
+import { Evento } from 'src/app/shared/model/evento';
 
 @Injectable({
   providedIn: 'root'

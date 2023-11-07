@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.HttpStatus;
 
-import com.gyc.spring.model.Evento;
+import com.gyc.spring.dto.EventoDTO;
 import com.gyc.spring.service.EventoService;
 
 @RestController
@@ -22,7 +22,7 @@ public class EventoController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Evento save(@RequestBody Evento evento){
-        return service.save(evento);
+    public EventoDTO save(@RequestBody EventoDTO eventoDTO){
+        return service.saveDTO(eventoDTO);
     }
 }

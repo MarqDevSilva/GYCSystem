@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Palestrante } from 'src/app/creator-event/shrared/model/palestrante';
+import { Palestrante } from 'src/app/shared/model/palestrante';
 import { EventNewService } from '../../service/event-new.service';
 import { PalestrantesService } from './service/palestrantes.service';
 

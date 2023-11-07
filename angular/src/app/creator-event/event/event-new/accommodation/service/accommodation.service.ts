@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { accomodation } from 'src/app/creator-event/shrared/model/accomodation';
+import { accomodation } from 'src/app/shared/model/accomodation';
 
 @Injectable({
   providedIn: 'root'

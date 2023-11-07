@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ListService } from './service/list.service';
 import { Observable } from 'rxjs';
-import { Evento } from '../../shrared/model/evento';
+import { Evento } from 'src/app/shared/model/evento';
 
 @Component({
   selector: 'app-event-list',
