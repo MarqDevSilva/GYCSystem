@@ -21,7 +21,7 @@ public class Evento {
     private String nomeEvento;
 
     @Column(length = 100, nullable = false)
-    private Number maxInscricoes;
+    private Short maxInscricoes;
 
     @Column(length = 100, nullable = false)
     private String whatsapp;

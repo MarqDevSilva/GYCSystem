@@ -69,7 +69,8 @@
               "browserTarget": "SisEvento:build:production"
             },
             "development": {
-              "browserTarget": "SisEvento:build:development"
+              "browserTarget": "SisEvento:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

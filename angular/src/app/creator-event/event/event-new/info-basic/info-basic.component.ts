@@ -44,12 +44,11 @@ export class InfoBasicComponent {
 
   onSubmit(){
     if (this.form.valid) {
-      const eventData = this.form.value;
-      this.service.save(eventData).subscribe(
+      this.service.save(this.form.value).subscribe(
         result => {
         this.onSuccess();
         //Serviço compartilhado para armazenar id do evento criado
-        this.serviceEvent.setId(result.id!);
+        this.serviceEvent.setId(result.id);
         //Serviço compartilhado para armazenar datas para refeições
         this.serviceEvent.pushDatas(result.dataInicial!, result.dataFinal!)
         //Serviço compartilhado para habilitar as outras tabs

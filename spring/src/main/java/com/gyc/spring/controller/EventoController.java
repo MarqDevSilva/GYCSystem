@@ -11,7 +11,7 @@ import com.gyc.spring.model.Evento;
 import com.gyc.spring.service.EventoService;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/evento")
 public class EventoController {
 
     public final EventoService service;
@@ -25,6 +25,4 @@ public class EventoController {
     public Evento save(@RequestBody Evento evento){
         return service.save(evento);
     }
-
-
 }

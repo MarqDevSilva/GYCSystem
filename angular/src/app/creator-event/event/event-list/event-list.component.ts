@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ListService } from './service/list.service';
 import { Observable } from 'rxjs';
-import { info } from '../../shrared/model/info';
+import { Evento } from '../../shrared/model/evento';
 
 @Component({
   selector: 'app-event-list',
@@ -10,7 +10,7 @@ import { info } from '../../shrared/model/info';
 })
 export class EventListComponent implements OnInit{
 
-  eventos: Observable<info[]>
+  eventos: Observable<Evento[]>
 
   inscritos = "10";
 

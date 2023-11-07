@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, delay } from 'rxjs';
-import { info } from 'src/app/creator-event/shrared/model/info';
+import { Observable } from 'rxjs';
+import { Evento } from 'src/app/creator-event/shrared/model/evento';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class ListService {
 
   constructor(private httpClient: HttpClient) { }
 
-  list(): Observable<info[]>{
-    return this.httpClient.get<info[]>(this.API)
+  list(): Observable<Evento[]>{
+    return this.httpClient.get<Evento[]>(this.API)
   }
 }

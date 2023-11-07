@@ -1,4 +1,4 @@
-export interface info{
+export interface Evento{
   id: string | null;
   nomeEvento: string | null;
   maxInscricoes: string | null;
