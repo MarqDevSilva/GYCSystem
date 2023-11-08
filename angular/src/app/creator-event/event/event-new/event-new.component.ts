@@ -1,5 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EventNewService } from './service/event-new.service';
 
 @Component({
@@ -7,22 +8,40 @@ import { EventNewService } from './service/event-new.service';
   templateUrl: './event-new.component.html',
   styleUrls: ['./event-new.component.scss']
 })
-export class EventNewComponent {
+export class EventNewComponent implements OnInit {
 
   @ViewChild(MatTabGroup) tabGroup!: MatTabGroup;
+
   tab: boolean = true;
 
-  constructor(private serviceEvent: EventNewService){
+  constructor(
+    private serviceEvent: EventNewService,
+    private router: Router,
+    private route: ActivatedRoute){
 
-    //Habilitar guias ao salvar informações basicas
-    this.serviceEvent.getTab().subscribe((enable) => {
-      this.tab = enable;
+    //Habilitar guias se tiver id para associar
+    this.route.paramMap.subscribe((parametro) => {
+      const id = parametro.get('id');
+      if(id){
+        this.tab = false
+      }else{
+        this.tab = true
+      }
     })
 
     //Ir para a proxima tab
-    this.serviceEvent.formSaved$.subscribe(() => {
+    this.serviceEvent.nextTab$.subscribe(() => {
       this.next();
     });
+
+    //Navegar para rota new com id do evento
+    this.serviceEvent.routerId$.subscribe(() => {
+      this.rotaId();
+    })
+  }
+
+  ngOnInit(): void{
+
   }
 
   private next(){
@@ -31,5 +50,9 @@ export class EventNewComponent {
     if (currentIndex !== null && currentIndex < tabCount - 1) {
       this.tabGroup.selectedIndex = currentIndex + 1;
     }
+  }
+
+  private rotaId(){
+    this.router.navigate(['event', this.serviceEvent.getId()])
   }
 }

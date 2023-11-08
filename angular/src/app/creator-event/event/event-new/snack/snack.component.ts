@@ -66,7 +66,7 @@ export class SnackComponent {
       this.service.save(this.form.value).subscribe(
         result => {
           this.onSuccess();
-          this.serviceEvent.emitFormSaved();
+          this.serviceEvent.nextTab();
           console.log(result)
           },
         error => this.onError())}
@@ -93,20 +93,20 @@ export class SnackComponent {
   }
 
   next(){
-    this.serviceEvent.emitFormSaved();
+    this.serviceEvent.nextTab();
   }
 
   //Método para mapear as datas para array
   mapArray(){
-    if(this.config){
-      this.datas = this.serviceEvent.getDatas();
-      this.datas.forEach((data, index) => {
-        const dia = this.formatDate(data);
-        const formArray = this.formBuilder.array([]);
-        this.map.set(dia, formArray);
-      });
-    this.addArray()
-    }
+   // if(this.config){
+     // this.datas = this.serviceEvent.getDatas();
+    //  this.datas.forEach((data, index) => {
+    //    const dia = this.formatDate(data);
+    //    const formArray = this.formBuilder.array([]);
+    //    this.map.set(dia, formArray);
+    //  });
+   // this.addArray()
+   // }
   }
 
   //Método para adicionar os arrays ao form

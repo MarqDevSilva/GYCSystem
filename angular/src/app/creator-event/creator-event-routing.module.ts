@@ -12,10 +12,10 @@ const routes: Routes = [
     title: 'Home',
     children: [
       {path: 'events', component: EventListComponent, title: 'Eventos'},
-      {path: 'new', component: EventNewComponent, title: 'Novo Evento'},
-      {path: 'new/:id', component: EventNewComponent, title: 'Novo Evento'}
+      {path: 'event', redirectTo: 'event/?', pathMatch: 'full' },
+      {path: 'event/:id', component: EventNewComponent, title: 'Novo Evento'}
     ]
-  }
+  },
 ];
 
 @NgModule({

@@ -53,7 +53,7 @@ export class FormComponent {
     this.service.save(this.inputs).subscribe(
       result => {
         this.onSuccess();
-        this.serviceEvent.emitFormSaved();
+        this.serviceEvent.nextTab();
         console.log(result)
         },
       error => this.onError())

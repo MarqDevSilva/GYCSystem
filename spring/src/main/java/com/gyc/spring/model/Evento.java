@@ -1,7 +1,5 @@
 package com.gyc.spring.model;
 
-import java.util.Date;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,9 +8,7 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Data
 @Builder
@@ -35,8 +31,8 @@ public class Evento implements DomainGeneric{
     private String whatsapp;
 
     @Column(length = 100, nullable = false)
-    private Date dataInicial;
+    private String dataInicial;
 
     @Column(length = 100, nullable = false)
-    private Date dataFinal;
+    private String dataFinal;
 }

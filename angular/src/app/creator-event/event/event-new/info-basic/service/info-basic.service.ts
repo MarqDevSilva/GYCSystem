@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Evento } from 'src/app/shared/model/evento';
 
 @Injectable({
@@ -15,7 +16,11 @@ export class InfoBasicService {
     return this.http.post<Evento>(this.API, evento);
   }
 
-  get(){
-    return this.http.get(this.API)
+  update(evento: Partial<Evento>, id: string){
+    return this.http.put<Evento>(`${this.API}/${id}`, evento);
+  }
+
+  get(id: string): Observable<Evento>{
+    return this.http.get<Evento>(`${this.API}/${id}`)
   }
 }

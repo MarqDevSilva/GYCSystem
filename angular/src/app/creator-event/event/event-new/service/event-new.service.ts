@@ -6,43 +6,23 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 })
 export class EventNewService {
 
-  private formSaved = new Subject<void>();
-  private tab = new BehaviorSubject<boolean>(true);
+  private next = new Subject<void>();
+  private router = new Subject<void>();
   private id!: string | null;
-  private datas: Date[] = [];
 
-  formSaved$ = this.formSaved.asObservable();
+  nextTab$ = this.next.asObservable();
+  routerId$ = this.router.asObservable();
 
-  emitFormSaved() {
-    this.formSaved.next();
+  nextTab() {
+    this.next.next();
   }
 
-  enableTab(enable: boolean){
-    this.tab.next(enable);
-  }
-
-  getTab(): Observable<boolean>{
-    return this.tab.asObservable();
-  }
-
-  setId(id: string | null) {
+  routerId(id: string | null){
     this.id = id;
+    this.router.next();
   }
 
   getId() {
     return this.id;
-  }
-
-  //Não estava fucionando push para dataFinal usando while com < ou =
-  pushDatas(dataInicial: Date, dataFinal: Date) {
-    while(dataInicial < dataFinal){
-      this.datas.push(new Date(dataInicial))
-      dataInicial.setDate(dataInicial.getDate() + 1)
-    };
-    this.datas.push(dataFinal)
-  }
-
-  getDatas() {
-    return this.datas;
   }
 }

@@ -1,6 +1,7 @@
 package com.gyc.spring.mapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +35,15 @@ public class EventoMapper implements EntityMapper<EventoDTO, Evento> {
 
     @Override
     public List<Evento> toEntity(List<EventoDTO> dtoList) {
-        throw new UnsupportedOperationException("Unimplemented method 'toEntity'");
+        return dtoList.stream()
+            .map(this::toEntity)
+            .collect(Collectors.toList());
     }
 
     @Override
     public List<EventoDTO> toDto(List<Evento> entityList) {
-        throw new UnsupportedOperationException("Unimplemented method 'toDto'");
+        return entityList.stream()
+            .map(this::toDto)
+            .collect(Collectors.toList());
     }
 }

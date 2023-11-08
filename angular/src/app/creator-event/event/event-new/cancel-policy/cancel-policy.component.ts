@@ -20,7 +20,7 @@ export class CancelPolicyComponent {
   onSubmit(){
     this.service.save(this.policy).subscribe(
       result => {
-        this.serviceEvent.emitFormSaved();
+        this.serviceEvent.nextTab();
         console.log(result);
         })
   }

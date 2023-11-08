@@ -59,7 +59,7 @@ export class AccommodationComponent {
   }
 
   next(){
-    this.serviceEvent.emitFormSaved();
+    this.serviceEvent.nextTab();
   }
 
   onSubmit(){
@@ -67,7 +67,7 @@ export class AccommodationComponent {
       this.service.save(this.form.value).subscribe(
         result => {
           this.onSuccess();
-          this.serviceEvent.emitFormSaved();
+          this.serviceEvent.nextTab();
           console.log(result)
           },
         error => this.onError())}

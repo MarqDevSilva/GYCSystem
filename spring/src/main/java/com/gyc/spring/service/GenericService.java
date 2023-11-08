@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.gyc.spring.exception.SystemNotFound;
 import com.gyc.spring.mapper.config.EntityMapper;
 import com.gyc.spring.model.DomainGeneric;
 
@@ -61,5 +62,14 @@ public abstract class GenericService<T extends DomainGeneric, ID, DTO> {
 
 	public List<T> findAll() {
 		return repository.findAll();
+	}
+
+	public DTO buscarPorID(ID id) {
+		return mapper.toDto(repository.findById(id).orElseThrow(() -> new SystemNotFound("Não encontrado.")));
+	}
+
+	public T findById(ID id) {
+		return repository.findById(id)
+				.orElseThrow(() -> new SystemNotFound("Não encontrado."));
 	}
 }
