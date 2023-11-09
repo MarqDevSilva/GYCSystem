@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CreatorNavBarComponent } from './shrared/components/creator-nav-bar/creator-nav-bar.component';
+import { CreatorNavBarComponent } from '../shared/components/creator-nav-bar/creator-nav-bar.component';
 import { EventListComponent } from './event/event-list/event-list.component';
 import { EventNewComponent } from './event/event-new/event-new.component';
 

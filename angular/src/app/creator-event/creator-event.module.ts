@@ -38,8 +38,8 @@ import { ProgramacaoComponent } from './event/event-new/page/programacao/program
 import { SobreComponent } from './event/event-new/page/sobre/sobre.component';
 import { PayMethodComponent } from './event/event-new/pay-method/pay-method.component';
 import { SnackComponent } from './event/event-new/snack/snack.component';
-import { CreatorFooterComponent } from './shrared/components/creator-footer/creator-footer.component';
-import { CreatorNavBarComponent } from './shrared/components/creator-nav-bar/creator-nav-bar.component';
+import { CreatorFooterComponent } from '../shared/components/creator-footer/creator-footer.component';
+import { CreatorNavBarComponent } from '../shared/components/creator-nav-bar/creator-nav-bar.component';
 
 
 @NgModule({

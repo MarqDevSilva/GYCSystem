@@ -16,6 +16,7 @@ export class InfoBasicComponent {
 
   form: FormGroup;
   minDate: Date = new Date();
+  cancelado = false;
 
   constructor(
     private formBuilder: FormBuilder,

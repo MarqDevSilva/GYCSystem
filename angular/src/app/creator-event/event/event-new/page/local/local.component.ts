@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, combineLatest, map, startWith } from 'rxjs';
-import { ViaCEPService } from 'src/app/creator-event/shrared/utils/APIcep/via-cep.service';
-import { LocalService } from './service/local.service';
+import { CepService } from 'src/app/shared/cep/cep.service';
 import { EventNewService } from '../../service/event-new.service';
+import { LocalService } from './service/local.service';
+import { CEP } from 'src/app/shared/model/cep';
 
 @Component({
   selector: 'app-local',
@@ -13,7 +14,6 @@ import { EventNewService } from '../../service/event-new.service';
 })
 export class LocalComponent implements OnInit{
 
-  loading= false;
   address$: Observable<string> = new Observable<string>;
 
   form = this.formBuilder.group({
@@ -28,7 +28,7 @@ export class LocalComponent implements OnInit{
 
   constructor(
     private formBuilder: FormBuilder,
-    private serviceCEP: ViaCEPService,
+    private cep: CepService,
     private snackBar: MatSnackBar,
     private service: LocalService,
     private serviceEvent: EventNewService){}
@@ -60,37 +60,21 @@ export class LocalComponent implements OnInit{
     }
   }
 
-  searchCEP() {
-    const cep = this.form.get('cep')?.value;
-    if (cep) {
-      this.loading = true;
-      this.fetchCEP(cep);
-    }
-  }
-
-  private fetchCEP(cep: string){
-    this.serviceCEP.getCEP(cep).subscribe(
-      (result: any) => {
-        this.handleCEPResult(result);
-      },
-      (error) => {
-        this.onError('CEP Inválido');
-        this.loading = false;
+  getCep(){
+    const cep = this.form.get('cep')?.value
+    cep ? this.cep.getCEP(cep).subscribe(data => {
+      if(!data.valid){
+        this.onError(data.message);
+      }else{
+        this.setCep(data.data)
       }
-    );
+    })
+    : null
   }
 
-  private handleCEPResult(result: any) {
-    if (result && result.localidade) {
-      this.form.patchValue({
-        uf: result.uf,
-        cidade: result.localidade
-      });
-      this.loading = false;
-    } else {
-      this.onError('CEP não encontrado');
-      this.loading = false;
-    }
+  private setCep(data: CEP){
+    this.form.get('uf')?.setValue(data.uf);
+    this.form.get('cidade')?.setValue(data.localidade);
   }
 
   private onError(error: string){
