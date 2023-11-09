@@ -32,9 +32,15 @@
               {{ evento.dataFinal | date: "dd 'de' MMMM" }}
             </mat-card-subtitle>
             <button mat-raised-button color="primary"
-            [disabled]="evento.status === 'Cancelado' ? true : false">Editar</button>
-            <button mat-button class="ms-2" (click)="onCancel(evento, evento.id)"
-            [disabled]="evento.status === 'Cancelado' ? true : false">Cancelar</button>
+              [disabled]="evento.status === 'Cancelado' ? true : false"
+              [routerLink]="['/event', evento.id]">
+              Editar
+            </button>
+            <button mat-button class="ms-2"
+              (click)="onCancel(evento, evento.id)"
+              [disabled]="evento.status === 'Cancelado' ? true : false">
+              Cancelar
+            </button>
           </div>
           <div class="col-2 m-auto">
             <button mat-button class="d-block">
