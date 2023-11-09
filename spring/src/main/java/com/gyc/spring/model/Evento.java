@@ -35,4 +35,7 @@ public class Evento implements DomainGeneric{
 
     @Column(length = 100, nullable = false)
     private String dataFinal;
+
+    @Column(length = 100, nullable = false)
+    private String status;
 }

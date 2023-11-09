@@ -1,4 +1,4 @@
-<div class="container mt-3">
+<div class="container mt-3 pb-3">
   <mat-toolbar color="primary" class="justify-content-between">
     <span>
       <mat-icon>view_headline</mat-icon>
@@ -31,26 +31,31 @@
               a
               {{ evento.dataFinal | date: "dd 'de' MMMM" }}
             </mat-card-subtitle>
-            <button mat-raised-button color="primary">Editar</button>
-            <button mat-button class="ms-2">Cancelar</button>
+            <button mat-raised-button color="primary"
+            [disabled]="evento.status === 'Cancelado' ? true : false">Editar</button>
+            <button mat-button class="ms-2" (click)="onCancel(evento, evento.id)"
+            [disabled]="evento.status === 'Cancelado' ? true : false">Cancelar</button>
           </div>
           <div class="col-2 m-auto">
             <button mat-button class="d-block">
               <mat-icon>search</mat-icon>
               Inscrições
             </button>
-            <button mat-button class="d-block">
+            <button mat-button class="d-block"
+            [disabled]="evento.status === 'Cancelado' ? true : false">
               <mat-icon>email</mat-icon>
               E-mail
             </button>
           </div>
           <div class="col-2 m-auto">
             <span></span>
-            <button mat-button class="d-block">
+            <button mat-button class="d-block"
+            [disabled]="evento.status === 'Cancelado' ? true : false">
               <mat-icon>hotel</mat-icon>
               Hospedagem
             </button>
-            <button mat-button class="d-block">
+            <button mat-button class="d-block"
+            [disabled]="evento.status === 'Cancelado' ? true : false">
               <mat-icon>restaurant</mat-icon>
               Refeições
             </button>

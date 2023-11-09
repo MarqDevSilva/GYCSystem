@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ListService } from './service/list.service';
 import { Observable } from 'rxjs';
 import { Evento } from 'src/app/shared/model/evento';
+import { EventoService } from '../../services/evento/evento.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 
 @Component({
   selector: 'app-event-list',
@@ -10,13 +13,51 @@ import { Evento } from 'src/app/shared/model/evento';
 })
 export class EventListComponent implements OnInit{
 
-  eventos: Observable<Evento[]>
+  eventos: Observable<Evento[]> = new Observable<Evento[]>;
 
   inscritos = "10";
 
-  constructor(private service: ListService){
-    this.eventos =  this.service.list().pipe()
+  constructor(
+    private service: EventoService,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog){
+
+    this.list()
   }
 
   ngOnInit(): void {}
+
+  onCancel(evento: Evento, id: string | null){
+    const dialog = this.dialog.open(DialogComponent, {
+      data: {
+        content: 'Você realemente deseja cancelar este evento?',
+        submit:  'Sim',
+        close: 'Não' },
+    });
+
+    dialog.afterClosed().subscribe(result => {
+      if(result){
+        evento.status = 'Cancelado'
+        if (id) {
+          this.service.update(evento, id).subscribe(
+            result => {
+              this.onSuccess('Evento cancelado')
+              this.list()},
+            error => this.onError('Ocorreu um erro ao cancelar evento'))
+        }
+      }
+    })
+  }
+
+  private onSuccess(msg: string){
+    this.snackBar.open(msg, '', {duration: 5000});
+  }
+
+  private onError(msg: string){
+    this.snackBar.open(msg, '', {duration: 5000});
+  }
+
+  private list(){
+    this.eventos =  this.service.list().pipe()
+  }
 }

@@ -16,4 +16,5 @@ public class EventoDTO {
     private String whatsapp;
     private String dataInicial;  
     private String dataFinal;
+    private String status;
 }   

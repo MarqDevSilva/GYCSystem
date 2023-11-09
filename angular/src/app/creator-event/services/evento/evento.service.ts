@@ -6,7 +6,7 @@ import { Evento } from 'src/app/shared/model/evento';
 @Injectable({
   providedIn: 'root'
 })
-export class InfoBasicService {
+export class EventoService {
 
   private API = '/api/evento';
 
@@ -22,5 +22,13 @@ export class InfoBasicService {
 
   get(id: string): Observable<Evento>{
     return this.http.get<Evento>(`${this.API}/${id}`)
+  }
+
+  list(): Observable<Evento[]>{
+    return this.http.get<Evento[]>(this.API)
+  }
+
+  delete(id: string): Observable<Evento>{
+    return this.http.delete<Evento>(`${this.API}/${id}`)
   }
 }

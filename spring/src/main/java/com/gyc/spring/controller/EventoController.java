@@ -46,7 +46,7 @@ public class EventoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> excluir(@PathVariable Long id) {
+    public ResponseEntity<EventoDTO> excluir(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

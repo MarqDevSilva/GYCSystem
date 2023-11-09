@@ -5,4 +5,5 @@ export interface Evento{
   whatsapp: string | null;
   dataInicial: Date | null;
   dataFinal: Date | null;
+  status: string | null;
 }
