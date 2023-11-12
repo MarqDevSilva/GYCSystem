@@ -1,12 +1,14 @@
 package com.gyc.spring.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,31 +20,30 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Evento implements DomainGeneric{
-    
+public class Pay implements DomainGeneric{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 200, nullable = false)
-    private String nomeEvento;
-
-    @Column(length = 100, nullable = false)
-    private Short maxInscricoes;
-
-    @Column(length = 100, nullable = false)
-    private String whatsapp;
-
-    @Column(length = 100, nullable = false)
-    private String dataInicial;
-
-    @Column(length = 100, nullable = false)
-    private String dataFinal;
-
-    @Column(length = 100, nullable = false)
-    private String status;
-
+    @OneToOne
     @JsonIgnore
-    @OneToOne(mappedBy = "evento")
-    private Pay pay;
+    @JoinColumn(name = "eventoId")
+    private Evento evento;
+
+    @Column(length = 300)
+    private Boolean pix;
+    
+    @Column(length = 100)
+    private Boolean cartao;
+
+    @Column(length = 100)
+    private String cartaoParcelamento;
+
+    @Column(length = 100)
+    private Boolean boleto;
+
+    @Column(length = 100)
+    private String boletoParcelamento;
 }
+
