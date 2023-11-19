@@ -1,5 +1,7 @@
 package com.gyc.spring.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +21,9 @@ public class PayService extends BaseService<Pay, PayDTO> {
         super(repository, mapper);
     }
 
-    public Pay findByEvento(Long id){
-        return payRepository.findByEventoId(id);
+    public Optional<PayDTO> findByEvento(Long id){
+        Optional<Pay> optional = payRepository.findByEventoId(id);
+        return optional.map(mapper::toDto);
     }
 
     public PayDTO update(Long id, PayDTO entity) {

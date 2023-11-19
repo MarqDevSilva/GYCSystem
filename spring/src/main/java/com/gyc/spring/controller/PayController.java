@@ -2,6 +2,7 @@ package com.gyc.spring.controller;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +32,8 @@ public class PayController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PayDTO> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(service.findById(id));
+    public ResponseEntity<Optional<PayDTO>> findByEvento(@PathVariable Long id) {
+        return ResponseEntity.ok(service.findByEvento(id));
     }
 
     @PostMapping

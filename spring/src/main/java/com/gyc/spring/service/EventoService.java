@@ -17,11 +17,6 @@ public class EventoService extends BaseService<Evento, EventoDTO> {
         super(repository, mapper); 
     }
 
-    public Optional<EventoDTO> buscarPorId(Long id){
-        Optional<Evento> optionalEvento = repository.findById(id);
-        return optionalEvento.map(mapper::toDto);
-    }
-
     public EventoDTO update(Long id, EventoDTO entity) {
         if (repository.existsById(id)) {
             return update(entity);
