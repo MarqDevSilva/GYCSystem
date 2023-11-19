@@ -1,6 +1,7 @@
 package com.gyc.spring.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,23 +27,23 @@ public class EventoController {
     private final EventoService service;
 
     @GetMapping
-    public ResponseEntity<List<EventoDTO>> listarTodos() {
-        return ResponseEntity.ok(service.buscarTodos());
+    public ResponseEntity<List<EventoDTO>> findAll() {
+        return ResponseEntity.ok(service.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EventoDTO> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(service.buscarPorID(id));
+    public ResponseEntity<Optional<EventoDTO>> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.buscarPorId(id));
     }
 
     @PostMapping
     public ResponseEntity<EventoDTO> salvar(@RequestBody EventoDTO eventoDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.saveDTO(eventoDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(eventoDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EventoDTO> atualizar(@PathVariable Long id, @RequestBody EventoDTO eventoDTO) {
-        return ResponseEntity.ok(service.atualizar(id, eventoDTO));
+    public ResponseEntity<EventoDTO> update(@PathVariable Long id, @RequestBody EventoDTO eventoDTO) {
+        return ResponseEntity.ok(service.update(id, eventoDTO));
     }
 
     @DeleteMapping("/{id}")

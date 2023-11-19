@@ -38,19 +38,7 @@ public class Application {
 
     public void initializeData() {
         // Crie um novo evento
-        Evento evento = new Evento();
-        evento.setNomeEvento("GYC");
-        evento.setMaxInscricoes((short)10);
-        evento.setWhatsapp("38998453481");
-        evento.setDataInicial("2023-11-10T11:57:31.250Z");
-        evento.setDataFinal("2023-11-10T11:57:31.250Z");
-        evento.setStatus("Ativo");
-
-        // Crie um novo método de pagamento associado ao evento
         
-
-        // Salve o evento e o pagamento
-        eventoService.save(evento);
     }
 	
 }

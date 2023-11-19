@@ -1,5 +1,7 @@
 package com.gyc.spring.service;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.gyc.spring.dto.EventoDTO;
@@ -9,15 +11,20 @@ import com.gyc.spring.model.Evento;
 import com.gyc.spring.repository.EventoRepository;
 
 @Service
-public class EventoService extends GenericService<Evento, Long, EventoDTO> {
+public class EventoService extends BaseService<Evento, EventoDTO> {
 
     public EventoService(EventoRepository repository, EventoMapper mapper){
-        super(repository, mapper);
+        super(repository, mapper); 
     }
 
-    public EventoDTO atualizar(Long id, EventoDTO portariaAtualizado) {
+    public Optional<EventoDTO> buscarPorId(Long id){
+        Optional<Evento> optionalEvento = repository.findById(id);
+        return optionalEvento.map(mapper::toDto);
+    }
+
+    public EventoDTO update(Long id, EventoDTO entity) {
         if (repository.existsById(id)) {
-            return atualizar(mapper.toDto(mapper.toEntity(portariaAtualizado)));
+            return update(entity);
         } else {
             throw new SystemNotFound("Não encontrado.");
         }
