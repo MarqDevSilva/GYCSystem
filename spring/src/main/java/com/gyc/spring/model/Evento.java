@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,4 +40,9 @@ public class Evento extends BaseEntity{
     @JsonIgnore
     @OneToOne(mappedBy = "evento")
     private Pay pay;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "hospedagem")
+    private Hospedagem hospedagem;
+
 }

@@ -21,35 +21,35 @@
           <ng-template mat-tab-label>
             <mat-icon>hotel</mat-icon>
           </ng-template>
-          <app-accommodation></app-accommodation>
+          <app-accommodation *ngIf="selectedTabIndex === 2"></app-accommodation>
         </mat-tab>
 
         <mat-tab [disabled]="tab">
           <ng-template mat-tab-label>
             <mat-icon>restaurant</mat-icon>
           </ng-template>
-          <app-snack></app-snack>
+          <app-snack *ngIf="selectedTabIndex === 3"></app-snack>
         </mat-tab>
 
         <mat-tab [disabled]="tab">
           <ng-template mat-tab-label>
             <mat-icon>account_box</mat-icon>
           </ng-template>
-          <app-form></app-form>
+          <app-form *ngIf="selectedTabIndex === 4"></app-form>
         </mat-tab>
 
         <mat-tab [disabled]="tab">
           <ng-template mat-tab-label>
             <mat-icon>cancel_presentation</mat-icon>
           </ng-template>
-          <app-cancel-policy></app-cancel-policy>
+          <app-cancel-policy *ngIf="selectedTabIndex === 5"></app-cancel-policy>
         </mat-tab>
 
         <mat-tab [disabled]="tab">
           <ng-template mat-tab-label>
             <mat-icon>important_devices</mat-icon>
           </ng-template>
-          <app-page></app-page>
+          <app-page *ngIf="selectedTabIndex === 6"></app-page>
         </mat-tab>
 
       </mat-tab-group>
