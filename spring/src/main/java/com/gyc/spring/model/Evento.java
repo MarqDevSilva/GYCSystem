@@ -1,5 +1,7 @@
 package com.gyc.spring.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -42,7 +44,7 @@ public class Evento extends BaseEntity{
     private Pay pay;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "hospedagem")
-    private Hospedagem hospedagem;
+    @OneToMany(mappedBy = "evento")
+    private List<Hospedagem> hospedagem;
 
 }
