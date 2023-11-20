@@ -18,8 +18,16 @@ export class GenericService<T>{
       return this.http.post<T>(this.API, item);
     }
 
+    saveAll(itens: Partial<T>[]): Observable<T[]> {
+      return this.http.post<T[]>(this.API, itens);
+    }
+
     update(item: Partial<T>, id: string): Observable<T> {
       return this.http.put<T>(`${this.API}/${id}`, item);
+    }
+
+    updateAll(itens: Partial<T>[]): Observable<T[]> {
+      return this.http.put<T[]>(this.API, itens);
     }
 
     get(id: string): Observable<T> {

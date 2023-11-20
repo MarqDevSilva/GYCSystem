@@ -36,6 +36,11 @@ public abstract class BaseService<T extends BaseEntity, DTO> {
 		return mapper.toDto(repository.saveAndFlush(mapper.toEntity(dto)));
 	}
 
+	@Transactional
+	public List<DTO> updateAll(List<DTO> listDTO) {
+		return mapper.toDto(repository.saveAllAndFlush(mapper.toEntity(listDTO)));
+	}
+
 	public void delete(Long id) {
 		repository.deleteById(id);
 	}

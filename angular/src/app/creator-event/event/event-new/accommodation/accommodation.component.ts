@@ -3,13 +3,15 @@ import { Component } from '@angular/core';
 import { EventNewService } from '../service/event-new.service';
 import { AccommodationService } from './service/accommodation.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BaseComponentComponent } from '../base-component/base-component.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-accommodation',
   templateUrl: './accommodation.component.html',
   styleUrls: ['./accommodation.component.scss']
 })
-export class AccommodationComponent {
+export class AccommodationComponent extends BaseComponentComponent {
 
   form: FormGroup;
 
@@ -25,7 +27,9 @@ export class AccommodationComponent {
     private formBuilder : FormBuilder,
     private service : AccommodationService,
     private serviceEvent: EventNewService,
-    private snackBar: MatSnackBar){
+    snackBar: MatSnackBar,
+    route: ActivatedRoute){super(snackBar, route);
+
 
     this.form = this.formBuilder.group({
       hospedagens: this.formBuilder.array([])
@@ -34,8 +38,8 @@ export class AccommodationComponent {
 
   novaHospedagem(): FormGroup {
     return this.formBuilder.group({
-      evento: new FormGroup({
-        id: new FormControl(this.setId())
+      evento: ({
+        id: this.getRouteId()
       }),
       descricao: ['', Validators.required],
       lotacao: ['', Validators.required],
@@ -66,30 +70,13 @@ export class AccommodationComponent {
     if(this.form.valid){
       this.service.save(this.form.value).subscribe(
         result => {
-          this.onSuccess();
+          this.showSnackBar('Salvo com sucesso');
           this.serviceEvent.nextTab();
           console.log(result)
           },
-        error => this.onError())}
+        error => this.showSnackBar('Erro ao salvar hospedagens'))}
     else{
-      this.invalid();
+      this.showSnackBar('Preencha todos os campos corretamente');
     }
-  }
-
-  private setId(){
-    const id = this.serviceEvent.getId();
-    return id;
-  }
-
-  private onSuccess(){
-    this.snackBar.open('Salvo com sucesso', '', {duration: 5000});
-  }
-
-  private onError(){
-    this.snackBar.open('Erro ao salvar hospedagens', '', {duration: 5000});
-  }
-
-  private invalid(){
-    this.snackBar.open('Preencha todos os campos corretamente', '', {duration: 5000});
   }
 }

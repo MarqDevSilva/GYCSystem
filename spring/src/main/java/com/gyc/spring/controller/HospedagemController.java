@@ -40,6 +40,11 @@ public class HospedagemController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.saveAll(dtoList));
     }
 
+    @PutMapping()
+    public ResponseEntity<List<HospedagemDTO>> updateAll(@RequestBody List<HospedagemDTO> dtoList) {
+        return ResponseEntity.ok(service.updateAll(dtoList));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<HospedagemDTO> update(@PathVariable Long id, @RequestBody HospedagemDTO dto) {
         return ResponseEntity.ok(service.update(id, dto));
