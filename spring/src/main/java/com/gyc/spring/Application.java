@@ -1,14 +1,10 @@
 package com.gyc.spring;
 
-import java.time.Instant;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import com.gyc.spring.model.Evento;
-import com.gyc.spring.model.Pay;
 import com.gyc.spring.repository.PayRepository;
 import com.gyc.spring.service.EventoService;
 import com.gyc.spring.service.PayService;

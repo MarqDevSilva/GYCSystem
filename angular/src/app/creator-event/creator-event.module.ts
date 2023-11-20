@@ -40,6 +40,7 @@ import { PayMethodComponent } from './event/event-new/pay-method/pay-method.comp
 import { SnackComponent } from './event/event-new/snack/snack.component';
 import { CreatorFooterComponent } from '../shared/components/creator-footer/creator-footer.component';
 import { CreatorNavBarComponent } from '../shared/components/creator-nav-bar/creator-nav-bar.component';
+import { BaseComponentComponent } from './event/event-new/base-component/base-component.component';
 
 
 @NgModule({
@@ -60,6 +61,7 @@ import { CreatorNavBarComponent } from '../shared/components/creator-nav-bar/cre
     CapaComponent,
     SobreComponent,
     LocalComponent,
+    BaseComponentComponent,
   ],
   imports: [
     CommonModule,

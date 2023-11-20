@@ -12,28 +12,28 @@
           <mat-divider></mat-divider>
         </div>
         <div class="col-md-9">
-          <mat-card class="mt-1">
+          <mat-card class="mt-1" *ngIf="form.get('pix')?.value">
             <mat-card-title class="m-2">
-              <span [ngClass]="{'ativado': form.get('pix')?.value, 'desativado': !form.get('pix')?.value}">
-                {{ form.get('pix')?.value ? 'PIX' : 'PIX - Desativado' }}
+              <span>
+                PIX
               </span>
             </mat-card-title>
-            <mat-card-content  [ngClass]="{'ativado': form.get('pix')?.value, 'desativadoTexto': !form.get('pix')?.value}">
+            <mat-card-content>
               No método PIX, o usuário irá escanear o QR code gerado automaticamente por nossa plataforma com o aplicativo móvel de sua
               instituição financeira. O aplicativo reconhece as informações no código QR e preenche automaticamente os campos necessários
               para concluir a transação. O dinheiro ficará disponivél na plataforma para resgate no mesmo momento.
             </mat-card-content>
           </mat-card>
 
-          <mat-card class="mt-1">
+          <mat-card class="mt-1" *ngIf="form.get('cartao')?.value">
             <mat-card-title class="m-2">
-              <span [ngClass]="{'ativado': form.get('cartao')?.value, 'desativado': !form.get('cartao')?.value}">
-                {{ form.get('cartao')?.value ? 'Cartão de crédito' : 'Cartão de crédito - Desativado' }}
+              <span>
+                Cartão de crédito
               </span>
             </mat-card-title>
             <mat-card-content>
               <div class="row">
-                <mat-checkbox formControlName="cartaoAVista" [checked]="form.get('cartao')?.value">
+                <mat-checkbox checked="true" disabled="true">
                   À Vista
                 </mat-checkbox>
               </div>
@@ -54,15 +54,15 @@
             </mat-card-content>
           </mat-card>
 
-          <mat-card class="mt-1">
+          <mat-card class="mt-1" *ngIf="form.get('boleto')?.value">
             <mat-card-title class="m-2">
-              <span [ngClass]="{'ativado': form.get('boleto')?.value, 'desativado': !form.get('boleto')?.value}">
-                {{ form.get('boleto')?.value ? 'Boleto' : 'Boleto - Desativado' }}
+              <span>
+                Boleto
               </span>
             </mat-card-title>
             <mat-card-content>
               <div class="row">
-                <mat-checkbox formControlName="boletoAVista" [checked]="form.get('boleto')?.value">
+                <mat-checkbox checked="true" disabled="true">
                   À Vista
                 </mat-checkbox>
               </div>

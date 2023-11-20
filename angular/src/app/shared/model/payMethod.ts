@@ -1,7 +1,8 @@
 export interface payMethod{
   evento:{
-    id: string | null
+    id: string;
   }
+  id: string | null;
   pix: string | null;
   cartao: string | null;
   cartaoParcelamento: string | null;

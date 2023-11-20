@@ -12,6 +12,8 @@ export class EventNewComponent implements OnInit {
 
   @ViewChild(MatTabGroup) tabGroup!: MatTabGroup;
 
+  selectedTabIndex: number = 0;
+
   tab: boolean = true;
 
   constructor(

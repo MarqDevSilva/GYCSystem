@@ -1,37 +1,44 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { EventNewService } from '../service/event-new.service';
 import { ActivatedRoute } from '@angular/router';
 import { PayService } from 'src/app/creator-event/services/pay/pay.service';
+import { BaseComponentComponent } from '../base-component/base-component.component';
+import { EventNewService } from '../service/event-new.service';
 
 @Component({
   selector: 'app-pay-method',
   templateUrl: './pay-method.component.html',
   styleUrls: ['./pay-method.component.scss']
 })
-export class PayMethodComponent {
+export class PayMethodComponent extends BaseComponentComponent{
 
   form: FormGroup;
+  eventoId = '';
 
   constructor(
     private formBuilder: FormBuilder,
     private service: PayService,
     private serviceEvent: EventNewService,
-    private snackBar: MatSnackBar,
-    private route: ActivatedRoute
-  ){
+    snackBar: MatSnackBar,
+    route: ActivatedRoute
+  ){ super(snackBar, route);
+
+    if(this.getRouteId()){
+      this.eventoId = this.getRouteId();
+      this.preencherForm(this.eventoId);
+    }
+
     this.form = this.formBuilder.group({
-      evento: new FormGroup({
-        id: new FormControl(this.getId())
+      evento: ({
+        id: this.eventoId
       }),
-      pix: new FormControl(false),
-      cartao: new FormControl(false),
-      cartaoAVista: new FormControl({ value: false, disabled: true }),
-      cartaoParcelamento: new FormControl({ value: 'none', disabled:true } ),
-      boleto: new FormControl(false),
-      boletoAVista: new FormControl({ value: false, disabled: true }),
-      boletoParcelamento: new FormControl({ value: 'none', disabled:true } ),
+      id: null,
+      pix: false,
+      cartao: false,
+      cartaoParcelamento: 'none',
+      boleto: false,
+      boletoParcelamento: 'none',
     });
   }
 
@@ -56,49 +63,44 @@ export class PayMethodComponent {
   }
 
   onSubmit(){
-    this.service.get(this.getId()).subscribe((obj) => {
-      if(obj){
-        this.update()
-      }else{
-        this.save()
-      }
-    })
+    if(this.eventoId){
+      this.service.get(this.eventoId).subscribe((obj) => {
+        !obj ? this.save() : 
+        obj.id ? this.update(obj.id) : 
+        this.showSnackBar('Não foi possivel atualizar informações')
+    });
+    }else{
+      this.showSnackBar('Não há evento para associar')
+    }
   }
 
   private save(){
     this.service.save(this.form.value).subscribe(
       result => {
-        this.onSuccess('Salvo com sucesso');
+        this.showSnackBar('Salvo com sucesso');
         this.serviceEvent.nextTab();
       },
-      error => this.onError('Erro ao salvar')
+      error => this.showSnackBar('Erro ao salvar')
     )
   }
 
-  private update(){
-    this.service.update(this.form.value, this.getId()).subscribe(
+  private update(id: string){
+    this.service.update(this.form.value, id).subscribe(
       result => {
-        this.onSuccess('Atualizado com sucesso');
-        this.serviceEvent.nextTab();
+        this.showSnackBar('Atualizado com sucesso');
       },
-      error => this.onError('Erro ao atualizar')
+      error => this.showSnackBar('Erro ao atualizar')
     )
-  }
+  } 
 
-  private onSuccess(msg: string){
-    this.snackBar.open(msg, '', {duration: 5000});
-  }
-
-  private onError(msg: string){
-    this.snackBar.open(msg, '', {duration: 5000});
-  }
-
-  private getId(): string{
-    let id = '';
-    this.route.paramMap.subscribe((url) => {
-      const ID = url.get('id')
-      if(ID){ id = ID}
-    })
-    return id;
+  private preencherForm(id: string){
+    if(id){
+      this.service.get(id).subscribe(values => {
+        if(values !== null){
+          this.form.setValue(values);
+        }else{
+          console.log('Não há formas de pagamento cadastradas')
+        }});
+    }
   }
 }
