@@ -1,48 +1,55 @@
 <div class="container mt-3">
-  <div class="row d-flex justify-content-center">
-    <div class="col-9">
-      <form [formGroup]="form">
-        <ng-container formArrayName="hospedagens">
-          <ng-container *ngFor="let hospedagem of hospedagens.controls; let i = index" class="row">
-            <ng-container [formGroupName]="i">
-              <span class="d-flex justify-content-between">
-                <span class="h4">Hospedagem {{ i }}</span>
-                <button mat-icon-button color="warn" (click)="remove(i)">
-                  <mat-icon>close</mat-icon>
-                </button>
-              </span>
+  <div class="row p-2">
+    <form [formGroup]="form">
+      <ng-container formArrayName="hospedagens">
+        <ng-container *ngFor="let hospedagem of hospedagens.controls; let i = index;">
+          <ng-container [formGroupName]="i">
+            <span class="d-flex justify-content-between">
+
+            <span class="h4">Hospedagem {{ i }}</span>
+              <button mat-icon-button color="warn" (click)="remove(i)">
+                <mat-icon>close</mat-icon>
+              </button>
+            </span>
+
+            <div class="row">
               <mat-form-field class="col-12" appearance="outline">
                 <mat-label>Descrição</mat-label>
                 <input matInput formControlName="descricao">
               </mat-form-field>
-              <mat-form-field class="col-4 p-1" appearance="outline">
+  
+              <mat-form-field class="col-4" appearance="outline">
                 <mat-label>Lotação Máxima</mat-label>
                 <input matInput formControlName="lotacao" type="number">
               </mat-form-field>
-              <mat-form-field class="col-4 p-1" appearance="outline">
+  
+              <mat-form-field class="col-4" appearance="outline">
                 <mat-label>Categoria</mat-label>
                 <mat-select formControlName="categoria" name="category">
                   <mat-option *ngFor="let category of categorys" [value]="category.value">{{ category.value }}</mat-option>
                 </mat-select>
               </mat-form-field>
-              <mat-form-field floatLabel="always" class="col-4 p-1" appearance="outline">
+  
+              <mat-form-field floatLabel="always" class="col-4" appearance="outline">
                 <mat-label>Valor</mat-label>
                 <input class="text-end value" matInput formControlName="valor" type="number" placeholder="0">
                 <span matTextPrefix>$&nbsp;</span>
                 <span matTextSuffix>.00</span>
               </mat-form-field>
-              <mat-divider class="m-2"></mat-divider>
-            </ng-container>
+            </div>
+
+            <mat-divider class="m-2"></mat-divider>
+
           </ng-container>
         </ng-container>
-      </form>
-
-      <div class="row d-flex justify-content-center mt-2 my-2">
-        <button mat-mini-fab color="primary" (click)="add()">
-          <mat-icon>add</mat-icon>
-        </button>
-      </div>
-    </div>
+      </ng-container>
+    </form>
+      
+    <div class="row d-flex justify-content-center mt-2 my-2">
+      <button mat-mini-fab color="primary" (click)="add()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>  
 
     <div class="row m-2">
       <div class="d-flex justify-content-end">

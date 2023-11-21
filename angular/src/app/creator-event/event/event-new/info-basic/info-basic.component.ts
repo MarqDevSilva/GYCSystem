@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { EventoService } from 'src/app/creator-event/services/evento/evento.service';
 import { EventNewService } from '../service/event-new.service';
 import { BaseComponentComponent } from '../base-component/base-component.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-info-basic',
@@ -22,9 +23,9 @@ export class InfoBasicComponent extends BaseComponentComponent {
     private formBuilder: FormBuilder,
     private service: EventoService,
     private serviceEvent: EventNewService,
+    dialog: MatDialog,
     snackBar: MatSnackBar,
-    route: ActivatedRoute
-    ){ super(snackBar, route);
+    route: ActivatedRoute){super(snackBar, route, dialog);
 
     if(this.getRouteId()){
       this.eventId = this.getRouteId();

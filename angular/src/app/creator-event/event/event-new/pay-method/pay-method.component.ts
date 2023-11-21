@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PayService } from 'src/app/creator-event/services/pay/pay.service';
 import { BaseComponentComponent } from '../base-component/base-component.component';
 import { EventNewService } from '../service/event-new.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-pay-method',
@@ -20,9 +21,9 @@ export class PayMethodComponent extends BaseComponentComponent{
     private formBuilder: FormBuilder,
     private service: PayService,
     private serviceEvent: EventNewService,
+    dialog: MatDialog,
     snackBar: MatSnackBar,
-    route: ActivatedRoute
-  ){ super(snackBar, route);
+    route: ActivatedRoute){super(snackBar, route, dialog);
 
     if(this.getRouteId()){
       this.eventoId = this.getRouteId();

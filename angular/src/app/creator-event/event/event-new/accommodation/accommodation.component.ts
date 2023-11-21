@@ -1,10 +1,12 @@
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
-import { EventNewService } from '../service/event-new.service';
-import { AccommodationService } from './service/accommodation.service';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BaseComponentComponent } from '../base-component/base-component.component';
 import { ActivatedRoute } from '@angular/router';
+import { AccommodationService } from 'src/app/creator-event/services/accommodation/accommodation.service';
+import { accomodation } from 'src/app/shared/model/accomodation';
+import { BaseComponentComponent } from '../base-component/base-component.component';
+import { EventNewService } from '../service/event-new.service';
 
 @Component({
   selector: 'app-accommodation',
@@ -23,13 +25,22 @@ export class AccommodationComponent extends BaseComponentComponent {
 
   selectedValue?: string;
 
+  eventoId = '';
+
   constructor(
     private formBuilder : FormBuilder,
     private service : AccommodationService,
     private serviceEvent: EventNewService,
+    dialog: MatDialog,
     snackBar: MatSnackBar,
-    route: ActivatedRoute){super(snackBar, route);
+    route: ActivatedRoute){super(snackBar, route, dialog);
 
+    this.eventoId = this.getRouteId();
+
+    if(this.getRouteId()){
+      this.eventoId = this.getRouteId();
+      this.preencherForm(this.eventoId);
+    }
 
     this.form = this.formBuilder.group({
       hospedagens: this.formBuilder.array([])
@@ -39,7 +50,7 @@ export class AccommodationComponent extends BaseComponentComponent {
   novaHospedagem(): FormGroup {
     return this.formBuilder.group({
       evento: ({
-        id: this.getRouteId()
+        id: this.eventoId
       }),
       descricao: ['', Validators.required],
       lotacao: ['', Validators.required],
@@ -49,17 +60,16 @@ export class AccommodationComponent extends BaseComponentComponent {
   }
 
   get hospedagens() {
-    return this.form.get("hospedagens") as FormArray;
+    return this.hospedagemArray();
   }
 
   add() {
-    const hospedagens = this.form.get('hospedagens') as FormArray;
-    hospedagens.push(this.novaHospedagem());
+    this.hospedagemArray().push(this.novaHospedagem());
   }
 
   remove(index: number) {
-    const hospedagens = this.form.get('hospedagens') as FormArray;
-    hospedagens.removeAt(index);
+    const id = this.hospedagemArray().at(index).get('id')?.value
+    id ? this.delete(id, index) : this.hospedagemArray().removeAt(index)
   }
 
   next(){
@@ -67,16 +77,76 @@ export class AccommodationComponent extends BaseComponentComponent {
   }
 
   onSubmit(){
-    if(this.form.valid){
-      this.service.save(this.form.value).subscribe(
-        result => {
-          this.showSnackBar('Salvo com sucesso');
-          this.serviceEvent.nextTab();
-          console.log(result)
-          },
-        error => this.showSnackBar('Erro ao salvar hospedagens'))}
-    else{
-      this.showSnackBar('Preencha todos os campos corretamente');
+    if(this.eventoId){
+      this.service.getAll(this.eventoId).subscribe((obj) => {
+        if (obj && obj.length > 0) {
+            this.update();
+          } else {
+            this.save();
+          }
+    });
+    }else{
+      this.showSnackBar('Não há evento para associar')
     }
+  }
+
+  private save(){
+    this.form.valid ? 
+    this.service.saveAll(this.form.value.hospedagens).subscribe(
+      result => {
+      this.showSnackBar('Hospedagem salva');
+      this.serviceEvent.nextTab();
+      },
+      error => this.showSnackBar('Ocorreu um erro inesperado ao salvar hospedagem')) 
+    : this.showSnackBar('Preencha os campos corretamente');
+  }
+
+  private update(){
+    this.form.valid ?
+    this.service.updateAll(this.form.value.hospedagens).subscribe(
+      result => {
+      this.showSnackBar('Informações atualizadas');
+      },
+      error => this.showSnackBar('Não foi possível atualizar informações'))
+    : this.showSnackBar('Preencha os campos corretamente');
+  }
+
+  private delete(id: string, index: number){
+    const content = 'Você realmente deseja excluir essa hospedagem?';
+    this.dialogShow(content).afterClosed().subscribe(result => {
+      if(result && id){
+          this.service.delete(id).subscribe(
+            result => {
+              this.showSnackBar('Hospedagem excluida');
+              this.hospedagemArray().removeAt(index);
+            },
+            error => this.showSnackBar('Ocorreu um erro ao excluir hospedagem'))
+      }
+    })
+  }
+
+  private hospedagemArray(): FormArray{
+    return this.form.get("hospedagens") as FormArray;
+  }
+
+  private preencherForm(id: string){
+    if (!id) return;
+
+    this.service.getAll(id).subscribe(values => {
+      values ? 
+      values.forEach(value => this.hospedagemArray().push(this.newFormGroup(value)))
+      : console.log('Não há hospedagens cadastradas');
+    });
+  }
+
+  private newFormGroup(accommodation: accomodation): FormGroup{
+    return this.formBuilder.group({
+      evento: this.formBuilder.group({ id: accommodation.evento.id }),
+      id: [accommodation.id],
+      descricao: [accommodation.descricao, Validators.required],
+      lotacao: [accommodation.lotacao, Validators.required],
+      categoria: [accommodation.categoria],
+      valor: [accommodation.valor, Validators.required]
+    })
   }
 }
