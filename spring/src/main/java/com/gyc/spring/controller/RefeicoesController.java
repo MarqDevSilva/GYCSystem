@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gyc.spring.dto.HospedagemDTO;
 import com.gyc.spring.dto.RefeicoesDTO;
-import com.gyc.spring.model.Refeicoes;
 import com.gyc.spring.service.RefeicoesService;
 
 import lombok.RequiredArgsConstructor;
@@ -37,7 +35,7 @@ public class RefeicoesController {
         return ResponseEntity.ok(service.findByEvento(id));
     }
 
-    @GetMapping("data/{id}")
+    @GetMapping("data/{data}")
     public ResponseEntity<List<RefeicoesDTO>>findByData(@PathVariable String data) {
         return ResponseEntity.ok(service.findByData(data));
     }
