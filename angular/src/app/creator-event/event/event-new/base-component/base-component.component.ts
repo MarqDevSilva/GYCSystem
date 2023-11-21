@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
+import { GenericService } from 'src/app/creator-event/services/generic.service';
 
 @Component({
   selector: 'app-base-component',
@@ -14,7 +15,7 @@ export class BaseComponentComponent {
   constructor(
     public snackBar: MatSnackBar,
     public route: ActivatedRoute,
-    public dialog: MatDialog
+    public dialog: MatDialog,
   ){}
 
   public showSnackBar(msg: string){

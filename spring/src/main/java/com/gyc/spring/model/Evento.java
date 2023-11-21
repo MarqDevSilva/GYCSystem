@@ -47,4 +47,7 @@ public class Evento extends BaseEntity{
     @OneToMany(mappedBy = "evento")
     private List<Hospedagem> hospedagem;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "evento")
+    private List<Refeicoes> refeicoes;
 }
