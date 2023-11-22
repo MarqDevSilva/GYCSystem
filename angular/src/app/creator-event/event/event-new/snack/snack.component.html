@@ -6,6 +6,7 @@
         Configurar Refeições
       </button>
     </div>
+    
     <ng-container *ngIf="config">
       <ng-container *ngFor="let data of datas">
         <span class="h4">{{ data | date: 'dd/MM/yyyy' }}</span>

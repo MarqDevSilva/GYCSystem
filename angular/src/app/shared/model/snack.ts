@@ -1,4 +1,4 @@
-export interface snack{
+export interface Snack{
   evento:{
     id: string | null
   }

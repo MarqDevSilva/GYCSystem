@@ -1,42 +1,52 @@
 import { Component } from '@angular/core';
 import { EventNewService } from '../service/event-new.service';
-import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
-import { SnackService } from './service/snack.service';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BaseComponentComponent } from '../base-component/base-component.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
+import { EventoService } from 'src/app/creator-event/services/evento/evento.service';
+import { SnackService } from 'src/app/creator-event/services/snack/snack.service';
 
 @Component({
   selector: 'app-snack',
   templateUrl: './snack.component.html',
   styleUrls: ['./snack.component.scss']
 })
-export class SnackComponent {
+export class SnackComponent extends BaseComponentComponent{
 
   config = false;
   show = true;
 
-  datas: Date[] = [];
+  datas: Date[];
   map: Map<string, FormArray> = new Map<string, FormArray>();
 
   form: FormGroup;
 
+  eventoId = '';
+
   constructor(
     private service: SnackService,
     private serviceEvent: EventNewService,
+    private eventoService: EventoService,
     private formBuilder : FormBuilder,
-    private snackBar: MatSnackBar
-    ){
+    dialog: MatDialog,
+    snackBar: MatSnackBar,
+    route: ActivatedRoute){super(snackBar, route, dialog);
+
+    this.datas = this.getDatas();
+    this.eventoId = this.getRouteId();
     this.form = this.formBuilder.group({});
   }
 
   novaRefeicao(data: Date): FormGroup {
-    const dia = this.formatDate(data);
     return this.formBuilder.group({
-      evento: new FormGroup({
-        id: new FormControl(this.setId())
+      evento:({
+        id: this.eventoId
       }),
       descricao: ['', Validators.required],
       valor: ['', Validators.required],
-      data: [dia]
+      data: [data]
     });
   }
 
@@ -47,6 +57,24 @@ export class SnackComponent {
       formArrays[dia] = this.form.get(dia) as FormArray;
     });
     return formArrays;
+  }
+
+  onSubmit(){
+    if(this.form.valid){
+      this.service.save(this.form.value).subscribe(
+        result => {
+          this.showSnackBar('Salvo com sucesso');
+          this.serviceEvent.nextTab();
+          console.log(result)
+          },
+        error => this.showSnackBar('Erro ao salvar refeições'))}
+    else{
+      this.showSnackBar('Preencha todos os campos corretamente');
+    }
+  }
+
+  next(){
+    this.serviceEvent.nextTab();
   }
 
   add(data: Date) {
@@ -61,52 +89,14 @@ export class SnackComponent {
     formArray.removeAt(index);
   }
 
-  onSubmit(){
-    if(this.form.valid){
-      this.service.save(this.form.value).subscribe(
-        result => {
-          this.onSuccess();
-          this.serviceEvent.nextTab();
-          console.log(result)
-          },
-        error => this.onError())}
-    else{
-      this.invalid();
-    }
-  }
-
-  private setId(){
-    const id = this.serviceEvent.getId();
-    return id;
-  }
-
-  private onSuccess(){
-    this.snackBar.open('Salvo com sucesso', '', {duration: 5000});
-  }
-
-  private onError(){
-    this.snackBar.open('Erro ao salvar hospedagens', '', {duration: 5000});
-  }
-
-  private invalid(){
-    this.snackBar.open('Preencha todos os campos corretamente', '', {duration: 5000});
-  }
-
-  next(){
-    this.serviceEvent.nextTab();
-  }
-
   //Método para mapear as datas para array
   mapArray(){
-   // if(this.config){
-     // this.datas = this.serviceEvent.getDatas();
-    //  this.datas.forEach((data, index) => {
-    //    const dia = this.formatDate(data);
-    //    const formArray = this.formBuilder.array([]);
-    //    this.map.set(dia, formArray);
-    //  });
-   // this.addArray()
-   // }
+     this.datas.forEach((data) => {
+       const dia = this.formatDate(data);
+       const formArray = this.formBuilder.array([]);
+       this.map.set(dia, formArray);
+     });
+     this.addArray()
   }
 
   //Método para adicionar os arrays ao form
@@ -127,4 +117,22 @@ export class SnackComponent {
     return `${dia}/${mes}/${ano}`;
   }
 
+  private getDatas(): Date[]{
+    const array: Date[] = [];
+    this.eventoService.get(this.getRouteId()).subscribe(
+      result => {
+        let dataInicial: Date = new Date(result.dataInicial);
+        const dataFinal: Date = new Date(result.dataFinal);
+        while (dataInicial < dataFinal) {
+          array.push(new Date(dataInicial));
+          dataInicial.setDate(dataInicial.getDate() + 1);
+        }
+        array.push(dataFinal);
+      },
+      error => {
+        console.error('Erro ao obter dados do evento:', error);
+      }
+    )
+    return array;
+  }
 }
