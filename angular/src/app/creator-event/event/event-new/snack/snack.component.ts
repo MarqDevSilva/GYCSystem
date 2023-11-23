@@ -7,23 +7,26 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { EventoService } from 'src/app/creator-event/services/evento/evento.service';
 import { SnackService } from 'src/app/creator-event/services/snack/snack.service';
+import { Snack } from 'src/app/shared/model/snack';
+import * as moment from 'moment';
+import { Observable, Subject, delay, map } from 'rxjs';
 
 @Component({
   selector: 'app-snack',
   templateUrl: './snack.component.html',
   styleUrls: ['./snack.component.scss']
 })
+
 export class SnackComponent extends BaseComponentComponent{
 
   config = false;
   show = true;
-
-  datas: Date[];
-  map: Map<string, FormArray> = new Map<string, FormArray>();
-
+  arrayDatas: string[] = [];
+  dataLoad: Subject<any> = new Subject<any>
+  
   form: FormGroup;
 
-  eventoId = '';
+  eventoId: string;
 
   constructor(
     private service: SnackService,
@@ -34,12 +37,14 @@ export class SnackComponent extends BaseComponentComponent{
     snackBar: MatSnackBar,
     route: ActivatedRoute){super(snackBar, route, dialog);
 
-    this.datas = this.getDatas();
     this.eventoId = this.getRouteId();
+
     this.form = this.formBuilder.group({});
+
+    this.init();
   }
 
-  novaRefeicao(data: Date): FormGroup {
+  novaRefeicao(data: string): FormGroup {
     return this.formBuilder.group({
       evento:({
         id: this.eventoId
@@ -52,87 +57,153 @@ export class SnackComponent extends BaseComponentComponent{
 
   get refeicoes(): {[key: string]: FormArray} {
     const formArrays: { [key: string]: FormArray } = {};
-    this.datas.forEach(data => {
-      const dia = this.formatDate(data);
+    this.arrayDatas.forEach(data => {
+      const dia = data;
       formArrays[dia] = this.form.get(dia) as FormArray;
     });
     return formArrays;
   }
 
+  get datas(): string[]{
+    return Object.keys(this.form.controls);
+  }
+
   onSubmit(){
-    if(this.form.valid){
-      this.service.save(this.form.value).subscribe(
-        result => {
-          this.showSnackBar('Salvo com sucesso');
-          this.serviceEvent.nextTab();
-          console.log(result)
-          },
-        error => this.showSnackBar('Erro ao salvar refeições'))}
-    else{
-      this.showSnackBar('Preencha todos os campos corretamente');
+    if(this.eventoId){
+      this.service.getAll(this.eventoId).subscribe((result) => {
+        if (result && result.length > 0) {
+            this.update();
+          } else {
+            this.save();
+          }
+    });
+    }else{
+      this.showSnackBar('Não há evento para associar')
     }
   }
 
   next(){
-    this.serviceEvent.nextTab();
+    console.log(this.form.value)
   }
 
-  add(data: Date) {
-    const dia = this.formatDate(data);
-    const formArray = this.form.get(dia) as FormArray;
+  add(data: string) {
+    const formArray = this.getArray(data);
     formArray.push(this.novaRefeicao(data));
   }
 
-  remove(data: Date, index: number) {
-    const dia = this.formatDate(data);
-    const formArray = this.form.get(dia) as FormArray;
-    formArray.removeAt(index);
+  remove(data: string, index: number) {
+    const formArray = this.getArray(data);
+    const id = formArray.at(index).get('id')?.value;
+    id ? this.delete(id, index, data) : formArray.removeAt(index);
   }
 
-  //Método para mapear as datas para array
-  mapArray(){
-     this.datas.forEach((data) => {
-       const dia = this.formatDate(data);
-       const formArray = this.formBuilder.array([]);
-       this.map.set(dia, formArray);
-     });
-     this.addArray()
-  }
-
-  //Método para adicionar os arrays ao form
-  addArray(){
-    if (this.map) {
-      for (const [dia, formArray] of this.map.entries()) {
-        this.form.addControl(dia, formArray);
-      }
-    }
-  }
-
-  //formatar datas
-  formatDate(data: Date) {
-    const dia = String(data.getDate()).padStart(2, '0');
-    const mes = String(data.getMonth() + 1).padStart(2, '0');
-    const ano = data.getFullYear();
-
-    return `${dia}/${mes}/${ano}`;
-  }
-
-  private getDatas(): Date[]{
-    const array: Date[] = [];
-    this.eventoService.get(this.getRouteId()).subscribe(
+  private save(){
+    this.form.valid ? 
+    this.service.saveAll(this.getFormValues()).subscribe(
       result => {
-        let dataInicial: Date = new Date(result.dataInicial);
-        const dataFinal: Date = new Date(result.dataFinal);
-        while (dataInicial < dataFinal) {
-          array.push(new Date(dataInicial));
+      this.showSnackBar('Refeições salvas');
+      this.serviceEvent.nextTab();
+      },
+      error => this.showSnackBar('Ocorreu um erro inesperado ao salvar reefições')) 
+    : this.showSnackBar('Preencha os campos corretamente');
+  }
+
+  private update(){
+    this.form.valid ? 
+    this.service.updateAll(this.getFormValues()).subscribe(
+      result => {
+      this.showSnackBar('Informações atualizadas');
+      this.serviceEvent.nextTab();
+      },
+      error => this.showSnackBar('Ocorreu um erro inesperado ao atualizar informações')) 
+    : this.showSnackBar('Preencha os campos corretamente');
+  }
+
+  private delete(id: string, index: number, data: string){
+    const content = 'Você realmente deseja excluir essa refeição?';
+    this.dialogShow(content).afterClosed().subscribe(result => {
+      if(result && id){
+          this.service.delete(id).subscribe(
+            result => {
+              const formArray = this.getArray(data);
+              this.showSnackBar('Refeição excluida');
+              formArray.removeAt(index);
+            },
+            error => this.showSnackBar('Ocorreu um erro ao excluir hospedagem'))
+      }
+    })
+  }
+
+  private getArray(data: string): FormArray{
+    return this.form.get(data) as FormArray;
+  }
+
+  private async init(){
+    await this.datasToArray();
+    await this.setDados();
+    this.dataLoad.complete();
+  }
+
+  private getDados(): Observable<Snack[]> {
+    return this.service.getAll(this.eventoId).pipe(
+      delay(5000),
+      map(result => result)
+    );
+  }
+
+  private async setDados(){
+    const refeicoes = await this.getDados().toPromise();
+    refeicoes?.forEach(item => {
+      const array = this.form.get(this.formatDate(item.data)) as FormArray;
+      array.push(this.formBuilder.group(
+        {
+          evento:({
+            id: this.eventoId
+          }),
+          id: item.id,
+          descricao: [item.descricao, Validators.required],
+          valor: [item.valor, Validators.required],
+          data: [item.data]
+        }
+      ))
+    })
+  }
+
+  private listDatas(): Observable<string[]> {
+    return this.eventoService.get(this.eventoId).pipe(
+      map(result => {
+        const lista: string[] = [];
+        const dataInicial = new Date(result.dataInicial);
+        const dataFinal = new Date(result.dataFinal);
+  
+        while (dataInicial <= dataFinal) {
+          lista.push(this.formatDate(new Date(dataInicial)));
           dataInicial.setDate(dataInicial.getDate() + 1);
         }
-        array.push(dataFinal);
-      },
-      error => {
-        console.error('Erro ao obter dados do evento:', error);
-      }
-    )
-    return array;
+
+        return lista;
+      })
+    );
+  }
+  
+  private async datasToArray() {
+    const lista = await this.listDatas().toPromise();
+    lista?.forEach(item => {
+      this.form.addControl(item, this.formBuilder.array([]))
+    })
+
+    if(lista){this.arrayDatas = lista}
+  }
+
+  private getFormValues(): Snack[] {
+    return Object.keys(this.form.controls)
+      .map(key => this.form.get(key) as FormArray)
+      .flatMap(control => control.value)
+      .reduce((acc, curr) => acc.concat(curr), []);
+  }
+
+  private formatDate(data: Date): string{
+    const dataString = moment(data).format('L')
+    return dataString;
   }
 }

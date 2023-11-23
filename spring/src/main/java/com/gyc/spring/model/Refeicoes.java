@@ -27,7 +27,7 @@ public class Refeicoes extends BaseEntity {
     private String descricao;
 
     @Column(length = 100, nullable = false)
-    private String valor;
+    private Short valor;
 
     @Column(length = 100, nullable = false)
     private String data;
