@@ -78,8 +78,8 @@ export class AccommodationComponent extends BaseComponentComponent {
 
   onSubmit(){
     if(this.eventoId){
-      this.service.getAll(this.eventoId).subscribe((obj) => {
-        if (obj && obj.length > 0) {
+      this.service.getAll(this.eventoId).subscribe((result) => {
+        if (result && result.length > 0) {
             this.update();
           } else {
             this.save();

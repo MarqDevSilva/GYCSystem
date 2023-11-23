@@ -65,9 +65,9 @@ export class PayMethodComponent extends BaseComponentComponent{
 
   onSubmit(){
     if(this.eventoId){
-      this.service.get(this.eventoId).subscribe((obj) => {
-        !obj ? this.save() : 
-        obj.id ? this.update(obj.id) : 
+      this.service.get(this.eventoId).subscribe((result) => {
+        !result ? this.save() : 
+        result.id ? this.update(result.id) : 
         this.showSnackBar('Não foi possivel atualizar informações')
     });
     }else{
