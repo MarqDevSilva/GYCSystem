@@ -1,28 +1,41 @@
 import { Component } from '@angular/core';
-import { FormService } from './service/form.service';
 import { form } from 'src/app/shared/model/form';
 import { EventNewService } from '../service/event-new.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { BaseComponentComponent } from '../base-component/base-component.component';
+import { ActivatedRoute } from '@angular/router';
+import { FormService } from 'src/app/creator-event/services/form/form.service';
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']
 })
-export class FormComponent {
+export class FormComponent extends BaseComponentComponent{
 
-  inputs: Partial<form>[] = [
-    {evento:{id: this.setId()}, type: 'pattern',  ask: 'Nome Completo', required: true},
-    {evento:{id: this.setId()}, type: 'pattern',  ask: 'E-mail', required: true},
-    {evento:{id: this.setId()}, type: 'pattern',  ask: 'Tipo de Documento', required: true},
-    {evento:{id: this.setId()}, type: 'pattern',  ask: 'Nº Documento', required: true},
-    {evento:{id: this.setId()}, type: 'pattern',  ask: 'Celular', required: true}
-  ]
+  eventoId: string;
+
+  inputs: Partial<form>[] = []
 
   constructor(
     private service: FormService,
     private serviceEvent: EventNewService,
-    private snackBar: MatSnackBar){}
+    dialog: MatDialog,
+    snackBar: MatSnackBar,
+    route: ActivatedRoute){super(snackBar, route, dialog)
+    
+      this.eventoId = this.getRouteId();
+
+      this.inputs = [
+      {evento:{id: this.eventoId}, type: 'pattern',  ask: 'Nome Completo', required: true},
+      {evento:{id: this.eventoId}, type: 'pattern',  ask: 'E-mail', required: true},
+      {evento:{id: this.eventoId}, type: 'pattern',  ask: 'Tipo de Documento', required: true},
+      {evento:{id: this.eventoId}, type: 'pattern',  ask: 'Nº Documento', required: true},
+      {evento:{id: this.eventoId}, type: 'pattern',  ask: 'Celular', required: true}
+      ]
+      
+    }
 
   add(index: number){
     if(this.inputs[index].onAdd){
@@ -39,9 +52,9 @@ export class FormComponent {
 
   onAdd(type: string){
     if(type === "radio" || type === "check" || type === "list"){
-      this.inputs.push({evento:{id: this.setId()}, type: type,  ask: '', required: false, options: [], onAdd: null})
+      this.inputs.push({evento:{id: this.eventoId}, type: type,  ask: '', required: false, options: [], onAdd: null})
     }else{
-      this.inputs.push({evento:{id: this.setId()}, type: type,  ask: '', required: false, onAdd: null})
+      this.inputs.push({evento:{id: this.eventoId}, type: type,  ask: '', required: false, onAdd: null})
     }
   }
 
@@ -50,25 +63,12 @@ export class FormComponent {
   }
 
   onSubmit(){
-    this.service.save(this.inputs).subscribe(
+    this.service.saveAll(this.inputs).subscribe(
       result => {
-        this.onSuccess();
+        this.showSnackBar('Salvo com sucesso');
         this.serviceEvent.nextTab();
         console.log(result)
         },
-      error => this.onError())
-  }
-
-  private onSuccess(){
-    this.snackBar.open('Salvo com sucesso', '', {duration: 5000});
-  }
-
-  private onError(){
-    this.snackBar.open('Erro ao salvar formulário', '', {duration: 5000});
-  }
-
-  private setId(){
-    const id = this.serviceEvent.getId();
-    return id;
+      error => this.showSnackBar('Ocorreu um erro inesperado'))
   }
 }
