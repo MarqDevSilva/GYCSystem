@@ -50,4 +50,8 @@ public class Evento extends BaseEntity{
     @JsonIgnore
     @OneToMany(mappedBy = "evento")
     private List<Refeicoes> refeicoes;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "evento")
+    private List<Formulario> formulario;
 }

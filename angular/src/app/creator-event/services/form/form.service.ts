@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 export class FormService extends GenericService<form>{
 
   constructor(http: HttpClient) {
-    super(http, '/api/form');
+    super(http, '/api/formulario');
   }
 
   getAll(id: string): Observable<form[]> {
