@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { EventNewService } from '../service/event-new.service';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { BaseComponentComponent } from '../base-component/base-component.component';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
+import { Observable, delay, map } from 'rxjs';
 import { EventoService } from 'src/app/creator-event/services/evento/evento.service';
 import { SnackService } from 'src/app/creator-event/services/snack/snack.service';
 import { Snack } from 'src/app/shared/model/snack';
-import * as moment from 'moment';
-import { Observable, Subject, delay, map } from 'rxjs';
+import { BaseComponentComponent } from '../base-component/base-component.component';
+import { EventNewService } from '../service/event-new.service';
 
 @Component({
   selector: 'app-snack',
@@ -22,7 +22,7 @@ export class SnackComponent extends BaseComponentComponent{
   config = false;
   show = true;
   arrayDatas: string[] = [];
-  dataLoad: Subject<any> = new Subject<any>
+  $refeicoes: Observable<Snack[]> = new Observable<Snack[]>;
   
   form: FormGroup;
 
@@ -140,19 +140,18 @@ export class SnackComponent extends BaseComponentComponent{
 
   private async init(){
     await this.datasToArray();
+    await this.getDados();
     await this.setDados();
-    this.dataLoad.complete();
   }
 
-  private getDados(): Observable<Snack[]> {
-    return this.service.getAll(this.eventoId).pipe(
-      delay(5000),
+  private async getDados(){
+    this.$refeicoes = this.service.getAll(this.eventoId).pipe(
       map(result => result)
     );
   }
 
   private async setDados(){
-    const refeicoes = await this.getDados().toPromise();
+    const refeicoes = await this.$refeicoes.toPromise();
     refeicoes?.forEach(item => {
       const array = this.form.get(this.formatDate(item.data)) as FormArray;
       array.push(this.formBuilder.group(
@@ -203,6 +202,7 @@ export class SnackComponent extends BaseComponentComponent{
   }
 
   private formatDate(data: Date): string{
+    moment.locale('pt-br');
     const dataString = moment(data).format('L')
     return dataString;
   }

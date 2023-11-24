@@ -13,7 +13,7 @@ import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 })
 export class EventListComponent implements OnInit{
 
-  eventos: Observable<Evento[]> = new Observable<Evento[]>;
+  $eventos: Observable<Evento[]> = new Observable<Evento[]>;
 
   inscritos = "10";
 
@@ -58,6 +58,6 @@ export class EventListComponent implements OnInit{
   }
 
   private list(){
-    this.eventos =  this.service.list().pipe()
+    this.$eventos =  this.service.list().pipe()
   }
 }

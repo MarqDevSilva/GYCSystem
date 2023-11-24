@@ -7,6 +7,7 @@ import { AccommodationService } from 'src/app/creator-event/services/accommodati
 import { accomodation } from 'src/app/shared/model/accomodation';
 import { BaseComponentComponent } from '../base-component/base-component.component';
 import { EventNewService } from '../service/event-new.service';
+import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-accommodation',
@@ -16,15 +17,14 @@ import { EventNewService } from '../service/event-new.service';
 export class AccommodationComponent extends BaseComponentComponent {
 
   form: FormGroup;
+  $hospedagens: Observable<accomodation[]> = new Observable<accomodation[]>;
 
   categorys = [
     {value: 'Masculino'},
     {value: 'Feminino'},
     {value: 'Família'},
   ];
-
-  selectedValue?: string;
-
+  
   eventoId = '';
 
   constructor(
@@ -37,10 +37,7 @@ export class AccommodationComponent extends BaseComponentComponent {
 
     this.eventoId = this.getRouteId();
 
-    if(this.getRouteId()){
-      this.eventoId = this.getRouteId();
-      this.preencherForm(this.eventoId);
-    }
+    this.init();
 
     this.form = this.formBuilder.group({
       hospedagens: this.formBuilder.array([])
@@ -129,14 +126,23 @@ export class AccommodationComponent extends BaseComponentComponent {
     return this.form.get("hospedagens") as FormArray;
   }
 
-  private preencherForm(id: string){
-    if (!id) return;
+  private async init(){
+    await this.getDados();
+    await this.setDados();
+  }
 
-    this.service.getAll(id).subscribe(values => {
+  private async setDados(){
+    this.$hospedagens.subscribe(values => {
       values ? 
       values.forEach(value => this.hospedagemArray().push(this.newFormGroup(value)))
       : console.log('Não há hospedagens cadastradas');
-    });
+    })
+  }
+
+  private async getDados(){
+    this.$hospedagens = this.service.getAll(this.eventoId).pipe(
+      map(result => result)
+    )
   }
 
   private newFormGroup(accommodation: accomodation): FormGroup{
