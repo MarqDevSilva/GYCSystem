@@ -38,4 +38,6 @@ public class RefeicoesService extends BaseService<Refeicoes, RefeicoesDTO> {
             throw new SystemNotFound("Não encontrado.");
         }
     }
+
+    
 }

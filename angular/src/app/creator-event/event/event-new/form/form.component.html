@@ -10,197 +10,210 @@
       <p><button mat-button color="primary" (click)="onAdd('data')"><mat-icon>calendar_today</mat-icon>Data</button></p>
       <p><button mat-button color="primary" (click)="onAdd('number')"><mat-icon>exposure_zero</mat-icon>Número</button></p>
     </div>
-    <div class="col-md-9" style="margin-left: 25%;">
-      <span class="h5">Campos Obrigatórios</span>
-      <p class="subtitle">(Esses campos aparecem em todos os fomulários, sendo obrigatórios ou não)</p>
-      <div class="row">
-        <span>
-          <ul class="m-0 ul">
-            <li *ngFor="let input of inputs">
-              <ng-container *ngIf="input.type === 'pattern'">
-                <mat-checkbox [(ngModel)]="input.required">
-                  {{ input.ask }}
-                </mat-checkbox>
-              </ng-container>
-            </li>
-          </ul>
-        </span>
-      </div>
-      <div class="row pb-3">
-        <p class="h5">Campos Adicionais</p>
 
-        <ng-container *ngFor="let input of inputs; let inputIndex = index">
-          <ng-container *ngIf="input.type === 'short-text'">
-            <mat-card class="mt-2 pt-2">
-              <mat-card-subtitle class="d-flex justify-content-between">
-                <mat-icon>short_text</mat-icon>
-                <button mat-icon-button (click)="onDelete(inputIndex)"><mat-icon>delete</mat-icon></button>
-              </mat-card-subtitle>
-              <input class="custom-input" placeholder="Digite sua pergunta" [(ngModel)]="input.ask">
-              <mat-form-field class="col-8" appearance="outline">
-                <input matInput placeholder="Texto de resposta curta" disabled>
-              </mat-form-field>
-              <mat-card-footer class="col-8 d-flex justify-content-end">
-                <mat-checkbox [(ngModel)]="input.required">Obrigatório</mat-checkbox>
-              </mat-card-footer>
-            </mat-card>
-          </ng-container>
+    <div *ngIf="!($inputs | async); then loading else content"></div>
 
-          <ng-container *ngIf="input.type === 'long-text'">
-            <mat-card class="mt-2 pt-2">
-              <mat-card-subtitle class="d-flex justify-content-between">
-                <mat-icon>subject</mat-icon>
-                <button mat-icon-button (click)="onDelete(inputIndex)"><mat-icon>delete</mat-icon></button>
-              </mat-card-subtitle>
-              <input class="custom-input" placeholder="Digite sua pergunta" [(ngModel)]="input.ask">
-              <mat-form-field class="col-8" appearance="outline">
-                <textarea matInput placeholder="Texto de resposta longa" disabled></textarea>
-              </mat-form-field>
-              <mat-card-footer class="col-8 d-flex justify-content-end">
-                <mat-checkbox [(ngModel)]="input.required">Obrigatório</mat-checkbox>
-              </mat-card-footer>
-            </mat-card>
-          </ng-container>
-
-          <ng-container *ngIf="input.type === 'list'">
-            <mat-card class="mt-2 pt-2">
-              <mat-card-subtitle class="d-flex justify-content-between">
-                <mat-icon>list</mat-icon>
-                <button mat-icon-button (click)="onDelete(inputIndex)"><mat-icon>delete</mat-icon></button>
-              </mat-card-subtitle>
-
-              <input class="custom-input" placeholder="Digite sua pergunta" [(ngModel)]="input.ask">
-
-              <mat-form-field class="col-8" appearance="outline">
-                <mat-label>Opções</mat-label>
-                <mat-select>
-                  <mat-option *ngFor="let option of input.options" [value]="option">{{ option }}</mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-list>
-                <mat-list-item *ngFor="let option of input.options; let i = index">
-                  <div class="d-flex align-items-center">
-                    <button mat-icon-button (click)="remove(inputIndex, i)"><mat-icon>delete</mat-icon></button>
-                    {{ option }}
-                  </div>
-                </mat-list-item>
-                <mat-list-item>
-                  <input class="custom-input" placeholder="Digite uma opção" [(ngModel)]="input.onAdd">
-                </mat-list-item>
-               </mat-list>
-
-              <mat-card-footer class="col-8 d-flex justify-content-between">
-                <button mat-button color="accent" (click)="add(inputIndex)"><mat-icon>add</mat-icon>Criar Opção</button>
-                <mat-checkbox [(ngModel)]="input.required">Obrigatório</mat-checkbox>
-              </mat-card-footer>
-            </mat-card>
-          </ng-container>
-
-          <ng-container *ngIf="input.type === 'radio'">
-            <mat-card class="mt-2 pt-2">
-              <mat-card-subtitle class="d-flex justify-content-between">
-                <mat-icon>radio_button_checked</mat-icon>
-                <button mat-icon-button (click)="onDelete(inputIndex)"><mat-icon>delete</mat-icon></button>
-              </mat-card-subtitle>
-
-              <input class="custom-input" placeholder="Digite sua pergunta" [(ngModel)]="input.ask">
-
-              <mat-radio-group class="d-flex flex-column m-1">
-                <mat-radio-button *ngFor="let option of input.options; let i = index" [value]="option">
-                  <div class="d-flex align-items-center">
-                    {{ option }}
-                    <button mat-icon-button (click)="remove(inputIndex, i)">
-                      <mat-icon>delete</mat-icon>
-                    </button>
-                  </div>
-                </mat-radio-button>
-              </mat-radio-group>
-
-              <input class="custom-input" placeholder="Digite uma opção" [(ngModel)]="input.onAdd">
-
-              <mat-card-footer class="col-8 d-flex justify-content-between">
-                <button mat-button color="accent" (click)="add(inputIndex)"><mat-icon>add</mat-icon>Criar Opção</button>
-                <mat-checkbox [(ngModel)]="input.required">Obrigatório</mat-checkbox>
-              </mat-card-footer>
-            </mat-card>
-          </ng-container>
-
-          <ng-container *ngIf="input.type === 'check'">
-            <mat-card class="mt-2 pt-2">
-              <mat-card-subtitle class="d-flex justify-content-between">
-                <mat-icon>check_box</mat-icon>
-                <button mat-icon-button (click)="onDelete(inputIndex)"><mat-icon>delete</mat-icon></button>
-              </mat-card-subtitle>
-
-              <input class="custom-input" placeholder="Digite sua pergunta" [(ngModel)]="input.ask">
-
-              <section class="d-flex flex-column m-1">
-                <mat-checkbox *ngFor="let option of input.options; let i = index" [value]="option">
-                  <div class="d-flex align-items-center">
-                    {{ option }}
-                    <button mat-icon-button (click)="remove(inputIndex, i)">
-                      <mat-icon>delete</mat-icon>
-                    </button>
-                    </div>
-                </mat-checkbox>
-              </section>
-
-              <input class="custom-input" placeholder="Digite uma opção" [(ngModel)]="input.onAdd">
-
-              <mat-card-footer class="col-8 d-flex justify-content-between">
-                <button mat-button color="accent" (click)="add(inputIndex)"><mat-icon>add</mat-icon>Criar Opção</button>
-                <mat-checkbox [(ngModel)]="input.required">Obrigatório</mat-checkbox>
-              </mat-card-footer>
-            </mat-card>
-          </ng-container>
-
-          <ng-container *ngIf="input.type === 'data'">
-            <mat-card class="mt-2 pt-2">
-              <mat-card-subtitle class="d-flex justify-content-between">
-                <mat-icon>calendar_today</mat-icon>
-                <button mat-icon-button (click)="onDelete(inputIndex)"><mat-icon>delete</mat-icon></button>
-              </mat-card-subtitle>
-              <input class="custom-input" placeholder="Digite sua pergunta" [(ngModel)]="input.ask">
-
-              <mat-form-field class="col-8" appearance="outline">
-                <mat-label>Data</mat-label>
-                <input matInput [matDatepicker]="picker" disabled>
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
-
-              <mat-card-footer class="col-8 d-flex justify-content-end">
-                <mat-checkbox [(ngModel)]="input.required">Obrigatório</mat-checkbox>
-              </mat-card-footer>
-            </mat-card>
-          </ng-container>
-
-          <ng-container *ngIf="input.type === 'number'">
-            <mat-card class="mt-2 pt-2">
-              <mat-card-subtitle class="d-flex justify-content-between">
-                <mat-icon>exposure_zero</mat-icon>
-                <button mat-icon-button (click)="onDelete(inputIndex)"><mat-icon>delete</mat-icon></button>
-              </mat-card-subtitle>
-              <input class="custom-input" placeholder="Digite sua pergunta" [(ngModel)]="input.ask">
-
-              <mat-form-field class="col-4" appearance="outline">
-                <mat-label>Número</mat-label>
-                <input type="number" matInput disabled>
-              </mat-form-field>
-
-              <mat-card-footer class="col-8 d-flex justify-content-end">
-                <mat-checkbox [(ngModel)]="input.required">Obrigatório</mat-checkbox>
-              </mat-card-footer>
-            </mat-card>
-          </ng-container>
-        </ng-container>
-      </div>
-      <div class="row m-2">
-        <div class="d-flex justify-content-end">
-          <button mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
+    <ng-template #loading>
+      <div class="row mt-5">
+        <div class="d-flex justify-content-center">
+          <mat-spinner></mat-spinner>
         </div>
       </div>
-    </div>
+    </ng-template>
+
+    <ng-template #content>
+      <div class="col-md-9" style="margin-left: 25%;">
+        <span class="h5">Campos Obrigatórios</span>
+        <p class="subtitle">(Esses campos aparecem em todos os fomulários, sendo obrigatórios ou não)</p>
+        <div class="row">
+          <span>
+            <ul class="m-0 ul">
+              <li *ngFor="let input of inputs ">
+                <ng-container *ngIf="input.type === 'pattern'">
+                  <mat-checkbox [(ngModel)]="input.required">
+                    {{ input.ask }}
+                  </mat-checkbox>
+                </ng-container>
+              </li>
+            </ul>
+          </span>
+        </div>
+        <div class="row pb-3">
+          <p class="h5">Campos Adicionais</p>
+  
+          <ng-container *ngFor="let input of inputs; let inputIndex = index">
+            <ng-container *ngIf="input.type === 'short-text'">
+              <mat-card class="mt-2 pt-2">
+                <mat-card-subtitle class="d-flex justify-content-between">
+                  <mat-icon>short_text</mat-icon>
+                  <button mat-icon-button (click)="removeInput(inputIndex)"><mat-icon>delete</mat-icon></button>
+                </mat-card-subtitle>
+                <input class="custom-input" placeholder="Digite sua pergunta" [(ngModel)]="input.ask">
+                <mat-form-field class="col-8" appearance="outline">
+                  <input matInput placeholder="Texto de resposta curta" disabled>
+                </mat-form-field>
+                <mat-card-footer class="col-8 d-flex justify-content-end">
+                  <mat-checkbox [(ngModel)]="input.required">Obrigatório</mat-checkbox>
+                </mat-card-footer>
+              </mat-card>
+            </ng-container>
+  
+            <ng-container *ngIf="input.type === 'long-text'">
+              <mat-card class="mt-2 pt-2">
+                <mat-card-subtitle class="d-flex justify-content-between">
+                  <mat-icon>subject</mat-icon>
+                  <button mat-icon-button (click)="removeInput(inputIndex)"><mat-icon>delete</mat-icon></button>
+                </mat-card-subtitle>
+                <input class="custom-input" placeholder="Digite sua pergunta" [(ngModel)]="input.ask">
+                <mat-form-field class="col-8" appearance="outline">
+                  <textarea matInput placeholder="Texto de resposta longa" disabled></textarea>
+                </mat-form-field>
+                <mat-card-footer class="col-8 d-flex justify-content-end">
+                  <mat-checkbox [(ngModel)]="input.required">Obrigatório</mat-checkbox>
+                </mat-card-footer>
+              </mat-card>
+            </ng-container>
+  
+            <ng-container *ngIf="input.type === 'list'">
+              <mat-card class="mt-2 pt-2">
+                <mat-card-subtitle class="d-flex justify-content-between">
+                  <mat-icon>list</mat-icon>
+                  <button mat-icon-button (click)="removeInput(inputIndex)"><mat-icon>delete</mat-icon></button>
+                </mat-card-subtitle>
+  
+                <input class="custom-input" placeholder="Digite sua pergunta" [(ngModel)]="input.ask">
+  
+                <mat-form-field class="col-8" appearance="outline">
+                  <mat-label>Opções</mat-label>
+                  <mat-select>
+                    <mat-option *ngFor="let option of input.options" [value]="option">{{ option }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+  
+                <mat-list>
+                  <mat-list-item *ngFor="let option of input.options; let i = index">
+                    <div class="d-flex align-items-center">
+                      <button mat-icon-button (click)="removeOption(inputIndex, i)"><mat-icon>delete</mat-icon></button>
+                      {{ option }}
+                    </div>
+                  </mat-list-item>
+                  <mat-list-item>
+                    <input class="custom-input" placeholder="Digite uma opção" [(ngModel)]="input.onAdd">
+                  </mat-list-item>
+                 </mat-list>
+  
+                <mat-card-footer class="col-8 d-flex justify-content-between">
+                  <button mat-button color="accent" (click)="add(inputIndex)"><mat-icon>add</mat-icon>Criar Opção</button>
+                  <mat-checkbox [(ngModel)]="input.required">Obrigatório</mat-checkbox>
+                </mat-card-footer>
+              </mat-card>
+            </ng-container>
+  
+            <ng-container *ngIf="input.type === 'radio'">
+              <mat-card class="mt-2 pt-2">
+                <mat-card-subtitle class="d-flex justify-content-between">
+                  <mat-icon>radio_button_checked</mat-icon>
+                  <button mat-icon-button (click)="removeInput(inputIndex)"><mat-icon>delete</mat-icon></button>
+                </mat-card-subtitle>
+  
+                <input class="custom-input" placeholder="Digite sua pergunta" [(ngModel)]="input.ask">
+  
+                <mat-radio-group class="d-flex flex-column m-1">
+                  <mat-radio-button *ngFor="let option of input.options; let i = index" [value]="option">
+                    <div class="d-flex align-items-center">
+                      {{ option }}
+                      <button mat-icon-button (click)="removeOption(inputIndex, i)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  </mat-radio-button>
+                </mat-radio-group>
+  
+                <input class="custom-input" placeholder="Digite uma opção" [(ngModel)]="input.onAdd">
+  
+                <mat-card-footer class="col-8 d-flex justify-content-between">
+                  <button mat-button color="accent" (click)="add(inputIndex)"><mat-icon>add</mat-icon>Criar Opção</button>
+                  <mat-checkbox [(ngModel)]="input.required">Obrigatório</mat-checkbox>
+                </mat-card-footer>
+              </mat-card>
+            </ng-container>
+  
+            <ng-container *ngIf="input.type === 'check'">
+              <mat-card class="mt-2 pt-2">
+                <mat-card-subtitle class="d-flex justify-content-between">
+                  <mat-icon>check_box</mat-icon>
+                  <button mat-icon-button (click)="removeInput(inputIndex)"><mat-icon>delete</mat-icon></button>
+                </mat-card-subtitle>
+  
+                <input class="custom-input" placeholder="Digite sua pergunta" [(ngModel)]="input.ask">
+  
+                <section class="d-flex flex-column m-1">
+                  <mat-checkbox *ngFor="let option of input.options; let i = index" [value]="option">
+                    <div class="d-flex align-items-center">
+                      {{ option }}
+                      <button mat-icon-button (click)="removeOption(inputIndex, i)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                      </div>
+                  </mat-checkbox>
+                </section>
+  
+                <input class="custom-input" placeholder="Digite uma opção" [(ngModel)]="input.onAdd">
+  
+                <mat-card-footer class="col-8 d-flex justify-content-between">
+                  <button mat-button color="accent" (click)="add(inputIndex)"><mat-icon>add</mat-icon>Criar Opção</button>
+                  <mat-checkbox [(ngModel)]="input.required">Obrigatório</mat-checkbox>
+                </mat-card-footer>
+              </mat-card>
+            </ng-container>
+  
+            <ng-container *ngIf="input.type === 'data'">
+              <mat-card class="mt-2 pt-2">
+                <mat-card-subtitle class="d-flex justify-content-between">
+                  <mat-icon>calendar_today</mat-icon>
+                  <button mat-icon-button (click)="removeInput(inputIndex)"><mat-icon>delete</mat-icon></button>
+                </mat-card-subtitle>
+                <input class="custom-input" placeholder="Digite sua pergunta" [(ngModel)]="input.ask">
+  
+                <mat-form-field class="col-8" appearance="outline">
+                  <mat-label>Data</mat-label>
+                  <input matInput [matDatepicker]="picker" disabled>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+  
+                <mat-card-footer class="col-8 d-flex justify-content-end">
+                  <mat-checkbox [(ngModel)]="input.required">Obrigatório</mat-checkbox>
+                </mat-card-footer>
+              </mat-card>
+            </ng-container>
+  
+            <ng-container *ngIf="input.type === 'number'">
+              <mat-card class="mt-2 pt-2">
+                <mat-card-subtitle class="d-flex justify-content-between">
+                  <mat-icon>exposure_zero</mat-icon>
+                  <button mat-icon-button (click)="removeInput(inputIndex)"><mat-icon>delete</mat-icon></button>
+                </mat-card-subtitle>
+                <input class="custom-input" placeholder="Digite sua pergunta" [(ngModel)]="input.ask">
+  
+                <mat-form-field class="col-4" appearance="outline">
+                  <mat-label>Número</mat-label>
+                  <input type="number" matInput disabled>
+                </mat-form-field>
+  
+                <mat-card-footer class="col-8 d-flex justify-content-end">
+                  <mat-checkbox [(ngModel)]="input.required">Obrigatório</mat-checkbox>
+                </mat-card-footer>
+              </mat-card>
+            </ng-container>
+          </ng-container>
+        </div>
+        <div class="row m-2">
+          <div class="d-flex justify-content-end">
+            <button mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </div>
