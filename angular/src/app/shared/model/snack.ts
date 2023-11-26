@@ -5,5 +5,5 @@ export interface Snack{
   id: string | null;
   descricao: string | null;
   valor: number | null;
-  data: Date;
+  data: string;
 }

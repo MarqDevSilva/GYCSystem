@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
-import { Observable, delay, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { EventoService } from 'src/app/creator-event/services/evento/evento.service';
 import { SnackService } from 'src/app/creator-event/services/snack/snack.service';
 import { Snack } from 'src/app/shared/model/snack';
@@ -19,8 +19,6 @@ import { EventNewService } from '../service/event-new.service';
 
 export class SnackComponent extends BaseComponentComponent{
 
-  config = false;
-  show = true;
   arrayDatas: string[] = [];
   $refeicoes: Observable<Snack[]> = new Observable<Snack[]>;
   
@@ -44,6 +42,7 @@ export class SnackComponent extends BaseComponentComponent{
     this.init();
   }
 
+  //Adiociona novo formGroup de refeição ao form
   novaRefeicao(data: string): FormGroup {
     return this.formBuilder.group({
       evento:({
@@ -55,6 +54,7 @@ export class SnackComponent extends BaseComponentComponent{
     });
   }
 
+  //Retorna arrays de refeições filtrada por datas
   get refeicoes(): {[key: string]: FormArray} {
     const formArrays: { [key: string]: FormArray } = {};
     this.arrayDatas.forEach(data => {
@@ -64,6 +64,7 @@ export class SnackComponent extends BaseComponentComponent{
     return formArrays;
   }
 
+  //Retorna todos os arrays de datas dentro de form
   get datas(): string[]{
     return Object.keys(this.form.controls);
   }
@@ -153,11 +154,11 @@ export class SnackComponent extends BaseComponentComponent{
   private async setDados(){
     const refeicoes = await this.$refeicoes.toPromise();
     refeicoes?.forEach(item => {
-      const array = this.form.get(this.formatDate(item.data)) as FormArray;
+      const array = this.form.get(item.data) as FormArray;
       array.push(this.formBuilder.group(
         {
           evento:({
-            id: this.eventoId
+            id: item.evento.id
           }),
           id: item.id,
           descricao: [item.descricao, Validators.required],
@@ -179,7 +180,6 @@ export class SnackComponent extends BaseComponentComponent{
           lista.push(this.formatDate(new Date(dataInicial)));
           dataInicial.setDate(dataInicial.getDate() + 1);
         }
-
         return lista;
       })
     );
