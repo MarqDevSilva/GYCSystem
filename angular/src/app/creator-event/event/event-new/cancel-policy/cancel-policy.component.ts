@@ -6,7 +6,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { CancelService } from 'src/app/services/cancel/cancel.service';
-import { map } from 'rxjs';
 
 @Component({
   selector: 'app-cancel-policy',
@@ -25,7 +24,7 @@ export class CancelPolicyComponent extends BaseComponentComponent{
     snackBar: MatSnackBar,
     route: ActivatedRoute){super(snackBar, route, dialog)
 
-      this.getDados()
+      this.init();
     }
 
   onSubmit(){
@@ -47,14 +46,13 @@ export class CancelPolicyComponent extends BaseComponentComponent{
   private update(id: string){
     this.service.update(this.policy, id).subscribe(
       result => {
-        this.serviceEvent.nextTab();
         this.showSnackBar("Atualizado")
       })
   }
 
-  private async getDados(){
-    this.service.get(this.eventoId).pipe(
-      map(result => this.policy = result)
-    );
+  private async init(){
+    this.service.get(this.eventoId).subscribe(
+      result => this.policy = result
+    )
   }
 }
