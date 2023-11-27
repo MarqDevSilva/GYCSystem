@@ -13,10 +13,7 @@ import { FormBuilder } from '@angular/forms';
 })
 export class PageComponent{
 
-  @Output() capa = this.formBuilder.group({});
-
   constructor(private formBuilder: FormBuilder){}
-
 
   @ViewChild(CapaComponent) capaComponent?: CapaComponent;
   @ViewChild(SobreComponent) sobreComponent?: SobreComponent;
@@ -29,8 +26,8 @@ export class PageComponent{
   onProgramacao = false;
   onLocal = false;
 
-  onSubmit(){
-    this.capaComponent?.onSubmit();
+  async onSubmit(){
+    await this.capaComponent?.onSubmit();
     this.onSobre ? this.sobreComponent?.onSubmit() : null;
     this.onPalestrantes ? this.palestrantesComponent?.onSubmit() : null;
     this.onProgramacao ? this.programacaoComponent?.onSubmit() : null;

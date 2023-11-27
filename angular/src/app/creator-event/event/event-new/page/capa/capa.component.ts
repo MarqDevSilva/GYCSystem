@@ -25,7 +25,7 @@ export class CapaComponent {
     private serviceEvent: EventNewService
   ){}
 
-  onSubmit(){
+  async onSubmit(){
     const capa = this.form.get('capa')?.value
     if(capa){
       this.service.save(this.form.value).subscribe(
