@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { PayService } from 'src/app/creator-event/services/pay/pay.service';
+import { PayService } from 'src/app/services/pay/pay.service';
 import { BaseComponentComponent } from '../base-component/base-component.component';
 import { EventNewService } from '../service/event-new.service';
 import { MatDialog } from '@angular/material/dialog';

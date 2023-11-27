@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { BaseComponentComponent } from '../base-component/base-component.component';
 import { ActivatedRoute } from '@angular/router';
-import { FormService } from 'src/app/creator-event/services/form/form.service';
+import { FormService } from 'src/app/services/form/form.service';
 import { Observable, map } from 'rxjs';
 
 @Component({

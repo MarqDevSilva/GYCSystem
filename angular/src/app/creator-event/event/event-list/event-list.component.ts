@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Evento } from 'src/app/shared/model/evento';
-import { EventoService } from '../../services/evento/evento.service';
+import { EventoService } from 'src/app/services/evento/evento.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';

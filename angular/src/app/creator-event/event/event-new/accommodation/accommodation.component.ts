@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { AccommodationService } from 'src/app/creator-event/services/accommodation/accommodation.service';
+import { AccommodationService } from 'src/app/services/accommodation/accommodation.service';
 import { accomodation } from 'src/app/shared/model/accomodation';
 import { BaseComponentComponent } from '../base-component/base-component.component';
 import { EventNewService } from '../service/event-new.service';
