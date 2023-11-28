@@ -4,6 +4,6 @@ export interface Capa{
     } | null
     id: string | null
     titulo: string | null
-    capa: number[] | null
+    img: number[] | string | null
     preview: string | null
 }

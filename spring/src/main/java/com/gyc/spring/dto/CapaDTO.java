@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 public class CapaDTO {
     
     private Evento evento;
+    private Long id;
     private String titulo;
-    private Byte[] capa;
+    private byte[] img;
 }

@@ -29,5 +29,6 @@ public class Capa extends BaseEntity{
 
     @Lob
     @Column(nullable = false)
-    private byte[] capa;
+    private byte[] img;
+
 }

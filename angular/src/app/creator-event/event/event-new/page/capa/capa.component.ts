@@ -1,11 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { CapaService } from 'src/app/services/capa/capa.service';
-import { EventNewService } from '../../service/event-new.service';
-import { BaseComponentComponent } from '../../base-component/base-component.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { CapaService } from 'src/app/services/capa/capa.service';
+import { BaseComponentComponent } from '../../base-component/base-component.component';
 
 @Component({
   selector: 'app-capa',
@@ -19,8 +18,9 @@ export class CapaComponent extends BaseComponentComponent{
 
   form = this.formBuilder.group({
     evento:{id:  this.eventoId},
-    titulo:[''],
-    capa:[],
+    id: '',
+    titulo:'',
+    img: new FormControl ([] as number[] | string, Validators.required),
     preview: '',
   })
 
@@ -30,23 +30,35 @@ export class CapaComponent extends BaseComponentComponent{
     dialog: MatDialog,
     snackBar: MatSnackBar,
     route: ActivatedRoute){super(snackBar, route, dialog)
-    }
 
-  async onSubmit(){
-    //this.service.get(this.eventoId)
-    this.save()
+      this.init()
+  }
+
+  onSubmit(){
+    const id = this.form.get('id')?.value
+    if(id){
+      this.update(id);
+    }else{
+      console.log(this.form.value)
+      this.save();
+    }
   }
 
   private async save(){
-    if(this.form.valid){
-      this.service.save(this.form.value).subscribe(
+    const form = this.form.value
+    if(form.capa){
+      this.service.save(form).subscribe(
         result => result,
         error => this.error.emit("Capa"))
     }
   }
 
-  private async update(){}
-
+  private async update(id: string){
+    this.service.update(this.form.value, id).subscribe(
+      result => this.showSnackBar("Atualizado"),
+      error => this.error.emit("Capa")
+      )
+  }
   onFile(event: any) {
     this.readFile(event, this.form, 'capa', true);
     this.readFile(event, this.form, 'preview');
@@ -58,15 +70,16 @@ export class CapaComponent extends BaseComponentComponent{
 
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        const value = asArrayBuffer ? new Uint8Array(e.target.result as ArrayBuffer) : e.target.result;
+        const value = asArrayBuffer ? Array.from(new Uint8Array(e.target.result)) : e.target.result;
         form.get(controlName)?.setValue(value);
       };
 
       asArrayBuffer ? reader.readAsArrayBuffer(file) : reader.readAsDataURL(file);
   }
 
-  private onError(msg: string){
-    this.snackBar.open(msg, '', {duration: 5000});
+  private async init(){
+    this.service.get(this.eventoId).subscribe(
+      result => this.form.setValue(result)
+    )
   }
-
 }

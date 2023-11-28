@@ -7,5 +7,5 @@ import com.gyc.spring.model.Capa;
 @Repository
 public interface CapaRepository extends BaseRepository<Capa> {
 
-    Capa findbyEventoId(Long id);
+    Capa findByEventoId (Long id);
 }
