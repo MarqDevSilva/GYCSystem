@@ -30,5 +30,5 @@ public class Palestrantes extends BaseEntity {
     private String descricao;
 
     @Column(nullable = false)
-    private Byte[] img;
+    private byte[] img;
 }

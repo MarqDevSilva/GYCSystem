@@ -20,7 +20,7 @@ public class CapaService extends BaseService<Capa, CapaDTO> {
     }
 
     public CapaDTO findByEvento(Long id){
-        return mapper.toDto(capaRepository.findbyEventoId(id));
+        return mapper.toDto(capaRepository.findByEventoId(id));
     }
 
     public CapaDTO update(Long id, CapaDTO entity) {

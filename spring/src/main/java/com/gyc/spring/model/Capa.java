@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Capa extends BaseEntity {
+public class Capa extends BaseEntity{
     
     @OneToOne
     @JsonIgnore
@@ -26,6 +27,7 @@ public class Capa extends BaseEntity {
     @Column(nullable = true)
     private String titulo;
 
+    @Lob
     @Column(nullable = false)
-    private Byte[] capa;
+    private byte[] capa;
 }
