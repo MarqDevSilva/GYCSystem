@@ -11,8 +11,13 @@
     </div>
     <div class="col-9">
       <span class="h5">Conteúdo da página</span>
-      <app-capa></app-capa>
-      <app-sobre *ngIf="onSobre"></app-sobre>
+      <app-capa
+      (error)="onError($event)"
+      ></app-capa>
+      <app-sobre 
+      *ngIf="onSobre"
+      (error)="onError($event)"
+      ></app-sobre>
       <app-palestrantes *ngIf="onPalestrantes"></app-palestrantes>
       <app-programacao *ngIf="onProgramacao"></app-programacao>
       <app-local *ngIf="onLocal"></app-local>

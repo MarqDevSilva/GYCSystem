@@ -1,19 +1,25 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CapaService } from './service/capa.service';
+import { CapaService } from 'src/app/services/capa/capa.service';
 import { EventNewService } from '../../service/event-new.service';
+import { BaseComponentComponent } from '../../base-component/base-component.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-capa',
   templateUrl: './capa.component.html',
   styleUrls: ['./capa.component.scss']
 })
-export class CapaComponent {
+export class CapaComponent extends BaseComponentComponent{
+
+  @Output() error = new EventEmitter<string>;
+  eventoId = this.getRouteId()
 
   form = this.formBuilder.group({
-    evento:{id:  new FormControl(this.setId())},
-    titulo:'',
+    evento:{id:  this.eventoId},
+    titulo:[''],
     capa:[],
     preview: '',
   })
@@ -21,21 +27,25 @@ export class CapaComponent {
   constructor(
     private formBuilder: FormBuilder,
     private service: CapaService,
-    private snackBar: MatSnackBar,
-    private serviceEvent: EventNewService
-  ){}
+    dialog: MatDialog,
+    snackBar: MatSnackBar,
+    route: ActivatedRoute){super(snackBar, route, dialog)
+    }
 
   async onSubmit(){
-    const capa = this.form.get('capa')?.value
-    if(capa){
-      this.service.save(this.form.value).subscribe(
-        result =>console.log(result),
-        error => this.onError('Ocorreu um erro inesperado ao salvar dados da CAPA')
-      )
-    }else(
-      this.onError('Escolha uma IMG de CAPA para seu evento ')
-    )
+    //this.service.get(this.eventoId)
+    this.save()
   }
+
+  private async save(){
+    if(this.form.valid){
+      this.service.save(this.form.value).subscribe(
+        result => result,
+        error => this.error.emit("Capa"))
+    }
+  }
+
+  private async update(){}
 
   onFile(event: any) {
     this.readFile(event, this.form, 'capa', true);
@@ -59,8 +69,4 @@ export class CapaComponent {
     this.snackBar.open(msg, '', {duration: 5000});
   }
 
-  private setId(){
-    const id = this.serviceEvent.getId();
-    return id;
-  }
 }

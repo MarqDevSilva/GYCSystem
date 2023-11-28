@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EventNewService } from '../../service/event-new.service';
@@ -11,6 +11,8 @@ import { SobreService } from './service/sobre.service';
 })
 export class SobreComponent {
 
+  @Output() error = new EventEmitter<string>;
+
   form = this.formBuilder.group({
     evento:{id: new FormControl(this.setId())},
     descricao:['', Validators.required],
@@ -21,7 +23,8 @@ export class SobreComponent {
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private service: SobreService,
-    private serviceEvent: EventNewService){}
+    private serviceEvent: EventNewService){
+    }
 
   onSubmit(){
     if (this.form.valid) {
@@ -30,7 +33,7 @@ export class SobreComponent {
         error => this.onError('Ocorreu um erro inesperado ao salvar a seção SOBRE')
       );
     }else{
-      this.onError('Preencha a descrição do evento');
+      this.error.emit("Sobre")
     }
   }
 

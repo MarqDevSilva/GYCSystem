@@ -16,16 +16,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Capa extends BaseEntity {
-    
+public class Sobre extends BaseEntity {
+   
     @OneToOne
     @JsonIgnore
     @JoinColumn(name = "eventoId")
     private Evento evento;
 
-    @Column(nullable = true)
-    private String titulo;
+    @Column(nullable = false)
+    private String descricao;
 
     @Column(nullable = false)
-    private Byte[] capa;
+    private String background;
 }
