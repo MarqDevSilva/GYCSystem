@@ -1,13 +1,13 @@
-<mat-card class="mb-3 mt-3" [formGroup]="form">
+<mat-card class="mb-3 mt-3">
   <mat-card-title class="m-3">Capa</mat-card-title>
   <mat-card-content>
     <mat-form-field class="col-12" appearance="outline">
       <mat-label>Titulo do evento</mat-label>
-      <input matInput formControlName="titulo">
+      <input matInput [(ngModel)]="capa.titulo" name="titulo">
     </mat-form-field>
 
     <span class="d-block h6">Imagem da capa</span>
-    <img [src]="form.get('preview')?.value" class="capa-preview d-block" alt="Imagem da capa">
+    <img [src]="preview" class="capa-preview d-block" alt="Imagem da capa">
     <input class="d-block" type="file" (change)="onFile($event)">
   </mat-card-content>
 </mat-card>

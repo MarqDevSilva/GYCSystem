@@ -52,7 +52,10 @@ export class CancelPolicyComponent extends BaseComponentComponent{
 
   private async init(){
     this.service.get(this.eventoId).subscribe(
-      result => this.policy = result
+      result => {
+        if(result){
+          this.policy = result
+      }}
     )
   }
 }

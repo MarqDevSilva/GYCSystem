@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, map } from 'rxjs';
 import { CapaService } from 'src/app/services/capa/capa.service';
+import { Capa } from 'src/app/shared/model/capa';
 import { BaseComponentComponent } from '../../base-component/base-component.component';
 
 @Component({
@@ -14,18 +15,18 @@ import { BaseComponentComponent } from '../../base-component/base-component.comp
 export class CapaComponent extends BaseComponentComponent{
 
   @Output() error = new EventEmitter<string>;
+  $capa: Observable<Capa> = new Observable<Capa>;
   eventoId = this.getRouteId()
+  preview = '';
 
-  form = this.formBuilder.group({
-    evento:{id:  this.eventoId},
+  capa: Capa = {
+    evento: { id: this.eventoId },
     id: '',
-    titulo:'',
-    img: new FormControl ([] as number[] | string, Validators.required),
-    preview: '',
-  })
+    titulo: '',
+    img: [],
+  };
 
   constructor(
-    private formBuilder: FormBuilder,
     private service: CapaService,
     dialog: MatDialog,
     snackBar: MatSnackBar,
@@ -35,51 +36,78 @@ export class CapaComponent extends BaseComponentComponent{
   }
 
   onSubmit(){
-    const id = this.form.get('id')?.value
-    if(id){
-      this.update(id);
+    if(this.capa.id){
+      console.log(this.capa)
+      this.update(this.capa.id);
     }else{
-      console.log(this.form.value)
+      console.log(this.capa)
       this.save();
     }
   }
 
   private async save(){
-    const form = this.form.value
-    if(form.capa){
-      this.service.save(form).subscribe(
+    if(this.capa.img){
+      this.capa.img = this.base64ToBytes(this.preview)
+      this.service.save(this.capa).subscribe(
         result => result,
         error => this.error.emit("Capa"))
+    }else{
+      this.showSnackBar("Escolha uma capa para seu evento")
     }
   }
 
   private async update(id: string){
-    this.service.update(this.form.value, id).subscribe(
+    this.capa.img = this.base64ToBytes(this.preview)
+    this.service.update(this.capa, id).subscribe(
       result => this.showSnackBar("Atualizado"),
       error => this.error.emit("Capa")
       )
   }
   onFile(event: any) {
-    this.readFile(event, this.form, 'capa', true);
-    this.readFile(event, this.form, 'preview');
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      const base64String = reader.result as string;
+      this.preview = base64String
+    };
+
+    reader.readAsDataURL(file);
   }
 
-  private readFile(event: any, form: FormGroup, controlName: string, asArrayBuffer: boolean = false) {
-    const file = event.target.files[0];
-      if (!file) return;
+  private base64ToBytes(base64: string): number[] {
+    const base64String =  base64.replace(/^data:image\/\w+;base64,/, '');
+    const binaryString = window.atob(base64String);
+    const length = binaryString.length;
+    const bytes = new Array<number>(length);
 
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        const value = asArrayBuffer ? Array.from(new Uint8Array(e.target.result)) : e.target.result;
-        form.get(controlName)?.setValue(value);
-      };
+    console.log(length)
+  
+    for (let i = 0; i < length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
 
-      asArrayBuffer ? reader.readAsArrayBuffer(file) : reader.readAsDataURL(file);
+    console.log(bytes)
+  
+    return bytes;
   }
 
   private async init(){
-    this.service.get(this.eventoId).subscribe(
-      result => this.form.setValue(result)
-    )
+    await this.getDados()
+    await this.setDados()
+  }
+
+  private async getDados(){
+    this.$capa = this.service.get(this.eventoId).pipe(map(result => result))
+  }
+
+  private async setDados(){
+    const capa = await this.$capa.toPromise();
+    if(capa){
+      this.capa.evento = capa.evento
+      this.capa.id = capa.id
+      this.capa.titulo = capa.titulo
+      this.preview = `data:image/png;base64,${capa.img}`
+    }
   }
 }

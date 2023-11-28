@@ -1,6 +1,7 @@
 package com.gyc.spring.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class CancelamentoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CancelamentoDTO>findByEvento(@PathVariable Long id) {
+    public ResponseEntity<Optional<CancelamentoDTO>>findByEvento(@PathVariable Long id) {
         return ResponseEntity.ok(service.findByEvento(id));
     }
 

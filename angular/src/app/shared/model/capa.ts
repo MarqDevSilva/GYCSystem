@@ -5,5 +5,4 @@ export interface Capa{
     id: string | null
     titulo: string | null
     img: number[] | string | null
-    preview: string | null
 }
