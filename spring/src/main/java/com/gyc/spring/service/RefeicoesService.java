@@ -22,8 +22,7 @@ public class RefeicoesService extends BaseService<Refeicoes, RefeicoesDTO> {
     }
 
     public List<RefeicoesDTO> findByEvento(Long id){
-        List<Refeicoes> list = refRepository.findByEventoId(id);
-        return mapper.toDto(list);
+        return mapper.toDto(refRepository.findByEventoId(id));
     }
 
     public List<RefeicoesDTO> findByData(String data){

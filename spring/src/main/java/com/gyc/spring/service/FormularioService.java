@@ -22,8 +22,7 @@ public class FormularioService extends BaseService<Formulario, FormularioDTO> {
     }
 
     public List<FormularioDTO> findByEvento(Long id){
-        List<Formulario> list = formRepository.findByEventoId(id);
-        return mapper.toDto(list);
+        return mapper.toDto(formRepository.findByEventoId(id));
     }
 
     public FormularioDTO update(Long id, FormularioDTO entity) {

@@ -19,9 +19,8 @@ public class CancelamentoService extends BaseService<Cancelamento, CancelamentoD
         super(repository, mapper);
     }
 
-    public CancelamentoDTO findByEventoId(Long id){
-        Cancelamento cancelamento = cancelRepository.findByEventoId(id);
-        return mapper.toDto(cancelamento);
+    public CancelamentoDTO findByEvento(Long id){
+        return mapper.toDto(cancelRepository.findByEventoId(id));
     }
 
     public CancelamentoDTO update(Long id, CancelamentoDTO entity) {

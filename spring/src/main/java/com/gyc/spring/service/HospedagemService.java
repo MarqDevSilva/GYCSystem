@@ -22,8 +22,7 @@ public class HospedagemService extends BaseService<Hospedagem, HospedagemDTO> {
     }
 
     public List<HospedagemDTO> findByEvento(Long id){
-        List<Hospedagem> list = hospRepository.findByEventoId(id);
-        return mapper.toDto(list);
+        return mapper.toDto(hospRepository.findByEventoId(id));
     }
 
     public HospedagemDTO update(Long id, HospedagemDTO entity) {
