@@ -15,26 +15,5 @@ public class Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 
-	}
-
- 	@Autowired
-    private EventoService eventoService;
-    
-    @Autowired
-    private PayService payService;
-
-	@Autowired
-    private PayRepository payRepository;
-
-    @Bean
-    public void initData() {
-        // Chame outro método para realizar a inicialização de dados
-        initializeData();
-    }
-
-    public void initializeData() {
-        // Crie um novo evento
-        
-    }
-	
+	}	
 }

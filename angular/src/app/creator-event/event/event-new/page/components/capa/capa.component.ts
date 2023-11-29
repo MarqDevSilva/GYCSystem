@@ -13,21 +13,17 @@ import { BaseComponentComponent } from '../../../base-component/base-component.c
   styleUrls: ['./capa.component.scss']
 })
 export class CapaComponent extends BaseComponentComponent{
-
-  @Output() error = new EventEmitter<string>;
   
-
-
-
   $capa: Observable<Capa> = new Observable<Capa>;
   eventoId = this.getRouteId()
   preview = '';
 
+  @Output() error = new EventEmitter<string>;
+
   capa: Capa = {
-    evento: { id: this.eventoId },
-    id: '',
-    titulo: '',
-    img: [],
+    evento: { id: this.eventoId}, 
+    id: '', titulo: '', 
+    img: []
   };
 
   constructor(
@@ -53,7 +49,10 @@ export class CapaComponent extends BaseComponentComponent{
     if(this.capa.img){
       this.capa.img = this.base64ToBytes(this.preview)
       this.service.save(this.capa).subscribe(
-        result => result,
+        result => {
+          this.capa.id = result.id;
+          this.showSnackBar("Salvo")
+        },
         error => this.error.emit("Capa"))
     }else{
       this.showSnackBar("Escolha uma capa para seu evento")
@@ -63,7 +62,7 @@ export class CapaComponent extends BaseComponentComponent{
   private async update(id: string){
     this.capa.img = this.base64ToBytes(this.preview)
     this.service.update(this.capa, id).subscribe(
-      result => this.showSnackBar("Atualizado"),
+      result => this.showSnackBar("Salvo"),
       error => this.error.emit("Capa")
       )
   }
@@ -80,20 +79,25 @@ export class CapaComponent extends BaseComponentComponent{
     reader.readAsDataURL(file);
   }
 
-  private base64ToBytes(base64: string): number[] {
+  private base64ToBytes(base64: string): number[] | null{
+
+    let bytes = null;
+
+    console.log(base64)
+
+    if(base64){
     const base64String =  base64.replace(/^data:image\/\w+;base64,/, '');
     const binaryString = window.atob(base64String);
     const length = binaryString.length;
-    const bytes = new Array<number>(length);
+    bytes = new Array<number>(length);
 
-    console.log(length)
+    console.log("excutou")
   
     for (let i = 0; i < length; i++) {
       bytes[i] = binaryString.charCodeAt(i);
     }
+    }
 
-    console.log(bytes)
-  
     return bytes;
   }
 

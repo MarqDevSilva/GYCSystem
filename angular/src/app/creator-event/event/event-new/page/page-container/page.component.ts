@@ -5,6 +5,7 @@ import { LocalComponent } from '../components/local/local.component'
 import { PalestrantesComponent } from '../components/palestrantes/palestrantes.component';
 import { ProgramacaoComponent } from '../components/programacao/programacao.component';
 import { SobreComponent } from '../components/sobre/sobre.component';
+import { Capa } from 'src/app/shared/model/capa';
 
 @Component({
   selector: 'app-page',
