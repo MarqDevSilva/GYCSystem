@@ -18,6 +18,8 @@ export class SobreComponent extends BaseComponentComponent{
 
   form = this.formBuilder.group({
     evento:{id: this.eventoId},
+    id: '',
+    habilitado: false,
     descricao:['', Validators.required],
     background:'#FFFFFF',
   })
@@ -29,12 +31,13 @@ export class SobreComponent extends BaseComponentComponent{
     snackBar: MatSnackBar,
     route: ActivatedRoute){super(snackBar, route, dialog)}
 
-  onSubmit(){
-   this.save()
+  onSubmit(habilitado: boolean){
+   this.save(habilitado)
   }
 
-  private save(){
+  private save(habilitado: boolean){
     if(this.form.valid){
+      this.form.patchValue({habilitado: habilitado})
       this.service.save(this.form.value).subscribe(
         result => console.log(result),
         error => this.error.emit("Sobre")

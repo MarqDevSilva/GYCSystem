@@ -37,10 +37,8 @@ export class CapaComponent extends BaseComponentComponent{
 
   onSubmit(){
     if(this.capa.id){
-      console.log(this.capa)
       this.update(this.capa.id);
     }else{
-      console.log(this.capa)
       this.save();
     }
   }
@@ -82,20 +80,16 @@ export class CapaComponent extends BaseComponentComponent{
   private base64ToBytes(base64: string): number[] | null{
 
     let bytes = null;
-
-    console.log(base64)
-
+    
     if(base64){
-    const base64String =  base64.replace(/^data:image\/\w+;base64,/, '');
-    const binaryString = window.atob(base64String);
-    const length = binaryString.length;
-    bytes = new Array<number>(length);
-
-    console.log("excutou")
-  
-    for (let i = 0; i < length; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
-    }
+      const base64String =  base64.replace(/^data:image\/\w+;base64,/, '');
+      const binaryString = window.atob(base64String);
+      const length = binaryString.length;
+      bytes = new Array<number>(length);
+    
+      for (let i = 0; i < length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
     }
 
     return bytes;
