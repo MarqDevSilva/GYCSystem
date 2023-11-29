@@ -32,8 +32,8 @@ public class SobreController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SobreDTO>findById(@PathVariable Long id) {
-        return ResponseEntity.ok(service.findById(id));
+    public ResponseEntity<Optional<SobreDTO>>findByEvento(@PathVariable Long id) {
+        return ResponseEntity.ok(service.findByEvento(id));
     }
 
     @PostMapping
