@@ -3,9 +3,9 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, combineLatest, map, startWith } from 'rxjs';
 import { CepService } from 'src/app/shared/cep/cep.service';
-import { EventNewService } from '../../service/event-new.service';
 import { LocalService } from './service/local.service';
 import { CEP } from 'src/app/shared/model/cep';
+import { EventNewService } from '../../../service/event-new.service';
 
 @Component({
   selector: 'app-local',

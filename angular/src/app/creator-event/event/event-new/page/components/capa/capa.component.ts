@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { CapaService } from 'src/app/services/capa/capa.service';
 import { Capa } from 'src/app/shared/model/capa';
-import { BaseComponentComponent } from '../../base-component/base-component.component';
+import { BaseComponentComponent } from '../../../base-component/base-component.component';
 
 @Component({
   selector: 'app-capa',
@@ -15,6 +15,10 @@ import { BaseComponentComponent } from '../../base-component/base-component.comp
 export class CapaComponent extends BaseComponentComponent{
 
   @Output() error = new EventEmitter<string>;
+  
+
+
+
   $capa: Observable<Capa> = new Observable<Capa>;
   eventoId = this.getRouteId()
   preview = '';
@@ -63,6 +67,7 @@ export class CapaComponent extends BaseComponentComponent{
       error => this.error.emit("Capa")
       )
   }
+  
   onFile(event: any) {
     const file = event.target.files[0];
     const reader = new FileReader();

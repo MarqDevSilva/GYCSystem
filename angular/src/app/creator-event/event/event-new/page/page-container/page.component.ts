@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CapaComponent } from './capa/capa.component';
-import { LocalComponent } from './local/local.component';
-import { PalestrantesComponent } from './palestrantes/palestrantes.component';
-import { ProgramacaoComponent } from './programacao/programacao.component';
-import { SobreComponent } from './sobre/sobre.component';
+import { CapaComponent } from '../components/capa/capa.component';
+import { LocalComponent } from '../components/local/local.component'
+import { PalestrantesComponent } from '../components/palestrantes/palestrantes.component';
+import { ProgramacaoComponent } from '../components/programacao/programacao.component';
+import { SobreComponent } from '../components/sobre/sobre.component';
 
 @Component({
   selector: 'app-page',

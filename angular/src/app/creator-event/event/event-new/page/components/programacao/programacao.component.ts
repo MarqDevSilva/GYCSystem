@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Programacao } from 'src/app/shared/model/programacao';
 import { ProgramacaoService } from './service/programacao.service';
-import { EventNewService } from '../../service/event-new.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { EventNewService } from '../../../service/event-new.service';
 
 @Component({
   selector: 'app-programacao',

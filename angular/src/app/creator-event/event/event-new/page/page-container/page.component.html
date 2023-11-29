@@ -1,31 +1,34 @@
 <div class="container">
   <div class="row mt-3">
     <div class="col-3">
+
       <span class="h5">Seções aparentes</span>
+
       <div>
         <mat-slide-toggle [(ngModel)]="onSobre" class="d-block mt-2">Sobre</mat-slide-toggle>
         <mat-slide-toggle [(ngModel)]="onPalestrantes" class="d-block mt-2">Palestrantes</mat-slide-toggle>
         <mat-slide-toggle [(ngModel)]="onProgramacao" class="d-block mt-2">Programação</mat-slide-toggle>
         <mat-slide-toggle [(ngModel)]="onLocal" class="d-block mt-2">Local</mat-slide-toggle>
       </div>
+      
     </div>
+
     <div class="col-9">
+
       <span class="h5">Conteúdo da página</span>
-      <app-capa
-      (error)="onError($event)"
-      ></app-capa>
-      <app-sobre 
-      *ngIf="onSobre"
-      (error)="onError($event)"
-      ></app-sobre>
+
+      <app-capa></app-capa>
+      <app-sobre *ngIf="onSobre"></app-sobre>
       <app-palestrantes *ngIf="onPalestrantes"></app-palestrantes>
       <app-programacao *ngIf="onProgramacao"></app-programacao>
       <app-local *ngIf="onLocal"></app-local>
+
       <div class="row m-2">
         <div class="d-flex justify-content-end">
           <button mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
         </div>
       </div>
+
     </div>
   </div>
 </div>

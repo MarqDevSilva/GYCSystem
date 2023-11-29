@@ -27,5 +27,5 @@ public class Sobre extends BaseEntity {
     private String descricao;
 
     @Column(nullable = false)
-    private String background;
+    private Character background;
 }
