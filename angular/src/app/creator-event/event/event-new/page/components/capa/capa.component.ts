@@ -22,8 +22,7 @@ export class CapaComponent extends BaseComponentComponent{
 
   capa: Capa = {
     evento: { id: this.eventoId}, 
-    id: '', titulo: '', 
-    img: []
+    id: '', titulo: '', img: []
   };
 
   constructor(
@@ -35,34 +34,40 @@ export class CapaComponent extends BaseComponentComponent{
       this.init()
   }
 
-  onSubmit(){
-    if(this.capa.id){
-      this.update(this.capa.id);
-    }else{
-      this.save();
+  async onSubmit(){
+    if (this.capa.id) {
+      await this.update(this.capa.id);
+    } else {
+      await this.save();
     }
   }
 
   private async save(){
-    if(this.capa.img){
-      this.capa.img = this.base64ToBytes(this.preview)
-      this.service.save(this.capa).subscribe(
-        result => {
-          this.capa.id = result.id;
-          this.showSnackBar("Salvo")
-        },
-        error => this.error.emit("Capa"))
-    }else{
-      this.showSnackBar("Escolha uma capa para seu evento")
+    try {
+      if(this.preview){
+        this.capa.img = this.base64ToBytes(this.preview)
+        this.service.save(this.capa).subscribe(
+          result => this.capa.id = result.id,
+          error => {throw new Error(error)})
+      }else{
+        throw new Error("Escolha uma imagem para a CAPA");
+      }
+    }
+    catch (error: any) {
+      throw error;
     }
   }
 
   private async update(id: string){
-    this.capa.img = this.base64ToBytes(this.preview)
-    this.service.update(this.capa, id).subscribe(
-      result => this.showSnackBar("Salvo"),
-      error => this.error.emit("Capa")
-      )
+    try {
+      this.capa.img = this.base64ToBytes(this.preview)
+      this.service.update(this.capa, id).subscribe(
+        result => result,
+        error => {throw new Error(error)}) 
+    } 
+    catch (error: any) {
+      throw (error);
+    }
   }
   
   onFile(event: any) {
@@ -81,17 +86,21 @@ export class CapaComponent extends BaseComponentComponent{
 
     let bytes = null;
     
-    if(base64){
-      const base64String =  base64.replace(/^data:image\/\w+;base64,/, '');
-      const binaryString = window.atob(base64String);
-      const length = binaryString.length;
-      bytes = new Array<number>(length);
-    
-      for (let i = 0; i < length; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
+    try {
+      if(base64){
+        const base64String =  base64.replace(/^data:image\/\w+;base64,/, '');
+        const binaryString = window.atob(base64String);
+        const length = binaryString.length;
+        bytes = new Array<number>(length);
+        
+        for (let i = 0; i < length; i++) {
+        bytes[i] = binaryString.charCodeAt(i)}
       }
+    } 
+    catch (error: any) {
+      throw (error)
     }
-
+    
     return bytes;
   }
 

@@ -13,7 +13,9 @@ import { SobreComponent } from '../components/sobre/sobre.component';
 })
 export class PageComponent{
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(
+    private snackBar: MatSnackBar
+  ) {}
 
   @ViewChild(CapaComponent) capaComponent?: CapaComponent;
   @ViewChild(SobreComponent) sobreComponent?: SobreComponent;
@@ -26,9 +28,15 @@ export class PageComponent{
   onProgramacao = false;
   onLocal = false;
 
-  async onSubmit() {}
-  
-  onError(event: string) {
-    this.snackBar.open("Ocorreu um erro ao salvar, verifique se preencheu todos os campos", "Ok")
+  async onSubmit(){
+    try {
+      await this.capaComponent?.onSubmit().catch();
+      if(this.onSobre){await this.sobreComponent?.onSubmit()} 
+
+      this.snackBar.open("Configurações Salvas", '', {duration: 3000})
+    } 
+    catch (error: any) {
+      this.snackBar.open(error.message, "OK")
+    }
   }
 }

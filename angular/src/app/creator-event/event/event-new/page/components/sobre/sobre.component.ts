@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -13,7 +13,7 @@ import { BaseComponentComponent } from '../../../base-component/base-component.c
 })
 export class SobreComponent extends BaseComponentComponent{
 
-  @Output() error = new EventEmitter<string>;
+  @Input() status: boolean = false;
   eventoId = this.getRouteId()
 
   form = this.formBuilder.group({
@@ -31,19 +31,23 @@ export class SobreComponent extends BaseComponentComponent{
     snackBar: MatSnackBar,
     route: ActivatedRoute){super(snackBar, route, dialog)}
 
-  onSubmit(habilitado: boolean){
-   this.save(habilitado)
+  async onSubmit(){
+   this.save(this.status)
   }
 
-  private save(habilitado: boolean){
-    if(this.form.valid){
-      this.form.patchValue({habilitado: habilitado})
-      this.service.save(this.form.value).subscribe(
-        result => console.log(result),
-        error => this.error.emit("Sobre")
-      );
-    }else{
-      this.showSnackBar("Preencha a descricao sobre o evento")
+  private save(status: boolean){
+    try {
+      if(this.form.valid){
+        this.form.patchValue({habilitado: status})
+        this.service.save(this.form.value).subscribe(
+          result => result,
+          error => {throw new Error(error)});
+      }else{
+        throw new Error ("Preencha a descrição sobre o evento")
+      }
+    }
+    catch (error: any) {
+      throw (error)
     }
   }
 }

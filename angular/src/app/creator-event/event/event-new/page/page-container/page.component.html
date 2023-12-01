@@ -17,11 +17,11 @@
 
       <span class="h5">Conteúdo da página</span>
 
-      <app-capa
-      (error)="onError($event)"
-      ></app-capa>
+      <app-capa></app-capa>
 
-      <app-sobre *ngIf="onSobre"></app-sobre>
+      <app-sobre *ngIf="onSobre"
+      [status]="onSobre"
+      ></app-sobre>
       <app-palestrantes *ngIf="onPalestrantes"></app-palestrantes>
       <app-programacao *ngIf="onProgramacao"></app-programacao>
       <app-local *ngIf="onLocal"></app-local>
