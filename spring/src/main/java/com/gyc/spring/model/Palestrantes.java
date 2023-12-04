@@ -24,6 +24,9 @@ public class Palestrantes extends BaseEntity {
     private Evento evento;
 
     @Column(nullable = false)
+    private Boolean habilitado;
+
+    @Column(nullable = false)
     private String nome;
 
     @Column(nullable = true)
