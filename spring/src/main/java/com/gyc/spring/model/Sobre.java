@@ -24,6 +24,9 @@ public class Sobre extends BaseEntity {
     private Evento evento;
 
     @Column(nullable = false)
+    private Boolean habilitado;
+
+    @Column(nullable = false)
     private String descricao;
 
     @Column(nullable = false)

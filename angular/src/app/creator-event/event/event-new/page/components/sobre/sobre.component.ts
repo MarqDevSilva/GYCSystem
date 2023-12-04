@@ -1,23 +1,17 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
 import { SobreService } from 'src/app/services//sobre/sobre.service';
-import { BaseComponentComponent } from '../../../base-component/base-component.component';
 
 @Component({
   selector: 'app-sobre',
   templateUrl: './sobre.component.html',
   styleUrls: ['./sobre.component.scss']
 })
-export class SobreComponent extends BaseComponentComponent{
+export class SobreComponent{
 
   @Input() status: boolean = false;
-  eventoId = this.getRouteId()
-
-  form = this.formBuilder.group({
-    evento:{id: this.eventoId},
+  @Input() form = this.formBuilder.group({
+    evento:{id: ''},
     id: '',
     habilitado: false,
     descricao:['', Validators.required],
@@ -26,13 +20,15 @@ export class SobreComponent extends BaseComponentComponent{
 
   constructor(
     private formBuilder: FormBuilder,
-    private service: SobreService,
-    dialog: MatDialog,
-    snackBar: MatSnackBar,
-    route: ActivatedRoute){super(snackBar, route, dialog)}
+    private service: SobreService){}
 
   async onSubmit(){
-   this.save(this.status)
+    const id = this.form.get('id')?.value
+    if(id){
+      this.update(id)
+    }else{
+      this.save(this.status)
+    }
   }
 
   private save(status: boolean){
@@ -40,7 +36,7 @@ export class SobreComponent extends BaseComponentComponent{
       if(this.form.valid){
         this.form.patchValue({habilitado: status})
         this.service.save(this.form.value).subscribe(
-          result => result,
+          result => this.form.get('id')?.setValue(result.id),
           error => {throw new Error(error)});
       }else{
         throw new Error ("Preencha a descrição sobre o evento")
@@ -48,6 +44,18 @@ export class SobreComponent extends BaseComponentComponent{
     }
     catch (error: any) {
       throw (error)
+    }
+  }
+
+  private async update(id: string){
+    try {
+      this.form.patchValue({habilitado: this.status})
+      this.service.update(this.form.value, id).subscribe(
+        result => result,
+        error => {throw new Error(error)}) 
+    } 
+    catch (error: any) {
+      throw (error);
     }
   }
 }

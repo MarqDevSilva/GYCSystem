@@ -5,7 +5,7 @@
       <span class="h5">Seções aparentes</span>
 
       <div>
-        <mat-slide-toggle [(ngModel)]="onSobre" class="d-block mt-2">Sobre</mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]="onSobre" (change)="desabilitarSobre()" class="d-block mt-2">Sobre</mat-slide-toggle>
         <mat-slide-toggle [(ngModel)]="onPalestrantes" class="d-block mt-2">Palestrantes</mat-slide-toggle>
         <mat-slide-toggle [(ngModel)]="onProgramacao" class="d-block mt-2">Programação</mat-slide-toggle>
         <mat-slide-toggle [(ngModel)]="onLocal" class="d-block mt-2">Local</mat-slide-toggle>
@@ -19,10 +19,15 @@
 
       <app-capa></app-capa>
 
-      <app-sobre *ngIf="onSobre"
+      <app-sobre 
+      *ngIf="onSobre"
       [status]="onSobre"
+      [form]="sobre"
       ></app-sobre>
-      <app-palestrantes *ngIf="onPalestrantes"></app-palestrantes>
+      <app-palestrantes 
+      *ngIf="onPalestrantes"
+      
+      ></app-palestrantes>
       <app-programacao *ngIf="onProgramacao"></app-programacao>
       <app-local *ngIf="onLocal"></app-local>
 
