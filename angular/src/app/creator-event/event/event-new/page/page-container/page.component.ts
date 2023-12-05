@@ -29,6 +29,7 @@ export class PageComponent{
   })
 
   palestrantes: Palestrante[] = []
+  preview: string[] = []
 
   constructor(
     private formBuilder: FormBuilder,
@@ -80,8 +81,18 @@ export class PageComponent{
   async getPalestrante(){
     const palestrante = await this.palestranteService.getAll(this.eventoId).toPromise()
     if(palestrante?.length){
+
       this.palestrantes = palestrante
       this.onPalestrantes = true
+      
+      for (const palestrant of palestrante) {
+        if (palestrant.img) {
+          const base64 = `data:image/png;base64,${palestrant.img}`
+          this.preview.push(base64);
+        } else {
+          this.preview.push('');
+        }
+      }
     }
   }
 

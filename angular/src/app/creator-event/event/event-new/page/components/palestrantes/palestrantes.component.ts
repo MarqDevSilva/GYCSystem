@@ -15,8 +15,8 @@ import { BaseComponentComponent } from '../../../base-component/base-component.c
 export class PalestrantesComponent extends BaseComponentComponent {
 
   eventoId = this.getRouteId();
-  preview: string[] = [];
-
+  
+  @Input() preview: string[] = [];
   @Input() palestrantes: Palestrante[] = []
 
   constructor(
@@ -27,18 +27,23 @@ export class PalestrantesComponent extends BaseComponentComponent {
   }
 
   async onSubmit(){
-    try {
-      if(this.palestrantes.length){
-        this.service.saveAll(this.palestrantes).subscribe(
-          result => result,
-        )
-      }else{
-        throw new Error("Preencha os palestrantes")
-      }
-    } 
-    catch (error: any) {
-      throw error
+    if(this.eventoId){
+      this.service.getAll(this.eventoId).subscribe((result) => {
+        if(result && result.length > 0) {
+            this.update();
+          } else {
+            this.save();
+          }
+      });
     }
+  }
+
+  private save(){
+    this.service.saveAll(this.palestrantes).subscribe(result => result)
+  }
+
+  private update(){
+    this.service.updateAll(this.palestrantes).subscribe(result => result)
   }
 
   onFile(event: any, index: number) {
@@ -60,12 +65,32 @@ export class PalestrantesComponent extends BaseComponentComponent {
   }
 
   onAdd(){
-    this.palestrantes.push({evento:{id: this.eventoId}, nome:'', descricao:'', img:[]})
+    this.palestrantes.push({evento:{id: this.eventoId}, id: null, nome:'', descricao:'', img:[]})
   }
 
   onDelete(index: number){
-    this.palestrantes.splice(index, 1);
-    this.preview.splice(index, 1)
+    const id =  this.palestrantes[index].id
+    if(id){
+      this.delete(id, index)
+    }else{
+      this.palestrantes.splice(index, 1)
+      this.preview.slice(index, 1);
+    }
+  }
+
+  private delete(id: string, index: number){
+    const content = 'Você realmente deseja excluir essa palestrante?';
+    this.dialogShow(content).afterClosed().subscribe(result => {
+      if(result && id){
+          this.service.delete(id).subscribe(
+            result => {
+              this.showSnackBar('Palestrante excluido');
+              this.palestrantes.splice(index, 1)
+              this.preview.slice(index, 1);
+            },
+            error => this.showSnackBar('Ocorreu um erro ao excluir palestrante'))
+      }
+    })
   }
 
   private base64ToBytes(base64: string): number[] | null{
