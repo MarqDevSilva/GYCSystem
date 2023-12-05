@@ -4,6 +4,5 @@ export interface Palestrante{
   }
   nome:  string |  null;
   descricao:  string |  null;
-  img: number[];
-  preview:  string |  null;
+  img: number[] | string | null
 }

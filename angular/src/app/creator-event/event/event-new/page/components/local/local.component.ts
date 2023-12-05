@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, combineLatest, map, startWith } from 'rxjs';
 import { CepService } from 'src/app/shared/cep/cep.service';
-import { LocalService } from './service/local.service';
+//import { LocalService } from './service/local.service';
 import { CEP } from 'src/app/shared/model/cep';
 import { EventNewService } from '../../../service/event-new.service';
 
@@ -30,7 +30,7 @@ export class LocalComponent implements OnInit{
     private formBuilder: FormBuilder,
     private cep: CepService,
     private snackBar: MatSnackBar,
-    private service: LocalService,
+    //private service: LocalService,
     private serviceEvent: EventNewService){}
 
     ngOnInit(){
@@ -49,16 +49,13 @@ export class LocalComponent implements OnInit{
       );
     }
 
-  onSubmit(){
-    if(this.form.valid){
-      this.service.save(this.form.value).subscribe(
-        result => console.log(result),
-        error => this.onError('Ocorreu um erro inesperado ao salvar LOCAL')
-      )
-    }else{
-      this.onError('Preencha os campos do LOCAL corretamente')
-    }
-  }
+  // onSubmit(){
+  //   if(this.form.valid){
+  //     this.service.save(this.form.value).subscribe()
+  //   }else{
+  //     this.onError('Preencha os campos do LOCAL corretamente')
+  //   }
+  // }
 
   getCep(){
     const cep = this.form.get('cep')?.value

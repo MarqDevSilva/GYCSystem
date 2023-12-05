@@ -37,7 +37,7 @@ public class PalestranteController {
     }
 
     @PostMapping
-    public ResponseEntity<List<PalestranteDTO>> salvar(@RequestBody List<PalestranteDTO> dtoList) {
+    public ResponseEntity<List<PalestranteDTO>> saveAll(@RequestBody List<PalestranteDTO> dtoList) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.saveAll(dtoList));
     }
 

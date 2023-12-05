@@ -43,7 +43,7 @@ export class SobreComponent{
       }
     }
     catch (error: any) {
-      throw (error)
+      throw error
     }
   }
 
@@ -55,7 +55,7 @@ export class SobreComponent{
         error => {throw new Error(error)}) 
     } 
     catch (error: any) {
-      throw (error);
+      throw error;
     }
   }
 }

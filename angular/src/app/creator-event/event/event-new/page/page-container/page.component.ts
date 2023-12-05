@@ -8,6 +8,8 @@ import { LocalComponent } from '../components/local/local.component';
 import { PalestrantesComponent } from '../components/palestrantes/palestrantes.component';
 import { ProgramacaoComponent } from '../components/programacao/programacao.component';
 import { SobreComponent } from '../components/sobre/sobre.component';
+import { Palestrante } from 'src/app/shared/model/palestrante';
+import { PalestranteService } from 'src/app/services/palestrante/palestrante.service';
 
 @Component({
   selector: 'app-page',
@@ -26,14 +28,16 @@ export class PageComponent{
     background:'#FFFFFF',
   })
 
+  palestrantes: Palestrante[] = []
+
   constructor(
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private sobreService: SobreService,
+    private palestranteService: PalestranteService,
     public route: ActivatedRoute,
   ) {
-
-    this.getSobre();
+    this.init()
   }
 
   @ViewChild(CapaComponent) capaComponent?: CapaComponent;
@@ -50,7 +54,8 @@ export class PageComponent{
   async onSubmit(){
     try {
       await this.capaComponent?.onSubmit().catch();
-      if(this.onSobre){await this.sobreComponent?.onSubmit()} 
+      if(this.onSobre){await this.sobreComponent?.onSubmit()}
+      if(this.onPalestrantes){await this.palestrantesComponent?.onSubmit()} 
 
       this.snackBar.open("Configurações Salvas", '', {duration: 3000})
     } 
@@ -59,11 +64,24 @@ export class PageComponent{
     }
   }
 
+  async init(){
+    await this.getSobre()
+    await this.getPalestrante();
+  }
+
   async getSobre(){
     const sobre = await this.sobreService.get(this.eventoId).toPromise();
     if(sobre){
       this.sobre.setValue(sobre)
       if(sobre.habilitado){this.onSobre = sobre.habilitado}
+    }
+  }
+
+  async getPalestrante(){
+    const palestrante = await this.palestranteService.getAll(this.eventoId).toPromise()
+    if(palestrante?.length){
+      this.palestrantes = palestrante
+      this.onPalestrantes = true
     }
   }
 

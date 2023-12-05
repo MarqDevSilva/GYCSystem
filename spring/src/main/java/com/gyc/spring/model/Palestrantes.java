@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,14 +25,12 @@ public class Palestrantes extends BaseEntity {
     private Evento evento;
 
     @Column(nullable = false)
-    private Boolean habilitado;
-
-    @Column(nullable = false)
     private String nome;
 
     @Column(nullable = true)
     private String descricao;
 
+    @Lob
     @Column(nullable = false)
     private byte[] img;
 }

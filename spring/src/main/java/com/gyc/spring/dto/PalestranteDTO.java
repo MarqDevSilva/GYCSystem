@@ -16,7 +16,6 @@ public class PalestranteDTO {
     
     private Evento evento;
     private Long id;
-    private Boolean habilitado;
     private String nome;
     private String descricao;
     private byte[] img;
