@@ -28,6 +28,10 @@ public class ProgramacaoService extends BaseService<Programacao, ProgramacaoDTO>
         return mapper.toDto(list);
     }
 
+    public void deleteByIds(List<Long> ids){
+        progRepository.deleteAllById(ids);
+    }
+
     public ProgramacaoDTO update(Long id, ProgramacaoDTO entity) {
         if (repository.existsById(id)) {
             return update(entity);

@@ -4,7 +4,7 @@ export interface Programacao{
   },
   id: string | null,
   data: Date,
-  hInicial: string | null,
-  hFinal: string | null,
+  inicio: string | null,
+  termino: string | null,
   atividade: string | null,
 }

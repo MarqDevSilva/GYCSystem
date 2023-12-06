@@ -55,4 +55,10 @@ public class ProgramacaoController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping()
+    public ResponseEntity<Void> excluirPorIds(@RequestBody List<Long> ids) {
+        service.deleteByIds(ids);
+        return ResponseEntity.noContent().build();
+    }
 }

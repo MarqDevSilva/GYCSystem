@@ -42,9 +42,7 @@ export class EventNewComponent implements OnInit {
     })
   }
 
-  ngOnInit(): void{
-
-  }
+  ngOnInit(): void{}
 
   private next(){
     const currentIndex = this.tabGroup.selectedIndex;

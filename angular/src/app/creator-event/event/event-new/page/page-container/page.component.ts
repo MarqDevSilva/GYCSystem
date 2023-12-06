@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
@@ -10,6 +10,8 @@ import { ProgramacaoComponent } from '../components/programacao/programacao.comp
 import { SobreComponent } from '../components/sobre/sobre.component';
 import { Palestrante } from 'src/app/shared/model/palestrante';
 import { PalestranteService } from 'src/app/services/palestrante/palestrante.service';
+import { Programacao } from 'src/app/shared/model/programacao';
+import { ProgramacaoService } from 'src/app/services/programacao/programacao.service';
 
 @Component({
   selector: 'app-page',
@@ -31,11 +33,15 @@ export class PageComponent{
   palestrantes: Palestrante[] = []
   preview: string[] = []
 
+  programacao: Programacao[][] = [];
+  datas: any[] = []
+
   constructor(
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private sobreService: SobreService,
     private palestranteService: PalestranteService,
+    private programacaoService: ProgramacaoService,
     public route: ActivatedRoute,
   ) {
     this.init()
@@ -54,11 +60,13 @@ export class PageComponent{
 
   async onSubmit(){
     try {
-      await this.capaComponent?.onSubmit().catch();
+      //await this.capaComponent?.onSubmit().catch();
       if(this.onSobre){await this.sobreComponent?.onSubmit()}
-      if(this.onPalestrantes){await this.palestrantesComponent?.onSubmit()} 
+      if(this.onPalestrantes){await this.palestrantesComponent?.onSubmit()}
+      if(this.onProgramacao){await this.programacaoComponent?.onSubmit()}
 
       this.snackBar.open("Configurações Salvas", '', {duration: 3000})
+      window.location.reload()
     } 
     catch (error: any) {
       this.snackBar.open(error.message, "OK")
@@ -68,6 +76,7 @@ export class PageComponent{
   async init(){
     await this.getSobre()
     await this.getPalestrante();
+    await this.getProgramacao();
   }
 
   async getSobre(){
@@ -93,6 +102,40 @@ export class PageComponent{
           this.preview.push('');
         }
       }
+    }
+  }
+
+  async getProgramacao(){
+    const atividade = await this.programacaoService.getAll(this.eventoId).toPromise()
+    if(atividade?.length){
+      this.onProgramacao = true
+
+      const datasSet = new Set<string>();
+
+      atividade.forEach(item => {
+
+        const dataString = new Date(item.data).toISOString();
+
+        if (!datasSet.has(dataString)) {
+          datasSet.add(dataString);
+          this.datas.push({ data: new Date(item.data) });
+        }
+      })
+
+      this.programacao = new Array(this.datas.length).fill([]).map(() => []);
+
+      atividade.forEach(item => {
+        const dataIndex = this.datas.findIndex(data => new Date(item.data).toISOString() === data.data.toISOString());
+        
+        this.programacao[dataIndex].push({
+          evento: { id: this.eventoId },
+          id: item.id,
+          data: this.datas[dataIndex].data,
+          inicio: item.inicio,
+          termino: item.termino,
+          atividade: item.atividade
+        });
+      });
     }
   }
 

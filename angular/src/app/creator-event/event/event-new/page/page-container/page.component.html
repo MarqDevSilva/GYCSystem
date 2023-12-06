@@ -31,7 +31,12 @@
       [preview]="preview"
       ></app-palestrantes>
       
-      <app-programacao *ngIf="onProgramacao"></app-programacao>
+      <app-programacao 
+      *ngIf="onProgramacao"
+      [datas]="datas"
+      [atividades]="programacao"
+      ></app-programacao>
+
       <app-local *ngIf="onLocal"></app-local>
 
       <div class="row m-2">
