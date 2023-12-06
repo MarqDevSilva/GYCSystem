@@ -1,7 +1,6 @@
 package com.gyc.spring.model;
 
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -26,13 +25,13 @@ public class Programacao extends BaseEntity {
     private Evento evento;
 
     @Column(nullable = false)
-    private Date data;
+    private String data;
 
-    @Column(nullable = false)
-    private String hInicial;
+    @Column(nullable = true)
+    private String inicio;
 
-    @Column(nullable = false)
-    private String hFinal;
+    @Column(nullable = true)
+    private String termino;
 
     @Column(nullable = false)
     private String atividade;
