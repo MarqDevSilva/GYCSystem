@@ -78,13 +78,14 @@ export class PageComponent{
 
   async onSubmit(){
     try {
-      //await this.capaComponent?.onSubmit().catch();
-      // if(this.onSobre){await this.sobreComponent?.onSubmit()}
-      // if(this.onPalestrantes){await this.palestrantesComponent?.onSubmit()}
-      // if(this.onProgramacao){await this.programacaoComponent?.onSubmit()}
+      await this.capaComponent?.onSubmit().catch();
+      if(this.onSobre){await this.sobreComponent?.onSubmit()}
+      if(this.onPalestrantes){await this.palestrantesComponent?.onSubmit()}
+      if(this.onProgramacao){await this.programacaoComponent?.onSubmit()}
       if(this.onLocal){await this.localComponent?.onSubmit()}
 
       this.snackBar.open("Configurações Salvas", '', {duration: 3000})
+      this.reload.emit()
     } 
     catch (error: any) {
       this.snackBar.open(error.message, "OK")
