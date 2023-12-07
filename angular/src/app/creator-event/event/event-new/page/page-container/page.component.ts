@@ -20,6 +20,8 @@ import { ProgramacaoService } from 'src/app/services/programacao/programacao.ser
 })
 export class PageComponent{
 
+  @Output() reload: EventEmitter<void> = new EventEmitter<void>()
+
   eventoId = this.getRouteId();
 
   sobre = this.formBuilder.group({
@@ -66,7 +68,7 @@ export class PageComponent{
       if(this.onProgramacao){await this.programacaoComponent?.onSubmit()}
 
       this.snackBar.open("Configurações Salvas", '', {duration: 3000})
-      window.location.reload()
+      this.reload.emit()
     } 
     catch (error: any) {
       this.snackBar.open(error.message, "OK")

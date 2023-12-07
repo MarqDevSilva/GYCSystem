@@ -42,7 +42,9 @@ export class EventNewComponent implements OnInit {
     })
   }
 
-  ngOnInit(): void{}
+  ngOnInit(): void{
+    this.onLoad();  
+  }
 
   private next(){
     const currentIndex = this.tabGroup.selectedIndex;
@@ -54,5 +56,20 @@ export class EventNewComponent implements OnInit {
 
   private rotaId(){
     this.router.navigate(['event', this.serviceEvent.getId()])
+  }
+
+  reload(){
+    const index = this.tabGroup.selectedIndex as number
+    localStorage.setItem('selectedTabIndex', index.toString());
+    window.location.reload()
+  }
+
+  private onLoad(){
+    const selectedTabIndexString = localStorage.getItem('selectedTabIndex');
+    if (selectedTabIndexString !== null) {
+      const selectedTabIndex = parseInt(selectedTabIndexString, 10);
+      setTimeout(() => {this.tabGroup.selectedIndex = selectedTabIndex}, 100);
+      localStorage.removeItem('selectedTabIndex');
+    }
   }
 }

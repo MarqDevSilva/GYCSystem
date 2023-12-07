@@ -6,4 +6,5 @@ import org.springframework.data.repository.NoRepositoryBean;
 import com.gyc.spring.model.BaseEntity;
 
 @NoRepositoryBean
-public interface BaseRepository<T extends BaseEntity> extends JpaRepository<T, Long> { }
+public interface BaseRepository<T extends BaseEntity> extends JpaRepository<T, Long> {
+}
