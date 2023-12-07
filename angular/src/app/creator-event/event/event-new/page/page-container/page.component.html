@@ -37,7 +37,11 @@
       [atividades]="programacao"
       ></app-programacao>
 
-      <app-local *ngIf="onLocal"></app-local>
+      <app-local 
+      *ngIf="onLocal"
+      [status]="onLocal"
+      [form]="local"
+      ></app-local>
 
       <div class="row m-2">
         <div class="d-flex justify-content-end">

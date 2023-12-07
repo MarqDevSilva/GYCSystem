@@ -27,7 +27,7 @@ public class Local extends BaseEntity {
     private String cep;
 
     @Column(nullable = false)
-    private Character uf;
+    private String uf;
 
     @Column(nullable = false)
     private String cidade;
@@ -40,5 +40,14 @@ public class Local extends BaseEntity {
 
     @Column(nullable = true)
     private Short numero;
+
+    @Column(nullable = true)
+    private Number lng;
+
+    @Column(nullable = true)
+    private Number lat;
+
+    @Column(nullable = false)
+    private Boolean habilitado;
 
 }

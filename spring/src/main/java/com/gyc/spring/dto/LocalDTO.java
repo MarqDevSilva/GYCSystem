@@ -17,8 +17,12 @@ public class LocalDTO {
     private Evento evento;
     private Long id;
     private String cep;
-    private Character uf;
+    private String uf;
     private String cidade;
+    private String bairro;
     private String endereco;
     private Short numero;
+    private Number lng;
+    private Number lat;
+    private Boolean habilitado;
 }

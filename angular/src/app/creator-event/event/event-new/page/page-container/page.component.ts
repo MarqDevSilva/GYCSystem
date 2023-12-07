@@ -12,6 +12,7 @@ import { Palestrante } from 'src/app/shared/model/palestrante';
 import { PalestranteService } from 'src/app/services/palestrante/palestrante.service';
 import { Programacao } from 'src/app/shared/model/programacao';
 import { ProgramacaoService } from 'src/app/services/programacao/programacao.service';
+import { LocalService } from 'src/app/services/local/local.service';
 
 @Component({
   selector: 'app-page',
@@ -38,10 +39,25 @@ export class PageComponent{
   programacao: Programacao[][] = [];
   datas: any[] = []
 
+  local = this.formBuilder.group({
+    evento:{id:  this.eventoId},
+    id:'',
+    cep:['', Validators.required],
+    uf: ['', Validators.required],
+    cidade:['', Validators.required],
+    bairro:['', Validators.required],
+    endereco:['', Validators.required],
+    numero:[0, Validators.required],
+    lng: 0,
+    lat: 0,
+    habilitado:false
+  })
+
   constructor(
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private sobreService: SobreService,
+    private localService: LocalService,
     private palestranteService: PalestranteService,
     private programacaoService: ProgramacaoService,
     public route: ActivatedRoute,
@@ -63,12 +79,12 @@ export class PageComponent{
   async onSubmit(){
     try {
       //await this.capaComponent?.onSubmit().catch();
-      if(this.onSobre){await this.sobreComponent?.onSubmit()}
-      if(this.onPalestrantes){await this.palestrantesComponent?.onSubmit()}
-      if(this.onProgramacao){await this.programacaoComponent?.onSubmit()}
+      // if(this.onSobre){await this.sobreComponent?.onSubmit()}
+      // if(this.onPalestrantes){await this.palestrantesComponent?.onSubmit()}
+      // if(this.onProgramacao){await this.programacaoComponent?.onSubmit()}
+      if(this.onLocal){await this.localComponent?.onSubmit()}
 
       this.snackBar.open("Configurações Salvas", '', {duration: 3000})
-      this.reload.emit()
     } 
     catch (error: any) {
       this.snackBar.open(error.message, "OK")
@@ -77,11 +93,12 @@ export class PageComponent{
 
   async init(){
     await this.getSobre()
-    await this.getPalestrante();
-    await this.getProgramacao();
+    await this.getPalestrante()
+    await this.getProgramacao()
+    await this.getLocal()
   }
 
-  async getSobre(){
+  private async getSobre(){
     const sobre = await this.sobreService.get(this.eventoId).toPromise();
     if(sobre){
       this.sobre.setValue(sobre)
@@ -141,6 +158,14 @@ export class PageComponent{
     }
   }
 
+  private async getLocal(){
+    const local = await this.localService.get(this.eventoId).toPromise();
+    if(local){
+      this.local.setValue(local)
+      if(local.habilitado){this.onLocal = local.habilitado}
+    }
+  }
+
   desabilitarSobre(){
     if(this.sobre.get('id')?.value && this.onSobre === false){
       this.sobre.patchValue({habilitado: this.onSobre})
@@ -148,6 +173,10 @@ export class PageComponent{
         result => result,
         error => console.error("Erro Sobre")) 
     }
+  }
+
+  desabilitarLocal(){
+
   }
 
   public getRouteId(): string{

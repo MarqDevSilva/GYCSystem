@@ -70,4 +70,8 @@ public class Evento extends BaseEntity{
     @JsonIgnore
     @OneToMany(mappedBy = "evento")
     private List<Programacao> programacao;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "evento")
+    private Local local;
 }

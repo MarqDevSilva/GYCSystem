@@ -1,37 +1,49 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 import { Observable, combineLatest, map, startWith } from 'rxjs';
+import { LocalService } from 'src/app/services/local/local.service';
 import { CepService } from 'src/app/shared/cep/cep.service';
-//import { LocalService } from './service/local.service';
 import { CEP } from 'src/app/shared/model/cep';
-import { EventNewService } from '../../../service/event-new.service';
+import { BaseComponentComponent } from '../../../base-component/base-component.component';
 
 @Component({
   selector: 'app-local',
   templateUrl: './local.component.html',
   styleUrls: ['./local.component.scss']
 })
-export class LocalComponent implements OnInit{
+export class LocalComponent extends BaseComponentComponent implements OnInit{
+
+  eventoId = this.getRouteId();
 
   address$: Observable<string> = new Observable<string>;
 
-  form = this.formBuilder.group({
-    evento:{id:  new FormControl(this.setId())},
+  @Input() status: boolean = false;
+  @Input() form = this.formBuilder.group({
+    evento:{id:  ''},
+    id:'',
     cep:['', Validators.required],
     uf: ['', Validators.required],
     cidade:['', Validators.required],
     bairro:['', Validators.required],
     endereco:['', Validators.required],
-    numero:['', Validators.required]
+    numero:[0, Validators.required],
+    lng: 0,
+    lat: 0,
+    habilitado: false
   })
 
   constructor(
     private formBuilder: FormBuilder,
     private cep: CepService,
-    private snackBar: MatSnackBar,
-    //private service: LocalService,
-    private serviceEvent: EventNewService){}
+    private service: LocalService,
+    dialog: MatDialog,
+    snackBar: MatSnackBar,
+    route: ActivatedRoute){super(snackBar, route, dialog)
+    
+    }
 
     ngOnInit(){
       const controlsToTrack = ['cep', 'uf', 'cidade', 'bairro', 'endereco', 'numero'];
@@ -47,15 +59,45 @@ export class LocalComponent implements OnInit{
       ).pipe(
         map(values => values.join(', '))
       );
+
+
     }
 
-  // onSubmit(){
-  //   if(this.form.valid){
-  //     this.service.save(this.form.value).subscribe()
-  //   }else{
-  //     this.onError('Preencha os campos do LOCAL corretamente')
-  //   }
-  // }
+  async onSubmit(){
+    const id = this.form.get('id')?.value
+    if(id){
+      this.update(id)
+    }else{
+      this.save()
+    }
+  }
+
+  private save(){
+    try {
+      if(this.form.valid){
+        this.form.patchValue({habilitado: this.status})
+        this.service.save(this.form.value).subscribe(
+          result => console.log(result)
+        )
+      }else{
+        throw new Error('Preencha os campos do LOCAL corretamente')
+      }
+    } catch (error: any) {
+      throw error
+    }
+  }
+
+  private update(id: string){
+    try {
+      this.form.patchValue({habilitado: this.status})
+      this.service.update(this.form.value, id).subscribe(
+        result => result,
+        error => {throw new Error(error)}) 
+    } 
+    catch (error: any) {
+      throw error;
+    }
+  }
 
   getCep(){
     const cep = this.form.get('cep')?.value
@@ -78,8 +120,12 @@ export class LocalComponent implements OnInit{
     this.snackBar.open(error, '', {duration: 3000});
   }
 
-  private setId(){
-    const id = this.serviceEvent.getId();
-    return id;
+  setLat(event: number){
+    this.form.get("lat")?.setValue(event)
+    console.log(this.form.value)
+  }
+
+  setLng(event: number){
+    this.form.get("lng")?.setValue(event)
   }
 }
