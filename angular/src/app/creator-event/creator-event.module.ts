@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -22,25 +23,25 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NgxMaskModule } from 'ngx-mask';
 import { QuillModule } from 'ngx-quill';
+import { CreatorFooterComponent } from '../shared/components/creator-footer/creator-footer.component';
+import { CreatorNavBarComponent } from '../shared/components/creator-nav-bar/creator-nav-bar.component';
 import { SharedModule } from '../shared/shared.module';
 import { CreatorEventRoutingModule } from './creator-event-routing.module';
 import { EventListComponent } from './event/event-list/event-list.component';
 import { AccommodationComponent } from './event/event-new/accommodation/accommodation.component';
+import { BaseComponentComponent } from './event/event-new/base-component/base-component.component';
 import { CancelPolicyComponent } from './event/event-new/cancel-policy/cancel-policy.component';
 import { EventNewComponent } from './event/event-new/event-new.component';
 import { FormComponent } from './event/event-new/form/form.component';
 import { InfoBasicComponent } from './event/event-new/info-basic/info-basic.component';
 import { CapaComponent } from './event/event-new/page/components/capa/capa.component';
 import { LocalComponent } from './event/event-new/page/components/local/local.component';
-import { PageComponent } from './event/event-new/page/page-container/page.component';
 import { PalestrantesComponent } from './event/event-new/page/components/palestrantes/palestrantes.component';
 import { ProgramacaoComponent } from './event/event-new/page/components/programacao/programacao.component';
 import { SobreComponent } from './event/event-new/page/components/sobre/sobre.component';
+import { PageComponent } from './event/event-new/page/page-container/page.component';
 import { PayMethodComponent } from './event/event-new/pay-method/pay-method.component';
 import { SnackComponent } from './event/event-new/snack/snack.component';
-import { CreatorFooterComponent } from '../shared/components/creator-footer/creator-footer.component';
-import { CreatorNavBarComponent } from '../shared/components/creator-nav-bar/creator-nav-bar.component';
-import { BaseComponentComponent } from './event/event-new/base-component/base-component.component';
 
 
 @NgModule({
@@ -65,6 +66,7 @@ import { BaseComponentComponent } from './event/event-new/base-component/base-co
   ],
   imports: [
     CommonModule,
+    MatButtonToggleModule,
     NgForOf,
     NgIf,
     MatProgressSpinnerModule,

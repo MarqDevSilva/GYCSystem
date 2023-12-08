@@ -12,6 +12,17 @@
           <mat-divider></mat-divider>
         </div>
         <div class="col-md-9">
+
+          <mat-card class="mt-1">
+            <mat-card-title class="m-2">Valor da inscrição</mat-card-title>
+            <mat-form-field floatLabel="always" class="col-4 m-2" appearance="outline">
+              <mat-label>Valor</mat-label>
+              <input class="text-end value" matInput formControlName="valor" type="number" placeholder="0">
+              <span matTextPrefix>$&nbsp;</span>
+              <span matTextSuffix>.00</span>
+            </mat-form-field>
+          </mat-card>
+
           <mat-card class="mt-1" *ngIf="form.get('pix')?.value">
             <mat-card-title class="m-2">
               <span>

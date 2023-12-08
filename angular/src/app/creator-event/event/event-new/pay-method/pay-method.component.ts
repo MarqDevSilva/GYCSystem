@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { PayService } from 'src/app/services/pay/pay.service';
@@ -35,6 +35,7 @@ export class PayMethodComponent extends BaseComponentComponent{
         id: this.eventoId
       }),
       id: null,
+      valor: [null, Validators.required],
       pix: false,
       cartao: false,
       cartaoParcelamento: 'none',

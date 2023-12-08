@@ -9,3 +9,8 @@
 .desativadoTexto{
   color: rgb(201, 201, 201);
 }
+
+input.value::-webkit-outer-spin-button,
+input.value::-webkit-inner-spin-button {
+  display: none;
+}

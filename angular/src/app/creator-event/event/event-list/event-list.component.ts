@@ -14,6 +14,7 @@ import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 export class EventListComponent implements OnInit{
 
   $eventos: Observable<Evento[]> = new Observable<Evento[]>;
+  filtro = "ativo";
 
   inscritos = "10";
 

@@ -3,6 +3,7 @@ export interface payMethod{
     id: string;
   }
   id: string | null;
+  valor: number | null;
   pix: string | null;
   cartao: string | null;
   cartaoParcelamento: string | null;
