@@ -15,6 +15,7 @@ public class PayDTO {
     
     private Evento evento;
     private Long id;
+    private Short valor;
     private Boolean pix;
     private Boolean cartao;
     private String cartaoParcelamento;

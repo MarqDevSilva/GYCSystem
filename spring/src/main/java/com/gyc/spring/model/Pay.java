@@ -23,6 +23,9 @@ public class Pay extends BaseEntity{
     @JoinColumn(name = "eventoId")
     private Evento evento;
 
+    @Column(length = 100)
+    private Short valor;
+
     @Column(length = 300)
     private Boolean pix;
     
