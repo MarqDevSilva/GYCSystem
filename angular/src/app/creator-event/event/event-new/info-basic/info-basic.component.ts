@@ -35,11 +35,11 @@ export class InfoBasicComponent extends BaseComponentComponent {
     this.form = this.formBuilder.group({
 
       id: this.getRouteId(),
-      nomeEvento: ['GYC', Validators.required],
-      maxInscricoes: [10, [Validators.required, Validators.min(1)]],
-      whatsapp: ['38998453481', Validators.required],
-      dataInicial: [new Date(), Validators.required],
-      dataFinal: [new Date(), Validators.required],
+      nomeEvento: ['', Validators.required],
+      maxInscricoes: [0, [Validators.required, Validators.min(1)]],
+      whatsapp: ['', Validators.required],
+      dataInicial: ['', Validators.required],
+      dataFinal: ['', Validators.required],
       status: ['Ativo', Validators.required]
     })
   }

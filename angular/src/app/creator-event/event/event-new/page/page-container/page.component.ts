@@ -85,7 +85,7 @@ export class PageComponent{
       if(this.onLocal){await this.localComponent?.onSubmit()}
 
       this.snackBar.open("Configurações Salvas", '', {duration: 3000})
-      this.reload.emit()
+      //this.reload.emit()
     } 
     catch (error: any) {
       this.snackBar.open(error.message, "OK")
@@ -168,16 +168,23 @@ export class PageComponent{
   }
 
   desabilitarSobre(){
-    if(this.sobre.get('id')?.value && this.onSobre === false){
+    const id = this.sobre.get('id')?.value
+    if(id && this.onSobre === false){
       this.sobre.patchValue({habilitado: this.onSobre})
-      this.sobreService.update(this.sobre.value, this.eventoId).subscribe(
+      this.sobreService.update(this.sobre.value, id).subscribe(
         result => result,
         error => console.error("Erro Sobre")) 
     }
   }
 
   desabilitarLocal(){
-
+    const id = this.local.get('id')?.value
+    if(id && this.onLocal === false){
+      this.local.patchValue({habilitado: this.onLocal})
+      this.localService.update(this.local.value, id).subscribe(
+        result => result,
+        error => console.error("Erro Local")) 
+    }
   }
 
   public getRouteId(): string{

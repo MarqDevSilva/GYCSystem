@@ -27,12 +27,18 @@
             <div class="row">
               <mat-form-field class="col-md-2" appearance="outline">
                 <mat-label>Início</mat-label>
-                <input matInput [(ngModel)]="atividade.inicio" style="font-size: 14px;">
+                <input matInput 
+                [(ngModel)]="atividade.inicio" style="font-size: 14px;"
+                mask="00:00" pattern="\d{4}" placeholder="00:00"
+                >
               </mat-form-field>
 
               <mat-form-field class="col-md-2" appearance="outline">
                 <mat-label>Término</mat-label>
-                <input matInput [(ngModel)]="atividade.termino" style="font-size: 14px;">
+                <input matInput 
+                [(ngModel)]="atividade.termino" style="font-size: 14px;"
+                mask="00:00" pattern="\d{4}" placeholder="00:00"
+                >
               </mat-form-field>
 
               <mat-form-field class="col-md-8" appearance="outline">

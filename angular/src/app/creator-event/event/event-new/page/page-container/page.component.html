@@ -8,7 +8,7 @@
         <mat-slide-toggle [(ngModel)]="onSobre" (change)="desabilitarSobre()" class="d-block mt-2">Sobre</mat-slide-toggle>
         <mat-slide-toggle [(ngModel)]="onPalestrantes" class="d-block mt-2">Palestrantes</mat-slide-toggle>
         <mat-slide-toggle [(ngModel)]="onProgramacao" class="d-block mt-2">Programação</mat-slide-toggle>
-        <mat-slide-toggle [(ngModel)]="onLocal" class="d-block mt-2">Local</mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]="onLocal" (change)="desabilitarLocal()" class="d-block mt-2">Local</mat-slide-toggle>
       </div>
       
     </div>
